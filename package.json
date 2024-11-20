@@ -4,7 +4,7 @@
     "format": "npx pretty-quick .",
     "format-check": "npx prettier . --check",
     "format-full": "npx prettier . --write",
-    "build-commonprayer": "cd ./apps/commonprayer.app && npm run build-vercel"
+    "build-vercel-commonprayer": "npm run build-vercel --prefix ./apps/commonprayer.app && cpy ./apps/commonprayer.app/.vercel/**/* .vercel && cpy ./apps/commonprayer.app/.vinxi/**/* .vinxi",
   },
   "license": "UNLICENSED",
   "private": true,
@@ -16,5 +16,8 @@
   "devDependencies": {
     "prettier": "3.3.3",
     "pretty-quick": "^4.0.0"
+  },
+  "dependencies": {
+    "cpy-cli": "^5.0.0"
   }
 }
