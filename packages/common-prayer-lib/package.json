@@ -1,5 +1,8 @@
 {
   "name": "common-prayer-lib",
   "license": "UNLICENSED",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "react-aria-components": "^1.4.1"
+  }
 }
