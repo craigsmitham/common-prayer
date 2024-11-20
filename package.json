@@ -13,7 +13,7 @@
   "private": true,
   "description": "",
   "workspaces": [
-    "packages/common-prayer-lib",
+      "packages/common-prayer-lib",
     "apps/commonprayer.app",
     "apps/churchcalendar.app"
   ],
