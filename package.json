@@ -3,7 +3,8 @@
   "scripts": {
     "format": "npx pretty-quick .",
     "format-check": "npx prettier . --check",
-    "format-full": "npx prettier . --write"
+    "format-full": "npx prettier . --write",
+    "build-commonprayer": "cd ./apps/commonprayer.app && npm run build-vercel"
   },
   "license": "UNLICENSED",
   "private": true,
