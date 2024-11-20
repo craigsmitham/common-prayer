@@ -2,6 +2,7 @@
 import * as fs from "node:fs";
 import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/start";
+import { projectName } from "common-prayer-lib/src/common";
 
 const filePath = "count.txt";
 
