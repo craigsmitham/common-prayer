@@ -34,5 +34,5 @@ function Home() {
   const router = useRouter();
   const state = Route.useLoaderData();
 
-  return <div>Common Prayer howdy {projectName}</div>;
+  return <div>Common Prayer - {projectName}</div>;
 }
