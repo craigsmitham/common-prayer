@@ -1,10 +1,22 @@
 {
   "name": "commonprayer.app",
-  "version": "1.0.0",
-  "devDependencies": {},
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "vinxi dev",
+    "build": "vinxi build",
+    "start": "vinxi start"
   },
-  "license": "UNLICENSED",
-  "private": true
+  "dependencies": {
+    "@tanstack/react-router": "^1.82.1",
+    "@tanstack/start": "^1.82.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "vinxi": "^0.4.3"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.3",
+    "typescript": "^5.6.3"
+  }
 }
