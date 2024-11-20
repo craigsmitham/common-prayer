@@ -34,6 +34,6 @@ function Home() {
     const state = Route.useLoaderData()
 
     return (
-        <div>Church Calendar</div>
+        <div>Church Calendar {projectName}</div>
     )
 }
