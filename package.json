@@ -4,7 +4,7 @@
     "format": "npx pretty-quick .",
     "format-check": "npx prettier . --check",
     "format-full": "npx prettier . --write",
-    "build-vercel-commonprayer": "npm run build-vercel --prefix ./apps/commonprayer.app && cpy ./apps/commonprayer.app/.vercel/**/* .vercel && cpy ./apps/commonprayer.app/.vinxi/**/* .vinxi",
+    "build-vercel-commonprayer": "npm run build-vercel --prefix ./apps/commonprayer.app && cpy ./apps/commonprayer.app/.vercel/**/* .vercel && cpy ./apps/commonprayer.app/.vinxi/**/* .vinxi"
   },
   "license": "UNLICENSED",
   "private": true,
