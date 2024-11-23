@@ -3,6 +3,8 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
-    "react-aria-components": "^1.4.1"
+    "ical-generator": "^8.0.1",
+    "react-aria-components": "^1.4.1",
+    "temporal-polyfill": "^0.2.5"
   }
 }
