@@ -2,15 +2,6 @@ import ical, { ICalCalendarMethod } from "ical-generator";
 import { getEasterDate } from "common-prayer-lib/src/calendar/easter";
 import { Temporal } from "temporal-polyfill";
 
-const christmas = {
-  name: "Christmas",
-};
-
-// A method is required for outlook to display event as an invitation
-
-const startTime = new Date(Date.UTC(2024, 11, 25, 0, 0, 0));
-const endTime = new Date(Date.UTC(2024, 11, 26, 0, 0, 0));
-
 type Day = {
   name: string;
   date: Temporal.PlainDate;
