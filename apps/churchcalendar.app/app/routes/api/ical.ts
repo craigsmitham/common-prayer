@@ -3,7 +3,12 @@ import { createChurchCalendar } from 'common-prayer-lib/src/calendar/ical';
 
 export const Route = createAPIFileRoute('/api/ical')({
   GET: ({ request, params }) => {
-    const calendar = createChurchCalendar();
+    const rootUrl = new URL(request.url).origin;
+
+    const calendar = createChurchCalendar({
+      calendarAppUrl: rootUrl,
+      calendarUrl: rootUrl + '/api/ical',
+    });
     return new Response(calendar.toString());
   },
 });

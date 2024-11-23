@@ -32,7 +32,13 @@ export function getChurchCalendarEvents(isoYear: number): Day[] {
   return [christmas, easter];
 }
 
-export function createChurchCalendar() {
+export function createChurchCalendar({
+  calendarUrl,
+  calendarAppUrl,
+}: {
+  calendarUrl: string;
+  calendarAppUrl: string;
+}) {
   const calendar = ical({ name: 'churchcalendar.app' });
   calendar.method(ICalCalendarMethod.REQUEST);
   const currentYear = new Date().getFullYear();
@@ -44,8 +50,11 @@ export function createChurchCalendar() {
         allDay: true,
         summary: day.name,
         description: {
-          plain: `${day.description}`,
-          html: '${day.description}<hr />',
+          plain: `${day.description}
+--------------
+${calendarAppUrl}`,
+          html: `${day.description}<hr />
+<a href="${calendarAppUrl}">${calendarAppUrl}</a>`,
         },
         url: 'https://www.churchcalendar.app',
       });
