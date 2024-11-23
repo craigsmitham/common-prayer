@@ -3,34 +3,34 @@ import {
   createRootRoute,
   Outlet,
   ScrollRestoration,
-} from "@tanstack/react-router";
-import { Meta, Scripts } from "@tanstack/start";
-import type { ReactNode } from "react";
+} from '@tanstack/react-router'
+import { Meta, Scripts } from '@tanstack/start'
+import type { ReactNode } from 'react'
 
 export const Route = createRootRoute({
   head: () => ({
     meta: [
       {
-        charSet: "utf-8",
+        charSet: 'utf-8',
       },
       {
-        name: "viewport",
-        content: "width=device-width, initial-scale=1",
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1',
       },
       {
-        title: "Church Calendar",
+        title: 'Church Calendar',
       },
     ],
   }),
   component: RootComponent,
-});
+})
 
 function RootComponent() {
   return (
     <RootDocument>
       <Outlet />
     </RootDocument>
-  );
+  )
 }
 
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
@@ -45,5 +45,5 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
         <Scripts />
       </body>
     </html>
-  );
+  )
 }
