@@ -6,7 +6,7 @@ import {
   Popover,
   Select,
   SelectValue,
-} from 'react-aria-components'
+} from 'react-aria-components';
 
 export const TestSelect = () => (
   <Select>
@@ -23,6 +23,6 @@ export const TestSelect = () => (
       </ListBox>
     </Popover>
   </Select>
-)
+);
 
-export const projectName = '(c) 2024 Common Prayer Project'
+export const projectName = '(c) 2024 Common Prayer Project';

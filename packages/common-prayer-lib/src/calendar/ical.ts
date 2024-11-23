@@ -1,39 +1,42 @@
-import ical, { ICalCalendarMethod, ICalDescription } from 'ical-generator'
-import { getEasterDate } from 'common-prayer-lib/src/calendar/easter'
-import { Temporal } from 'temporal-polyfill'
+import ical, { ICalCalendarMethod, ICalDescription } from 'ical-generator';
+import { getEasterDate } from 'common-prayer-lib/src/calendar/easter';
+import { Temporal } from 'temporal-polyfill';
 
-type Event = { name: string; description?: string }
+type Event = { name: string; description: string };
 
 type Day = {
-  name: string
-  date: Temporal.PlainDate
-}
+  date: Temporal.PlainDate;
+} & Event;
 
 export function getEasterDay(year: number): Day {
+  const date = getEasterDate(year);
   return {
     name: 'Easter',
-    date: getEasterDate(year),
-  }
+    description: `Easter day ${date.year}`,
+    date,
+  };
 }
 
 export function getChristmasDay({ easter }: { easter: Day }): Day {
+  const date = new Temporal.PlainDate(easter.date.year - 1, 12, 25);
   return {
     name: 'Christmas',
-    date: new Temporal.PlainDate(easter.date.year - 1, 12, 25),
-  }
+    description: `Christmas day ${date.year}`,
+    date,
+  };
 }
 
 export function getChurchCalendarEvents(isoYear: number): Day[] {
-  const easter = getEasterDay(isoYear)
-  const christmas = getChristmasDay({ easter })
-  return [christmas, easter]
+  const easter = getEasterDay(isoYear);
+  const christmas = getChristmasDay({ easter });
+  return [christmas, easter];
 }
 
 export function createChurchCalendar() {
-  const calendar = ical({ name: 'churchcalendar.app' })
-  calendar.method(ICalCalendarMethod.REQUEST)
-  const currentYear = new Date().getFullYear()
-  ;[currentYear - 1, currentYear, currentYear + 1, currentYear + 2]
+  const calendar = ical({ name: 'churchcalendar.app' });
+  calendar.method(ICalCalendarMethod.REQUEST);
+  const currentYear = new Date().getFullYear();
+  [currentYear - 1, currentYear, currentYear + 1, currentYear + 2]
     .flatMap((year) => getChurchCalendarEvents(year))
     .forEach((day) => {
       calendar.createEvent({
@@ -41,11 +44,11 @@ export function createChurchCalendar() {
         allDay: true,
         summary: day.name,
         description: {
-          plain: '',
-          html: '',
+          plain: `${day.description}`,
+          html: '${day.description}<hr />',
         },
         url: 'https://www.churchcalendar.app',
-      })
-    })
-  return calendar
+      });
+    });
+  return calendar;
 }
