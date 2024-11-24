@@ -1,10 +1,27 @@
 import ical, { ICalCalendarMethod, ICalDescription } from 'ical-generator';
 import { getEasterDate } from 'common-prayer-lib/src/calendar/easter';
 import { Temporal } from 'temporal-polyfill';
-import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
+import {
+  isWithin,
+  sundayBefore,
+  toDate,
+} from 'common-prayer-lib/src/date-time/temporal-utils';
 
-type Event = { name: string; description: string };
+function getDay(day: Days, events: Event[]) {
+  const d = events.find((e) => e.name === day);
+  if (d == null) {
+    throw new Error('Could not find event: ' + day);
+  }
+  return d;
+}
 
+function isDay(event: Event): event is Day {
+  return 'date' in event && !isPeriod(event);
+}
+
+function isPeriod(event: Event): event is Period {
+  return 'startDate' in event && 'endDate' in event && !isDay(event);
+}
 const daysOfChristmas = [
   '1st Day of Christmas',
   '2nd Day of Christmas',
@@ -20,40 +37,117 @@ const daysOfChristmas = [
   '12th Day of Christmas',
 ] as const;
 
-type SundaysOfAdvent =
+type DaysOfAdvent =
   | '1st Sunday of Advent'
   | '2nd Sunday of Advent'
   | '3rd Sunday of Advent'
-  | '4th Sunday of Advent';
+  | '4th Sunday of Advent'
+  | 'Christmas Eve';
 
-type DaysOfChristmas = (typeof daysOfChristmas)[number];
-type Days =
-  | SundaysOfAdvent
-  | 'Christmas Eve'
+type Seasons =
+  | 'Advent'
   | 'Christmas'
-  | DaysOfChristmas
   | 'Epiphany'
-  | 'Easter';
+  | 'Lent'
+  | 'Holy Week'
+  | 'Easter'
+  | 'Pentecost'
+  | 'Ordinary Time';
 
-type Day<TDay extends Days> = {
+type Period<T extends Seasons = any> = {
+  name: T;
+  calendarSummary?: string;
+  description?: string;
+  startDate: Temporal.PlainDate;
+  endDate: Temporal.PlainDate;
+};
+
+type DaysOfChristmas = (typeof daysOfChristmas)[number] | 'Christmas Day';
+type DaysOfLent = 'Ash Wednesday' | HolyWeekDays;
+type HolyWeekDays =
+  | 'Palm Sunday'
+  | 'Holy Monday'
+  | 'Holy Tuesday'
+  | 'Holy Wednesday'
+  | 'Maundy Thursday'
+  | 'Good Friday';
+type DaysOfEpiphany = 'Epiphany' | 'Transfiguration Sunday';
+type DaysOfEaster = 'Easter Sunday' | 'Ascension Sunday';
+type Days =
+  | DaysOfAdvent
+  | DaysOfChristmas
+  | DaysOfEpiphany
+  | DaysOfLent
+  | DaysOfEaster;
+
+type Day<TDay extends Days = any> = {
   name: TDay;
+  calendarSummary?: string;
+  description?: string;
   date: Temporal.PlainDate;
-} & Event;
+};
 
-export function getEasterDay(isoYear: number): Day<'Easter'> {
+type Event = Day<Days> | Period<Seasons>;
+
+export function getEasterDay(isoYear: number): Day<'Easter Sunday'> {
   const date = getEasterDate(isoYear);
   return {
-    name: 'Easter',
+    name: 'Easter Sunday',
     description: `Easter day ${date.year}`,
     date,
   };
 }
 
-export function getSundaysOfAdvent(
-  christmas: Day<'Christmas'>,
-): Day<SundaysOfAdvent>[] {
-  const firstDateOfAdvent = sundayBefore(christmas.date).subtract({ weeks: 3 });
+export function getChristmasEvents(christmas: Day<'Christmas Day'>): Event[] {
   return [
+    christmas,
+    ...daysOfChristmas.map((name, i) => {
+      return {
+        name,
+        description: name,
+        date: christmas.date.add(Temporal.Duration.from({ days: i })),
+      };
+    }),
+    {
+      name: 'Christmas',
+      calendarSummary: 'Christmastide',
+      startDate: christmas.date,
+      endDate: christmas.date.add({ days: 12 }),
+    },
+  ];
+}
+
+export function getChristmasDay(
+  easter: Day<'Easter Sunday'>,
+): Day<'Christmas Day'> {
+  const date = new Temporal.PlainDate(easter.date.year - 1, 12, 25);
+  return {
+    name: 'Christmas Day',
+    description: `Christmas day ${date.year}`,
+    date,
+  };
+}
+
+export function getEpiphanyEvents(christmas: Day<'Christmas Day'>): Event[] {
+  const epiphany: Day<'Epiphany'> = {
+    name: 'Epiphany',
+    date: christmas.date.add(Temporal.Duration.from({ days: 12 })),
+  };
+  return [epiphany];
+}
+
+export function getLentEvents(easter: Day<'Easter Sunday'>): [] {
+  return [];
+}
+
+export function getAdventEvents(christmas: Day<'Christmas Day'>): Event[] {
+  const firstDateOfAdvent = sundayBefore(christmas.date).subtract({ weeks: 3 });
+  const christmasEve: Day<'Christmas Eve'> = {
+    name: 'Christmas Eve',
+    description: 'Christmas Eve',
+    date: christmas.date.subtract({ days: 1 }),
+  };
+  const sundays: Day<DaysOfAdvent>[] = [
     {
       name: '1st Sunday of Advent',
       description: '1st Sunday of Advent',
@@ -75,57 +169,23 @@ export function getSundaysOfAdvent(
       date: firstDateOfAdvent.add({ weeks: 3 }),
     },
   ];
-}
-
-export function getDayOfChristmas(
-  christmas: Day<'Christmas'>,
-): Day<DaysOfChristmas>[] {
-  return daysOfChristmas.map((name, i) => {
-    return {
-      name,
-      description: name,
-      date: christmas.date.add(Temporal.Duration.from({ days: i })),
-    };
-  });
-}
-
-export function getChristmasDay(easter: Day<'Easter'>): Day<'Christmas'> {
-  const date = new Temporal.PlainDate(easter.date.year - 1, 12, 25);
-  return {
-    name: 'Christmas',
-    description: `Christmas day ${date.year}`,
-    date,
+  const adventSeason: Period<'Advent'> = {
+    name: 'Advent',
+    calendarSummary: 'Advent Season',
+    startDate: firstDateOfAdvent,
+    endDate: christmasEve.date,
   };
-}
-export function getChristmasEve(
-  christmas: Day<'Christmas'>,
-): Day<'Christmas Eve'> {
-  return {
-    name: 'Christmas Eve',
-    description: 'Christmas Eve',
-    date: christmas.date.subtract({ days: 1 }),
-  };
+  return [...sundays, christmasEve, adventSeason];
 }
 
-export function getEpiphanyDay(christmas: Day<'Christmas'>): Day<'Epiphany'> {
-  const date = christmas.date.add(Temporal.Duration.from({ days: 12 }));
-  return {
-    name: 'Epiphany',
-    description: `Epiphany`,
-    date,
-  };
-}
-
-export function getChurchCalendarEvents(isoYear: number): Day<Days>[] {
+export function getChurchCalendarEvents(isoYear: number): Event[] {
   const easter = getEasterDay(isoYear);
   const christmas = getChristmasDay(easter);
 
   return [
-    ...getSundaysOfAdvent(christmas),
-    getChristmasEve(christmas),
-    christmas,
-    ...getDayOfChristmas(christmas),
-    getEpiphanyDay(christmas),
+    ...getAdventEvents(christmas),
+    ...getChristmasEvents(christmas),
+    ...getEpiphanyEvents(christmas),
     easter,
   ];
 }
@@ -142,23 +202,44 @@ export function createChurchCalendar({
   const currentYear = new Date().getFullYear();
   const numberOfPastYears = 1;
   const numberOfYears = 4;
-  new Array(numberOfYears)
-    .map((_, i) => currentYear - numberOfPastYears + i)
+  const isoYears: number[] = new Array(numberOfYears)
+    .fill(currentYear - numberOfPastYears)
+    .map((startYear, i) => i + startYear);
+
+  isoYears
     .flatMap((year) => getChurchCalendarEvents(year))
-    .forEach((day) => {
+    .forEach((event) => {
       calendar.createEvent({
-        start: new Date(day.date.year, day.date.month - 1, day.date.day),
+        start: toDate('date' in event ? event.date : event.startDate),
+        end: 'endDate' in event ? toDate(event.endDate) : undefined,
         allDay: true,
-        summary: day.name,
+        summary: event.calendarSummary ?? event.name,
         description: {
-          plain: `${day.description}
+          plain: `${event.description}
 --------------
 ${calendarAppUrl}`,
-          html: `${day.description}<hr />
+          html: `${event.description}<hr />
 <a href="${calendarAppUrl}">${calendarAppUrl}</a>`,
         },
         url: 'https://www.churchcalendar.app',
       });
     });
+
   return calendar;
+}
+
+export function findDay(date: Temporal.PlainDate): Day | undefined {
+  return [date.year, date.year + 1]
+    .flatMap((year) => getChurchCalendarEvents(year))
+    .filter(isDay)
+    .find((e) => Temporal.PlainDate.compare(e.date, date) === 0);
+}
+
+export function findPeriod(date: Temporal.PlainDate): Period | undefined {
+  return [date.year, date.year + 1]
+    .flatMap((year) => getChurchCalendarEvents(year))
+    .filter(isPeriod)
+    .find((e) => {
+      return isWithin(date, e);
+    });
 }

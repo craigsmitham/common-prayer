@@ -9,7 +9,7 @@ export const Route = createAPIFileRoute('/api/ical')({
 
     const calendar = createChurchCalendar({
       calendarAppUrl: rootUrl,
-      calendarUrl: rootUrl + '/api/ical',
+      calendarUrl: rootUrl + '/a/ical',
     });
     return new Response(calendar.toString());
   },

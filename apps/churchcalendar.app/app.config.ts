@@ -5,4 +5,9 @@ export default defineConfig({
   server: {
     preset: 'vercel',
   },
+  tsr: {
+    semicolons: true,
+
+    quoteStyle: 'single',
+  },
 });
