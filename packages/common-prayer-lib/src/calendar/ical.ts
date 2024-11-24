@@ -1,6 +1,7 @@
 import ical, { ICalCalendarMethod, ICalDescription } from 'ical-generator';
 import { getEasterDate } from 'common-prayer-lib/src/calendar/easter';
 import { Temporal } from 'temporal-polyfill';
+import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
 
 type Event = { name: string; description: string };
 
@@ -18,8 +19,21 @@ const daysOfChristmas = [
   '11th Day of Christmas',
   '12th Day of Christmas',
 ] as const;
+
+type SundaysOfAdvent =
+  | '1st Sunday of Advent'
+  | '2nd Sunday of Advent'
+  | '3rd Sunday of Advent'
+  | '4th Sunday of Advent';
+
 type DaysOfChristmas = (typeof daysOfChristmas)[number];
-type Days = 'Christmas' | DaysOfChristmas | 'Epiphany' | 'Easter';
+type Days =
+  | SundaysOfAdvent
+  | 'Christmas Eve'
+  | 'Christmas'
+  | DaysOfChristmas
+  | 'Epiphany'
+  | 'Easter';
 
 type Day<TDay extends Days> = {
   name: TDay;
@@ -33,6 +47,34 @@ export function getEasterDay(isoYear: number): Day<'Easter'> {
     description: `Easter day ${date.year}`,
     date,
   };
+}
+
+export function getSundaysOfAdvent(
+  christmas: Day<'Christmas'>,
+): Day<SundaysOfAdvent>[] {
+  const firstDateOfAdvent = sundayBefore(christmas.date).subtract({ weeks: 3 });
+  return [
+    {
+      name: '1st Sunday of Advent',
+      description: '1st Sunday of Advent',
+      date: firstDateOfAdvent,
+    },
+    {
+      name: '2nd Sunday of Advent',
+      description: '2nd Sunday of Advent',
+      date: firstDateOfAdvent.add({ weeks: 1 }),
+    },
+    {
+      name: '3rd Sunday of Advent',
+      description: '3rd Sunday of Advent',
+      date: firstDateOfAdvent.add({ weeks: 2 }),
+    },
+    {
+      name: '4th Sunday of Advent',
+      description: '4th Sunday of Advent',
+      date: firstDateOfAdvent.add({ weeks: 3 }),
+    },
+  ];
 }
 
 export function getDayOfChristmas(
@@ -55,6 +97,15 @@ export function getChristmasDay(easter: Day<'Easter'>): Day<'Christmas'> {
     date,
   };
 }
+export function getChristmasEve(
+  christmas: Day<'Christmas'>,
+): Day<'Christmas Eve'> {
+  return {
+    name: 'Christmas Eve',
+    description: 'Christmas Eve',
+    date: christmas.date.subtract({ days: 1 }),
+  };
+}
 
 export function getEpiphanyDay(christmas: Day<'Christmas'>): Day<'Epiphany'> {
   const date = christmas.date.add(Temporal.Duration.from({ days: 12 }));
@@ -70,6 +121,8 @@ export function getChurchCalendarEvents(isoYear: number): Day<Days>[] {
   const christmas = getChristmasDay(easter);
 
   return [
+    ...getSundaysOfAdvent(christmas),
+    getChristmasEve(christmas),
     christmas,
     ...getDayOfChristmas(christmas),
     getEpiphanyDay(christmas),
@@ -87,7 +140,10 @@ export function createChurchCalendar({
   const calendar = ical({ name: 'churchcalendar.app' });
   calendar.method(ICalCalendarMethod.REQUEST);
   const currentYear = new Date().getFullYear();
-  [currentYear - 1, currentYear, currentYear + 1, currentYear + 2]
+  const numberOfPastYears = 1;
+  const numberOfYears = 4;
+  new Array(numberOfYears)
+    .map((_, i) => currentYear - numberOfPastYears + i)
     .flatMap((year) => getChurchCalendarEvents(year))
     .forEach((day) => {
       calendar.createEvent({
