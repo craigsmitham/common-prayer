@@ -1,5 +1,5 @@
 import { createAPIFileRoute } from '@tanstack/start/api';
-import { createChurchCalendar } from 'common-prayer-lib/src/calendar/ical';
+import { createChurchCalendar } from 'common-prayer-lib/src/church-year/ical';
 
 type CalendarClients = 'google' | 'outlook' | 'outlook-for-web' | 'apple-ios';
 

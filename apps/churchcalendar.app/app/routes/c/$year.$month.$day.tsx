@@ -1,8 +1,11 @@
 import * as React from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { Temporal } from 'temporal-polyfill';
-import { findDay, findPeriod } from 'common-prayer-lib/src/calendar/ical';
 import { formatDate } from 'date-fns';
+import {
+  findNextDay,
+  findNextPeriod,
+} from 'common-prayer-lib/src/church-year/church-year';
 
 export const Route = createFileRoute('/c/$year/$month/$day')({
   loader: (params) => {
@@ -24,8 +27,8 @@ function DayViewComponent() {
   const jsDate = new Date(date.year, date.month - 1, date.day);
   const dayOfMonthDisplay = formatDate(jsDate, 'do');
   const monthDisplay = formatDate(jsDate, 'LLLL');
-  const day = findDay(date);
-  const season = findPeriod(date);
+  const day = findNextDay(date);
+  const season = findNextPeriod(date);
 
   return (
     <div>
