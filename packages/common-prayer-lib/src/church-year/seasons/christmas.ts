@@ -15,23 +15,28 @@ const daysOfChristmas = [
   '12th Day of Christmas',
 ] as const;
 
-type DaysOfChristmas = (typeof daysOfChristmas)[number] | 'Christmas Day';
+export type DaysOfChristmas =
+  | (typeof daysOfChristmas)[number]
+  | 'Christmas Day';
 
 export function getChristmasEvents(christmas: Day<'Christmas Day'>): Event[] {
   return [
     christmas,
-    ...daysOfChristmas.map((name, i) => {
+    ...daysOfChristmas.map<Day>((name, i) => {
       return {
         name,
         description: name,
-        date: christmas.date.add(Temporal.Duration.from({ days: i + 1 })),
+        date: christmas.date.add({ days: i + 1 }),
+        upcoming: false,
       };
     }),
     {
       name: 'Christmas',
       calendarSummary: 'Christmastide',
+      season: true,
       startDate: christmas.date,
-      endDate: christmas.date.add({ days: 12 }),
+      endDate: christmas.date.add({ days: 11 }),
+      upcoming: false,
     },
   ];
 }
@@ -43,6 +48,10 @@ export function getChristmasDay(
   return {
     name: 'Christmas Day',
     description: `Christmas day ${date.year}`,
-    date,
+    upcoming: {
+      countdown: true,
+      period: 'next-season',
+    },
+    date: date,
   };
 }

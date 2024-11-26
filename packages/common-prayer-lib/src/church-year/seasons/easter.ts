@@ -1,5 +1,9 @@
 import { Temporal } from 'temporal-polyfill';
-import { Day, Event } from 'common-prayer-lib/src/church-year/church-year';
+import {
+  Day,
+  Event,
+  Period,
+} from 'common-prayer-lib/src/church-year/church-year';
 
 export type DaysOfEaster = 'Easter Sunday' | 'Ascension Sunday';
 
@@ -29,10 +33,41 @@ export function getEasterDay(isoYear: number): Day<'Easter Sunday'> {
   return {
     name: 'Easter Sunday',
     description: `Easter day ${date.year}`,
-    date,
+    date: date,
+    upcoming: {
+      countdown: true,
+      period: 'next-season',
+    },
   };
 }
 
+export function getDateOfPentecost(isoYear: number) {
+  return getEasterDate(isoYear).add({ days: 50 });
+}
+
 export function getEasterEvents(easter: Day<'Easter Sunday'>): Event[] {
-  return [easter];
+  const ascensionDay: Day<'Ascension Day'> = {
+    name: 'Ascension Day',
+    date: easter.date.add({ days: 40 }),
+    upcoming: {
+      period: 'same-season',
+    },
+  };
+  const feastOfPentecost: Day<'Feast of Pentecost'> = {
+    name: 'Feast of Pentecost',
+    date: getDateOfPentecost(easter.date.year),
+    upcoming: {
+      period: 'same-season',
+    },
+  };
+
+  const easterSeason: Period = {
+    name: 'Eastertide',
+    upcoming: false,
+    season: true,
+    startDate: easter.date,
+    endDate: feastOfPentecost.date,
+  };
+
+  return [easter, ascensionDay, feastOfPentecost, easterSeason];
 }

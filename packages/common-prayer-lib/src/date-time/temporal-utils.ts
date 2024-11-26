@@ -4,7 +4,7 @@ export function sundayBefore(date: Temporal.PlainDate) {
   return date.subtract({ days: date.dayOfWeek === 7 ? 7 : date.dayOfWeek });
 }
 
-export function sameDate(a: Temporal.PlainDate, b: Temporal.PlainDate) {
+export function isSame(a: Temporal.PlainDate, b: Temporal.PlainDate) {
   return Temporal.PlainDate.compare(a, b) === 0;
 }
 export function isBefore(a: Temporal.PlainDate, b: Temporal.PlainDate) {
@@ -22,7 +22,7 @@ export function isWithin(
     endDate,
   }: { startDate: Temporal.PlainDate; endDate: Temporal.PlainDate },
 ) {
-  if (sameDate(a, startDate) || sameDate(a, endDate)) {
+  if (isSame(a, startDate) || isSame(a, endDate)) {
     return true;
   }
   return isAfter(a, startDate) && isBefore(a, endDate);

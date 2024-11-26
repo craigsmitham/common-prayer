@@ -12,6 +12,7 @@
 
 import { Route as rootRoute } from './routes/__root';
 import { Route as IndexImport } from './routes/index';
+import { Route as CTodayImport } from './routes/c/today';
 import { Route as CYearMonthDayImport } from './routes/c/$year.$month.$day';
 
 // Create/Update Routes
@@ -19,6 +20,12 @@ import { Route as CYearMonthDayImport } from './routes/c/$year.$month.$day';
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const CTodayRoute = CTodayImport.update({
+  id: '/c/today',
+  path: '/c/today',
   getParentRoute: () => rootRoute,
 } as any);
 
@@ -39,6 +46,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport;
       parentRoute: typeof rootRoute;
     };
+    '/c/today': {
+      id: '/c/today';
+      path: '/c/today';
+      fullPath: '/c/today';
+      preLoaderRoute: typeof CTodayImport;
+      parentRoute: typeof rootRoute;
+    };
     '/c/$year/$month/$day': {
       id: '/c/$year/$month/$day';
       path: '/c/$year/$month/$day';
@@ -53,36 +67,41 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute;
+  '/c/today': typeof CTodayRoute;
   '/c/$year/$month/$day': typeof CYearMonthDayRoute;
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute;
+  '/c/today': typeof CTodayRoute;
   '/c/$year/$month/$day': typeof CYearMonthDayRoute;
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
   '/': typeof IndexRoute;
+  '/c/today': typeof CTodayRoute;
   '/c/$year/$month/$day': typeof CYearMonthDayRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '/c/$year/$month/$day';
+  fullPaths: '/' | '/c/today' | '/c/$year/$month/$day';
   fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/c/$year/$month/$day';
-  id: '__root__' | '/' | '/c/$year/$month/$day';
+  to: '/' | '/c/today' | '/c/$year/$month/$day';
+  id: '__root__' | '/' | '/c/today' | '/c/$year/$month/$day';
   fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute;
+  CTodayRoute: typeof CTodayRoute;
   CYearMonthDayRoute: typeof CYearMonthDayRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CTodayRoute: CTodayRoute,
   CYearMonthDayRoute: CYearMonthDayRoute,
 };
 
@@ -97,11 +116,15 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/c/today",
         "/c/$year/$month/$day"
       ]
     },
     "/": {
       "filePath": "index.tsx"
+    },
+    "/c/today": {
+      "filePath": "c/today.tsx"
     },
     "/c/$year/$month/$day": {
       "filePath": "c/$year.$month.$day.tsx"
