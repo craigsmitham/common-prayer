@@ -17,12 +17,24 @@ export function getTrinitySeasonEvents(
   const pentecost = getDateOfPentecost(easter.date.year);
   const trinitySunday: Day<'Trinity Sunday'> = {
     name: 'Trinity Sunday',
+    type: 'Principal Feast',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     date: sundayAfter(pentecost),
-    upcoming: { period: 'next-7-days' },
+    upcoming: { period: 'same-season' },
   };
   const trinitySeason: Period<TrinitySeason> = {
     name: 'Trinity Season',
-    upcoming: false,
+    type: 'Season',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
+    upcoming: {
+      period: 'next-season',
+    },
     season: true,
     startDate: pentecost.add({ days: 1 }),
     endDate: getFirstDateOfAdvent(easter.date.year).subtract({ days: 1 }),

@@ -23,6 +23,11 @@ export function getEpiphanyEvents(
   const ashWednesday = getAshWednesdayDate(christmas.date.year + 1);
   const epiphany: Day<'Epiphany'> = {
     name: 'Epiphany',
+    type: 'Principal Feast',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     date: christmas.date.add(Temporal.Duration.from({ days: 12 })),
     upcoming: {
       period: 'next-season',
@@ -31,12 +36,22 @@ export function getEpiphanyEvents(
   const transfigurationSunday: Day<'Transfiguration Sunday'> = {
     date: sundayBefore(ashWednesday),
     name: 'Transfiguration Sunday',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     upcoming: {
       period: 'same-season',
     },
   };
   const shroveTuesday: Day<'Shrove Tuesday'> = {
     name: 'Shrove Tuesday',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     date: ashWednesday.subtract({ days: 1 }),
     upcoming: {
       period: 'same-season',
@@ -44,6 +59,11 @@ export function getEpiphanyEvents(
   };
   const epiphanySeason: Period<SeasonOfEpiphany> = {
     name: 'Epiphany',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     startDate: epiphany.date,
     season: true,
     endDate: shroveTuesday.date,

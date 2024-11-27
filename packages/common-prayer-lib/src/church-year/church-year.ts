@@ -6,6 +6,7 @@ import {
   SeasonOfEaster,
 } from 'common-prayer-lib/src/church-year/seasons/easter';
 import {
+  isAfter,
   isSame,
   isWithin,
 } from 'common-prayer-lib/src/date-time/temporal-utils';
@@ -45,8 +46,25 @@ const previewPeriods = [
 
 export type PreviewPeriod = (typeof previewPeriods)[number];
 
+type EventType =
+  | 'Sunday'
+  | 'Season'
+  | 'Principal Feast'
+  | 'Major Feast'
+  | 'Minor Feast'
+  | 'Day of Special Devotion'
+  | 'Commemoration'
+  | 'Fast Day'
+  | 'Ember Day'
+  | 'Rogation Day';
+
 type EventDefinition<TName extends string> = {
   name: TName;
+  type: EventType;
+  shortName: string | null;
+  longName: string | null;
+  traditionalName: string | null;
+  alternativeNames: string[];
   calendarSummary?: string;
   description?: string;
   upcoming:
@@ -197,8 +215,10 @@ export function getUpcomingEvents(date: Temporal.PlainDate) {
           if (currentSeason == null || !isSeason(currentSeason)) {
             throw new Error('could not find current season');
           }
-          return events.filter(({ upcomingDate }) =>
-            isWithin(upcomingDate, currentSeason),
+          return events.filter(
+            ({ upcomingDate }) =>
+              isWithin(upcomingDate, currentSeason) &&
+              isAfter(upcomingDate, date),
           );
         }
         default:

@@ -19,7 +19,6 @@ export const Route = createFileRoute('/c/today')({
 });
 
 function RouteComponent() {
-  const test = '';
   return <DayViewComponent date={Temporal.Now.plainDateISO()} />;
 }
 

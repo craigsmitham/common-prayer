@@ -5,6 +5,9 @@ import {
   useRouter,
 } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
+import { Temporal } from 'temporal-polyfill';
+import * as React from 'react';
+import { DayViewComponent } from './c/today';
 
 export const Route = createFileRoute('/')({
   component: Home,
@@ -27,9 +30,9 @@ function Home() {
   return (
     <div>
       <h1>Church Calendar</h1>
-      <div>
-        Subscribe via ical: <a href={icalUrl}>{icalUrl}</a>
-      </div>
+      <DayViewComponent date={Temporal.Now.plainDateISO()} />
+      <hr />
+      Subscribe via ical: <a href={icalUrl}>{icalUrl}</a>
     </div>
   );
 }

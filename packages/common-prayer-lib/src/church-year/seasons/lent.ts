@@ -33,6 +33,11 @@ export function getFirstSundayOfLent(isoYear: number) {
 export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
   const ashWednesday: Day<'Ash Wednesday'> = {
     name: 'Ash Wednesday',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     date: getAshWednesdayDate(easter.date.year),
     upcoming: {
       period: 'next-season',
@@ -41,6 +46,12 @@ export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
 
   const palmSunday: Day<'Palm Sunday'> = {
     name: 'Palm Sunday',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
+    type: 'Day of Special Devotion',
     date: easter.date.subtract({ weeks: 1 }),
     upcoming: {
       period: 'same-season',
@@ -49,6 +60,11 @@ export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
 
   const maundyThursday: Day<'Maundy Thursday'> = {
     name: 'Maundy Thursday',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     date: easter.date.subtract({ days: 3 }),
     upcoming: {
       period: 'same-season',
@@ -56,6 +72,11 @@ export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
   };
   const goodFriday: Day<'Good Friday'> = {
     name: 'Good Friday',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     date: maundyThursday.date.add({ days: 1 }),
     upcoming: {
       period: 'same-season',
@@ -63,6 +84,11 @@ export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
   };
   const holySaturday: Day<'Holy Saturday'> = {
     name: 'Holy Saturday',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     date: goodFriday.date.add({ days: 1 }),
     upcoming: {
       period: 'same-season',
@@ -70,6 +96,11 @@ export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
   };
   const seasonOfLent: Period<SeasonOfLent> = {
     name: 'Lent',
+    type: 'x',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     startDate: ashWednesday.date,
     endDate: holySaturday.date,
     season: true,

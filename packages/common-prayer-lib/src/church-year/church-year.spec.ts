@@ -156,4 +156,43 @@ describe('Church Year', () => {
       days: [['2025-06-15', 'Trinity Sunday']],
     });
   });
+
+  describe('observed days', () => {
+    // TODO: there may be only a single observed day for any day in the year
+    // On sundays, only principal feasts and those specified here are observed over any "Sunday":
+    // https://www.episcopalchurch.org/glossary/precedence-rules-of/
+  });
+
+  describe('Event types', () => {
+    describe('Principal Feasts', () => {
+      // https://www.episcopalchurch.org/glossary/precedence-rules-of/
+      const expectedPrincipalFeasts: ChurchYearDays[] = [
+        'Easter Sunday',
+        'Ascension Day',
+        'Feast of Pentecost',
+        'Trinity Sunday',
+        // TODO All Saints' Day
+        'Christmas Day',
+        'Epiphany',
+      ];
+      const principalFeasts = events.filter(
+        (e) => e.type === 'Principal Feast',
+      );
+      expectedPrincipalFeasts.forEach((name) => {
+        const f = principalFeasts.find((f) => f.name === name);
+        expect(f, `${name} is a principal feast`).not.toBeUndefined();
+      });
+      expect(principalFeasts.length).toBe(expectedPrincipalFeasts.length);
+    });
+    describe('Sundays', () => {
+      events
+        .filter((e) => e.type === 'Sunday')
+        .forEach((e) => {
+          expect(
+            isDay(e) && e.date.dayOfWeek === 7,
+            `${e.name} is on a Sunday`,
+          ).toBe(true);
+        });
+    });
+  });
 });

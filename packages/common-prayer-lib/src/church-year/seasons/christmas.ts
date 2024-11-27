@@ -32,6 +32,11 @@ export function getChristmasEvents(
     (name, i) => {
       return {
         name,
+        type: 'Day of Special Devotion',
+        shortName: null,
+        longName: null,
+        traditionalName: null,
+        alternativeNames: [],
         description: name,
         date: christmas.date.add({ days: i + 1 }),
         upcoming: false,
@@ -40,6 +45,11 @@ export function getChristmasEvents(
   );
   const christmasSeason: Period<SeasonOfChristmas> = {
     name: 'Christmas',
+    type: 'Season',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     calendarSummary: 'Christmastide',
     season: true,
     startDate: christmas.date,
@@ -55,6 +65,11 @@ export function getChristmasDay(
   const date = new Temporal.PlainDate(easter.date.year - 1, 12, 25);
   return {
     name: 'Christmas Day',
+    type: 'Principal Feast',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
     description: `Christmas day ${date.year}`,
     upcoming: {
       countdown: true,
