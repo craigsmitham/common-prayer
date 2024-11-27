@@ -60,7 +60,7 @@ type EventType =
 
 type EventDefinition<TName extends string> = {
   name: TName;
-  type: EventType;
+  type?: EventType | 'x' | '';
   shortName: string | null;
   longName: string | null;
   traditionalName: string | null;

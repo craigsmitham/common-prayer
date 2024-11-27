@@ -46,12 +46,11 @@ export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
 
   const palmSunday: Day<'Palm Sunday'> = {
     name: 'Palm Sunday',
-    type: 'x',
+    type: 'Day of Special Devotion',
     shortName: null,
     longName: null,
     traditionalName: null,
     alternativeNames: [],
-    type: 'Day of Special Devotion',
     date: easter.date.subtract({ weeks: 1 }),
     upcoming: {
       period: 'same-season',
@@ -72,7 +71,7 @@ export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
   };
   const goodFriday: Day<'Good Friday'> = {
     name: 'Good Friday',
-    type: 'x',
+    type: '',
     shortName: null,
     longName: null,
     traditionalName: null,
