@@ -4,6 +4,10 @@ export function sundayBefore(date: Temporal.PlainDate) {
   return date.subtract({ days: date.dayOfWeek === 7 ? 7 : date.dayOfWeek });
 }
 
+export function sundayAfter(date: Temporal.PlainDate) {
+  return date.add({ days: date.dayOfWeek === 7 ? 7 : 7 - date.dayOfWeek });
+}
+
 export function isSame(a: Temporal.PlainDate, b: Temporal.PlainDate) {
   return Temporal.PlainDate.compare(a, b) === 0;
 }

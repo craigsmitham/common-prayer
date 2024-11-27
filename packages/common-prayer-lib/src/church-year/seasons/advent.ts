@@ -19,7 +19,13 @@ export function getFirstDateOfAdvent(isoYear: number) {
   });
 }
 
-export function getAdventEvents(christmas: Day<'Christmas Day'>): Event[] {
+export type SeasonOfAdvent = 'Advent';
+
+export type AdventEvent = Event<SeasonOfAdvent, DaysOfAdvent>;
+
+export function getAdventEvents(
+  christmas: Day<'Christmas Day'>,
+): AdventEvent[] {
   const firstDateOfAdvent = getFirstDateOfAdvent(christmas.date.year);
   const christmasEve: Day<'Christmas Eve'> = {
     name: 'Christmas Eve',
@@ -53,7 +59,7 @@ export function getAdventEvents(christmas: Day<'Christmas Day'>): Event[] {
       upcoming: { period: 'same-season' },
     },
   ];
-  const adventSeason: Period = {
+  const adventSeason: Period<SeasonOfAdvent> = {
     name: 'Advent',
     calendarSummary: 'Advent Season',
     startDate: firstDateOfAdvent,

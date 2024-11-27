@@ -4,8 +4,15 @@ import {
   Event,
   Period,
 } from 'common-prayer-lib/src/church-year/church-year';
+import { sundayAfter } from 'common-prayer-lib/src/date-time/temporal-utils';
+import { DaysOfAdvent } from 'common-prayer-lib/src/church-year/seasons/advent';
 
-export type DaysOfEaster = 'Easter Sunday' | 'Ascension Sunday';
+export type SeasonOfEaster = 'Easter';
+export type DaysOfEaster =
+  | 'Easter Sunday'
+  | 'Ascension Day'
+  | 'Feast of Pentecost'
+  | 'Sunday after Ascension Day';
 
 const div = (dividend: number, divider: number): number =>
   Math.floor(dividend / divider);
@@ -42,13 +49,28 @@ export function getEasterDay(isoYear: number): Day<'Easter Sunday'> {
 }
 
 export function getDateOfPentecost(isoYear: number) {
-  return getEasterDate(isoYear).add({ days: 50 });
+  const ed = getEasterDate(isoYear);
+  console.log(ed.toString());
+
+  const p = ed.add({ days: 49 });
+  console.log(p.dayOfWeek);
+
+  return ed.add({ weeks: 7 });
 }
 
-export function getEasterEvents(easter: Day<'Easter Sunday'>): Event[] {
+type EasterEvent = Event<SeasonOfEaster, DaysOfEaster>;
+
+export function getEasterEvents(easter: Day<'Easter Sunday'>): EasterEvent[] {
   const ascensionDay: Day<'Ascension Day'> = {
     name: 'Ascension Day',
-    date: easter.date.add({ days: 40 }),
+    date: easter.date.add({ days: 39 }),
+    upcoming: {
+      period: 'same-season',
+    },
+  };
+  const ascensionSunday: Day<'Sunday after Ascension Day'> = {
+    name: 'Sunday after Ascension Day',
+    date: sundayAfter(ascensionDay.date),
     upcoming: {
       period: 'same-season',
     },
@@ -61,13 +83,19 @@ export function getEasterEvents(easter: Day<'Easter Sunday'>): Event[] {
     },
   };
 
-  const easterSeason: Period = {
-    name: 'Eastertide',
+  const easterSeason: Period<SeasonOfEaster> = {
+    name: 'Easter',
     upcoming: false,
     season: true,
     startDate: easter.date,
     endDate: feastOfPentecost.date,
   };
 
-  return [easter, ascensionDay, feastOfPentecost, easterSeason];
+  return [
+    easter,
+    ascensionDay,
+    ascensionSunday,
+    feastOfPentecost,
+    easterSeason,
+  ];
 }

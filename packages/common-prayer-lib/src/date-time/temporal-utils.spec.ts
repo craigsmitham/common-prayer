@@ -1,8 +1,11 @@
 import { expect, test } from 'vitest';
-import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
+import {
+  sundayAfter,
+  sundayBefore,
+} from 'common-prayer-lib/src/date-time/temporal-utils';
 import { Temporal } from 'temporal-polyfill';
 
-test('sundaysBefore', () => {
+test('sundayBefore', () => {
   const monday = new Temporal.PlainDate(2024, 12, 2);
   const sundayBeforeMonday = new Temporal.PlainDate(2024, 12, 1);
   const sundayBeforeSunday = new Temporal.PlainDate(2024, 11, 24);
@@ -17,5 +20,22 @@ test('sundaysBefore', () => {
 
   expect(sundayBefore(sundayBeforeMonday).toString()).not.toEqual(
     sundayBeforeMonday.toString(),
+  );
+});
+
+test('sundayAfter', () => {
+  const monday = new Temporal.PlainDate(2024, 12, 2);
+  const sundayAfterMonday = new Temporal.PlainDate(2024, 12, 8);
+  const sundayAfterSunday = new Temporal.PlainDate(2024, 12, 15);
+
+  console.log(monday.dayOfWeek);
+  expect(sundayAfter(monday).toString()).toEqual(sundayAfterMonday.toString());
+
+  expect(sundayAfter(sundayAfterMonday).toString()).toStrictEqual(
+    sundayAfterSunday.toString(),
+  );
+
+  expect(sundayAfter(sundayAfterMonday).toString()).not.toEqual(
+    sundayAfterMonday.toString(),
   );
 });

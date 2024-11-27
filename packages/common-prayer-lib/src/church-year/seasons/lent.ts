@@ -5,8 +5,10 @@ import {
 } from 'common-prayer-lib/src/church-year/church-year';
 import { getEasterDate } from 'common-prayer-lib/src/church-year/seasons/easter';
 import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
+import { DaysOfTrinitySeason } from 'common-prayer-lib/src/church-year/seasons/trinity-season';
 
-type DaysOfLent = 'Ash Wednesday' | HolyWeekDays;
+export type DaysOfLent = 'Ash Wednesday' | HolyWeekDays;
+export type SeasonOfLent = 'Lent';
 
 type HolyWeekDays =
   | 'Palm Sunday'
@@ -14,7 +16,10 @@ type HolyWeekDays =
   | 'Holy Tuesday'
   | 'Holy Wednesday'
   | 'Maundy Thursday'
-  | 'Good Friday';
+  | 'Good Friday'
+  | 'Holy Saturday';
+
+type LentEvent = Event<SeasonOfLent, DaysOfLent>;
 
 export function getAshWednesdayDate(isoYear: number) {
   return getFirstSundayOfLent(isoYear).subtract({ days: 4 });
@@ -25,7 +30,7 @@ export function getFirstSundayOfLent(isoYear: number) {
   return sundayBefore(easterDate).subtract({ weeks: 5 });
 }
 
-export function getLentEvents(easter: Day<'Easter Sunday'>): Event[] {
+export function getLentEvents(easter: Day<'Easter Sunday'>): LentEvent[] {
   const ashWednesday: Day<'Ash Wednesday'> = {
     name: 'Ash Wednesday',
     date: getAshWednesdayDate(easter.date.year),
@@ -63,7 +68,7 @@ export function getLentEvents(easter: Day<'Easter Sunday'>): Event[] {
       period: 'same-season',
     },
   };
-  const seasonOfLent: Period = {
+  const seasonOfLent: Period<SeasonOfLent> = {
     name: 'Lent',
     startDate: ashWednesday.date,
     endDate: holySaturday.date,

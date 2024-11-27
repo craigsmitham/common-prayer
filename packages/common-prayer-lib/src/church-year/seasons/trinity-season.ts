@@ -5,18 +5,26 @@ import {
 } from 'common-prayer-lib/src/church-year/church-year';
 import { getFirstDateOfAdvent } from 'common-prayer-lib/src/church-year/seasons/advent';
 import { getDateOfPentecost } from 'common-prayer-lib/src/church-year/seasons/easter';
+import { sundayAfter } from 'common-prayer-lib/src/date-time/temporal-utils';
 
-export function getTrinitySeasonEvents(easter: Day<'Easter Sunday'>): Event[] {
+export type DaysOfTrinitySeason = 'Trinity Sunday';
+export type TrinitySeason = 'Trinity Season';
+type TrinitySeasonEvent = Event<TrinitySeason, DaysOfTrinitySeason>;
+
+export function getTrinitySeasonEvents(
+  easter: Day<'Easter Sunday'>,
+): TrinitySeasonEvent[] {
+  const pentecost = getDateOfPentecost(easter.date.year);
   const trinitySunday: Day<'Trinity Sunday'> = {
     name: 'Trinity Sunday',
-    date: easter.date.add({ weeks: 7 }),
+    date: sundayAfter(pentecost),
     upcoming: { period: 'next-7-days' },
   };
-  const trinitySeason: Period = {
+  const trinitySeason: Period<TrinitySeason> = {
     name: 'Trinity Season',
     upcoming: false,
     season: true,
-    startDate: getDateOfPentecost(easter.date.year).add({ days: 1 }),
+    startDate: pentecost.add({ days: 1 }),
     endDate: getFirstDateOfAdvent(easter.date.year).subtract({ days: 1 }),
   };
   return [trinitySunday, trinitySeason];

@@ -3,6 +3,7 @@ import {
   DaysOfEaster,
   getEasterDay,
   getEasterEvents,
+  SeasonOfEaster,
 } from 'common-prayer-lib/src/church-year/seasons/easter';
 import {
   isSame,
@@ -12,11 +13,28 @@ import {
   DaysOfChristmas,
   getChristmasDay,
   getChristmasEvents,
+  SeasonOfChristmas,
 } from 'common-prayer-lib/src/church-year/seasons/christmas';
-import { getAdventEvents } from 'common-prayer-lib/src/church-year/seasons/advent';
-import { getEpiphanyEvents } from 'common-prayer-lib/src/church-year/seasons/epiphany';
-import { getTrinitySeasonEvents } from 'common-prayer-lib/src/church-year/seasons/trinity-season';
-import { getLentEvents } from 'common-prayer-lib/src/church-year/seasons/lent';
+import {
+  DaysOfAdvent,
+  getAdventEvents,
+  SeasonOfAdvent,
+} from 'common-prayer-lib/src/church-year/seasons/advent';
+import {
+  DaysOfEpiphany,
+  getEpiphanyEvents,
+  SeasonOfEpiphany,
+} from 'common-prayer-lib/src/church-year/seasons/epiphany';
+import {
+  DaysOfTrinitySeason,
+  getTrinitySeasonEvents,
+  TrinitySeason,
+} from 'common-prayer-lib/src/church-year/seasons/trinity-season';
+import {
+  DaysOfLent,
+  getLentEvents,
+  SeasonOfLent,
+} from 'common-prayer-lib/src/church-year/seasons/lent';
 
 const previewPeriods = [
   'next-season',
@@ -27,7 +45,7 @@ const previewPeriods = [
 
 export type PreviewPeriod = (typeof previewPeriods)[number];
 
-type EventDefinition<TName extends string = string> = {
+type EventDefinition<TName extends string> = {
   name: TName;
   calendarSummary?: string;
   description?: string;
@@ -39,45 +57,52 @@ type EventDefinition<TName extends string = string> = {
     | false;
 };
 
-export type Period = {
+export type Period<TName extends string> = {
   startDate: Temporal.PlainDate;
   endDate: Temporal.PlainDate;
   season: boolean;
-} & EventDefinition;
+} & EventDefinition<TName>;
 
-export function isDay(event: Event): event is Day {
+export function isDay(event: Event<any, any>): event is Day<any> {
   return 'date' in event && !isPeriod(event);
 }
 
-export function isPeriod(event: Event): event is Period {
+export function isPeriod(event: Event<any, any>): event is Period<any> {
   return 'startDate' in event && 'endDate' in event && !isDay(event);
 }
 
-export function isSeason(event: Event): event is Period {
+export function isSeason(event: Event<any, any>): event is Period<any> {
   return isPeriod(event) && event.season;
 }
 
-/*
-export type Seasons =
-  | 'Advent'
-  | 'Christmas'
-  | 'Epiphany'
-  | 'Lent'
-  | 'Holy Week'
-  | 'Easter'
-  | 'Pentecost'
-  | 'Ordinary Time';
- */
+export type ChurchYearSeasons =
+  | SeasonOfAdvent
+  | SeasonOfChristmas
+  | SeasonOfEpiphany
+  | SeasonOfLent
+  | SeasonOfEaster
+  | TrinitySeason;
 
-export type ChurchYearDays = DaysOfChristmas | DaysOfEaster;
+export type ChurchYearDays =
+  | DaysOfAdvent
+  | DaysOfChristmas
+  | DaysOfEpiphany
+  | DaysOfLent
+  | DaysOfEaster
+  | DaysOfTrinitySeason;
 
-export type Day<TDay extends string = string> = {
+export type Day<TDay extends string> = {
   date: Temporal.PlainDate;
 } & EventDefinition<TDay>;
 
-export type Event = Day | Period;
+export type Event<
+  TSeason extends ChurchYearSeasons,
+  TDays extends ChurchYearDays,
+> = Day<TDays> | Period<TSeason>;
 
-function _getEventsForEasterIsoYear(easterIsoYear: number): Event[] {
+type ChurchYearEvent = Event<ChurchYearSeasons, ChurchYearDays>;
+
+function _getEventsForEasterIsoYear(easterIsoYear: number): ChurchYearEvent[] {
   const easter = getEasterDay(easterIsoYear);
   const christmas = getChristmasDay(easter);
   return [
@@ -92,7 +117,7 @@ function _getEventsForEasterIsoYear(easterIsoYear: number): Event[] {
 export function getEventsForEasterIsoYear(
   easterIsoYear: number,
   options: { previousYears?: number; additionalYears?: number } = {},
-): Event[] {
+): ChurchYearEvent[] {
   const yearCount =
     1 + (options?.previousYears ?? 0) + (options?.additionalYears ?? 0);
   const startYear = easterIsoYear - (options?.previousYears ?? 0);
@@ -106,13 +131,15 @@ function getCurrentAndNextYearEvents(date: Temporal.PlainDate) {
   );
 }
 
-export function findNextDay(date: Temporal.PlainDate): Day | undefined {
+export function findNextDay(date: Temporal.PlainDate): Day<any> | undefined {
   return getCurrentAndNextYearEvents(date)
     .filter(isDay)
     .find((e) => Temporal.PlainDate.compare(e.date, date) === 0);
 }
 
-export function findNextPeriod(date: Temporal.PlainDate): Period | undefined {
+export function findNextPeriod(
+  date: Temporal.PlainDate,
+): Period<any> | undefined {
   return getCurrentAndNextYearEvents(date)
     .filter(isPeriod)
     .find((e) => isWithin(date, e));
@@ -192,4 +219,11 @@ export function getUpcomingEvents(date: Temporal.PlainDate) {
       return 0;
     });
   return previewedEvents;
+}
+export function findDay<TDay extends ChurchYearDays>(
+  day: ChurchYearDays,
+  events: Event<any, any>[],
+) {
+  const d = events.find((e) => isDay(e) && e.name === day);
+  return d != null ? (d as Day<TDay>) : undefined;
 }

@@ -1,5 +1,9 @@
 import { Temporal } from 'temporal-polyfill';
-import { Day, Event } from 'common-prayer-lib/src/church-year/church-year';
+import {
+  Day,
+  Event,
+  Period,
+} from 'common-prayer-lib/src/church-year/church-year';
 
 const daysOfChristmas = [
   '2nd Day of Christmas',
@@ -19,26 +23,30 @@ export type DaysOfChristmas =
   | (typeof daysOfChristmas)[number]
   | 'Christmas Day';
 
-export function getChristmasEvents(christmas: Day<'Christmas Day'>): Event[] {
-  return [
-    christmas,
-    ...daysOfChristmas.map<Day>((name, i) => {
+export type SeasonOfChristmas = 'Christmas';
+type ChristmasEvent = Event<SeasonOfChristmas, DaysOfChristmas>;
+export function getChristmasEvents(
+  christmas: Day<'Christmas Day'>,
+): ChristmasEvent[] {
+  const daysAfterChristmas = daysOfChristmas.map<Day<DaysOfChristmas>>(
+    (name, i) => {
       return {
         name,
         description: name,
         date: christmas.date.add({ days: i + 1 }),
         upcoming: false,
       };
-    }),
-    {
-      name: 'Christmas',
-      calendarSummary: 'Christmastide',
-      season: true,
-      startDate: christmas.date,
-      endDate: christmas.date.add({ days: 11 }),
-      upcoming: false,
     },
-  ];
+  );
+  const christmasSeason: Period<SeasonOfChristmas> = {
+    name: 'Christmas',
+    calendarSummary: 'Christmastide',
+    season: true,
+    startDate: christmas.date,
+    endDate: christmas.date.add({ days: 11 }),
+    upcoming: false,
+  };
+  return [christmas, ...daysAfterChristmas, christmasSeason];
 }
 
 export function getChristmasDay(
