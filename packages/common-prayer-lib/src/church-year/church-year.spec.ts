@@ -3,7 +3,6 @@ import {
   ChurchYearDays,
   ChurchYearSeasons,
   Day,
-  findDay,
   getEventsForEasterIsoYear,
   isDay,
   isSeason,
@@ -13,7 +12,6 @@ import { DaysOfAdvent } from 'common-prayer-lib/src/church-year/seasons/advent';
 import { DaysOfChristmas } from 'common-prayer-lib/src/church-year/seasons/christmas';
 import { DaysOfEpiphany } from 'common-prayer-lib/src/church-year/seasons/epiphany';
 import { isWithin } from 'common-prayer-lib/src/date-time/temporal-utils';
-import { Temporal } from 'temporal-polyfill';
 import { DaysOfLent } from 'common-prayer-lib/src/church-year/seasons/lent';
 import { DaysOfEaster } from 'common-prayer-lib/src/church-year/seasons/easter';
 import {
@@ -28,6 +26,7 @@ type DayExpectations<TDays extends ChurchYearDays> = [
 
 describe('Church Year', () => {
   const events = getEventsForEasterIsoYear(2025);
+
   function testSeason<
     TSeason extends ChurchYearSeasons,
     TDays extends ChurchYearDays,

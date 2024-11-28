@@ -8,7 +8,7 @@ import {
 } from 'common-prayer-lib/src/church-year/church-year';
 import { DayViewComponent } from './today';
 
-export const Route = createFileRoute('/c/$year/$month/$day')({
+export const Route = createFileRoute('/_default/c/$year/$month/$day')({
   loader: (params) => {
     return params;
   },

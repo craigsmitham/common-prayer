@@ -1,11 +1,13 @@
 // app/routes/__root.tsx
 import {
   createRootRoute,
+  Link,
   Outlet,
   ScrollRestoration,
 } from '@tanstack/react-router';
 import { Meta, Scripts } from '@tanstack/start';
 import type { ReactNode } from 'react';
+import appCss from 'churchcalendar.app/app/styles/app.css?url';
 
 export const Route = createRootRoute({
   head: () => ({
@@ -21,6 +23,7 @@ export const Route = createRootRoute({
         title: 'Church Calendar',
       },
     ],
+    links: [{ rel: 'stylesheet', href: appCss }],
   }),
   component: RootComponent,
 });
@@ -41,6 +44,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       </head>
       <body>
         {children}
+
         <ScrollRestoration />
         <Scripts />
       </body>

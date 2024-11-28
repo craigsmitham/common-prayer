@@ -4,10 +4,12 @@ import {
   Event,
   Period,
 } from 'common-prayer-lib/src/church-year/church-year';
+import { EasterSeasonDay } from 'common-prayer-lib/src/church-year/seasons/easter';
 
 const daysOfChristmas = [
   '2nd Day of Christmas',
   '3rd Day of Christmas',
+
   '4th Day of Christmas',
   '5th Day of Christmas',
   '6th Day of Christmas',
@@ -24,34 +26,41 @@ export type DaysOfChristmas =
   | 'Christmas Day';
 
 export type SeasonOfChristmas = 'Christmas';
-type ChristmasEvent = Event<SeasonOfChristmas, DaysOfChristmas>;
+export type ChristmasSeasonEvent = Event<DaysOfChristmas, SeasonOfChristmas>;
+export type ChristmasSeasonDay<TDay extends DaysOfChristmas> = Day<
+  TDay,
+  SeasonOfChristmas
+>;
+
 export function getChristmasEvents(
-  christmas: Day<'Christmas Day'>,
-): ChristmasEvent[] {
-  const daysAfterChristmas = daysOfChristmas.map<Day<DaysOfChristmas>>(
-    (name, i) => {
-      return {
-        name,
-        type: 'Day of Special Devotion',
-        shortName: null,
-        longName: null,
-        traditionalName: null,
-        alternativeNames: [],
-        description: name,
-        date: christmas.date.add({ days: i + 1 }),
-        upcoming: false,
-      };
-    },
-  );
-  const christmasSeason: Period<SeasonOfChristmas> = {
+  christmas: ChristmasSeasonDay<'Christmas Day'>,
+): ChristmasSeasonEvent[] {
+  const daysAfterChristmas = daysOfChristmas.map<
+    ChristmasSeasonDay<DaysOfChristmas>
+  >((name, i) => {
+    return {
+      name,
+      season: 'Christmas',
+      type: 'Day of Special Devotion',
+      shortName: null,
+      longName: null,
+      traditionalName: null,
+      alternativeNames: [],
+      description: name,
+      date: christmas.date.add({ days: i + 1 }),
+      upcoming: false,
+    };
+  });
+  const christmasSeason: Period<SeasonOfChristmas, SeasonOfChristmas> = {
     name: 'Christmas',
     type: 'Season',
+    season: 'Christmas',
+    isSeason: true,
     shortName: null,
     longName: null,
     traditionalName: null,
     alternativeNames: [],
     calendarSummary: 'Christmastide',
-    season: true,
     startDate: christmas.date,
     endDate: christmas.date.add({ days: 11 }),
     upcoming: false,
@@ -60,12 +69,13 @@ export function getChristmasEvents(
 }
 
 export function getChristmasDay(
-  easter: Day<'Easter Sunday'>,
-): Day<'Christmas Day'> {
+  easter: EasterSeasonDay<'Easter Sunday'>,
+): ChristmasSeasonDay<'Christmas Day'> {
   const date = new Temporal.PlainDate(easter.date.year - 1, 12, 25);
   return {
     name: 'Christmas Day',
     type: 'Principal Feast',
+    season: 'Christmas',
     shortName: null,
     longName: null,
     traditionalName: null,

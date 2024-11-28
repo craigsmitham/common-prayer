@@ -5,7 +5,6 @@ import {
   Period,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { sundayAfter } from 'common-prayer-lib/src/date-time/temporal-utils';
-import { DaysOfAdvent } from 'common-prayer-lib/src/church-year/seasons/advent';
 
 export type SeasonOfEaster = 'Easter';
 export type DaysOfEaster =
@@ -13,6 +12,12 @@ export type DaysOfEaster =
   | 'Ascension Day'
   | 'Feast of Pentecost'
   | 'Sunday after Ascension Day';
+
+export type EasterSeasonEvent = Event<DaysOfEaster, SeasonOfEaster>;
+export type EasterSeasonDay<TDay extends DaysOfEaster> = Day<
+  TDay,
+  SeasonOfEaster
+>;
 
 const div = (dividend: number, divider: number): number =>
   Math.floor(dividend / divider);
@@ -35,10 +40,13 @@ export function getEasterDate(isoYear: number): Temporal.PlainDate {
   return new Temporal.PlainDate(isoYear, isoMonth, isoDay);
 }
 
-export function getEasterDay(isoYear: number): Day<'Easter Sunday'> {
+export function getEasterDay(
+  isoYear: number,
+): EasterSeasonDay<'Easter Sunday'> {
   const date = getEasterDate(isoYear);
   return {
     name: 'Easter Sunday',
+    season: 'Easter',
     type: 'Principal Feast',
     shortName: null,
     longName: null,
@@ -63,11 +71,12 @@ export function getDateOfPentecost(isoYear: number) {
   return ed.add({ weeks: 7 });
 }
 
-type EasterEvent = Event<SeasonOfEaster, DaysOfEaster>;
-
-export function getEasterEvents(easter: Day<'Easter Sunday'>): EasterEvent[] {
-  const ascensionDay: Day<'Ascension Day'> = {
+export function getEasterEvents(
+  easter: EasterSeasonDay<'Easter Sunday'>,
+): EasterSeasonEvent[] {
+  const ascensionDay: EasterSeasonDay<'Ascension Day'> = {
     name: 'Ascension Day',
+    season: 'Easter',
     type: 'Principal Feast',
     shortName: null,
     longName: null,
@@ -78,8 +87,9 @@ export function getEasterEvents(easter: Day<'Easter Sunday'>): EasterEvent[] {
       period: 'same-season',
     },
   };
-  const ascensionSunday: Day<'Sunday after Ascension Day'> = {
+  const ascensionSunday: EasterSeasonDay<'Sunday after Ascension Day'> = {
     name: 'Sunday after Ascension Day',
+    season: 'Easter',
     type: 'x',
     shortName: null,
     longName: null,
@@ -90,8 +100,9 @@ export function getEasterEvents(easter: Day<'Easter Sunday'>): EasterEvent[] {
       period: 'same-season',
     },
   };
-  const feastOfPentecost: Day<'Feast of Pentecost'> = {
+  const feastOfPentecost: EasterSeasonDay<'Feast of Pentecost'> = {
     name: 'Feast of Pentecost',
+    season: 'Easter',
     type: 'Principal Feast',
     shortName: null,
     longName: null,
@@ -103,15 +114,16 @@ export function getEasterEvents(easter: Day<'Easter Sunday'>): EasterEvent[] {
     },
   };
 
-  const easterSeason: Period<SeasonOfEaster> = {
+  const easterSeason: Period<SeasonOfEaster, SeasonOfEaster> = {
     name: 'Easter',
+    season: 'Easter',
     type: 'Season',
     shortName: null,
     longName: null,
     traditionalName: null,
     alternativeNames: [],
     upcoming: false,
-    season: true,
+    isSeason: true,
     startDate: easter.date,
     endDate: feastOfPentecost.date,
   };

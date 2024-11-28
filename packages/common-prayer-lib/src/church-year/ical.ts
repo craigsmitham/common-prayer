@@ -1,11 +1,5 @@
 import ical, { ICalCalendarMethod } from 'ical-generator';
-import { getEasterDate } from 'common-prayer-lib/src/church-year/seasons/easter';
-import { Temporal } from 'temporal-polyfill';
-import {
-  isWithin,
-  sundayBefore,
-  toDate,
-} from 'common-prayer-lib/src/date-time/temporal-utils';
+import { toDate } from 'common-prayer-lib/src/date-time/temporal-utils';
 import {
   getEventsForEasterIsoYear,
   isDay,

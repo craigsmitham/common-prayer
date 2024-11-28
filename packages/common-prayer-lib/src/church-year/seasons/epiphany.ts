@@ -4,7 +4,6 @@ import {
   Event,
   Period,
 } from 'common-prayer-lib/src/church-year/church-year';
-import { getEasterDate } from 'common-prayer-lib/src/church-year/seasons/easter';
 import { getAshWednesdayDate } from 'common-prayer-lib/src/church-year/seasons/lent';
 import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
 
@@ -15,14 +14,19 @@ export type DaysOfEpiphany =
 
 export type SeasonOfEpiphany = 'Epiphany';
 
-type EpiphanyEvent = Event<SeasonOfEpiphany, DaysOfEpiphany>;
+export type EpiphanySeasonEvent = Event<DaysOfEpiphany, SeasonOfEpiphany>;
+export type EpiphanySeasonDay<TDay extends DaysOfEpiphany> = Day<
+  TDay,
+  SeasonOfEpiphany
+>;
 
 export function getEpiphanyEvents(
   christmas: Day<'Christmas Day'>,
-): EpiphanyEvent[] {
+): EpiphanySeasonEvent[] {
   const ashWednesday = getAshWednesdayDate(christmas.date.year + 1);
-  const epiphany: Day<'Epiphany'> = {
+  const epiphany: EpiphanySeasonDay<'Epiphany'> = {
     name: 'Epiphany',
+    season: 'Epiphany',
     type: 'Principal Feast',
     shortName: null,
     longName: null,
@@ -33,10 +37,11 @@ export function getEpiphanyEvents(
       period: 'next-season',
     },
   };
-  const transfigurationSunday: Day<'Transfiguration Sunday'> = {
-    date: sundayBefore(ashWednesday),
+  const transfigurationSunday: EpiphanySeasonDay<'Transfiguration Sunday'> = {
     name: 'Transfiguration Sunday',
+    season: 'Epiphany',
     type: 'x',
+    date: sundayBefore(ashWednesday),
     shortName: null,
     longName: null,
     traditionalName: null,
@@ -45,8 +50,9 @@ export function getEpiphanyEvents(
       period: 'same-season',
     },
   };
-  const shroveTuesday: Day<'Shrove Tuesday'> = {
+  const shroveTuesday: EpiphanySeasonDay<'Shrove Tuesday'> = {
     name: 'Shrove Tuesday',
+    season: 'Epiphany',
     type: 'x',
     shortName: null,
     longName: null,
@@ -57,15 +63,16 @@ export function getEpiphanyEvents(
       period: 'same-season',
     },
   };
-  const epiphanySeason: Period<SeasonOfEpiphany> = {
+  const epiphanySeason: Period<SeasonOfEpiphany, SeasonOfEpiphany> = {
     name: 'Epiphany',
+    season: 'Epiphany',
     type: 'x',
     shortName: null,
     longName: null,
     traditionalName: null,
     alternativeNames: [],
     startDate: epiphany.date,
-    season: true,
+    isSeason: true,
     endDate: shroveTuesday.date,
     upcoming: false,
   };

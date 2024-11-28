@@ -9,7 +9,7 @@ import { Temporal } from 'temporal-polyfill';
 import * as React from 'react';
 import { DayViewComponent } from './c/today';
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_default/')({
   component: Home,
 });
 

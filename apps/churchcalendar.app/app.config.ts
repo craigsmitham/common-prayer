@@ -1,5 +1,6 @@
 // app.config.ts
 import { defineConfig } from '@tanstack/start/config';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   server: {
@@ -9,5 +10,8 @@ export default defineConfig({
     semicolons: true,
 
     quoteStyle: 'single',
+  },
+  vite: {
+    plugins: [tailwindcss()],
   },
 });

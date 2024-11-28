@@ -11,98 +11,363 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root';
-import { Route as IndexImport } from './routes/index';
-import { Route as CTodayImport } from './routes/c/today';
-import { Route as CYearMonthDayImport } from './routes/c/$year.$month.$day';
+import { Route as SubscribeImport } from './routes/subscribe';
+import { Route as PreviewImport } from './routes/preview';
+import { Route as DefaultImport } from './routes/_default';
+import { Route as DefaultIndexImport } from './routes/_default/index';
+import { Route as DefaultTestImport } from './routes/_default/test';
+import { Route as DefaultConnectImport } from './routes/_default/connect';
+import { Route as DefaultAboutImport } from './routes/_default/about';
+import { Route as DefaultSubscribeOutlookForWebImport } from './routes/_default/subscribe/outlook-for-web';
+import { Route as DefaultSubscribeOutlookForDesktopImport } from './routes/_default/subscribe/outlook-for-desktop';
+import { Route as DefaultSubscribeGoogleCalendarImport } from './routes/_default/subscribe/google-calendar';
+import { Route as DefaultSubscribeAppleCalendarMacosImport } from './routes/_default/subscribe/apple-calendar-macos';
+import { Route as DefaultSubscribeAppleCalendarImport } from './routes/_default/subscribe/apple-calendar';
+import { Route as DefaultCTodayImport } from './routes/_default/c/today';
+import { Route as DefaultCYearMonthDayImport } from './routes/_default/c/$year.$month.$day';
 
 // Create/Update Routes
 
-const IndexRoute = IndexImport.update({
+const SubscribeRoute = SubscribeImport.update({
+  id: '/subscribe',
+  path: '/subscribe',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const PreviewRoute = PreviewImport.update({
+  id: '/preview',
+  path: '/preview',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const DefaultRoute = DefaultImport.update({
+  id: '/_default',
+  getParentRoute: () => rootRoute,
+} as any);
+
+const DefaultIndexRoute = DefaultIndexImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => DefaultRoute,
 } as any);
 
-const CTodayRoute = CTodayImport.update({
+const DefaultTestRoute = DefaultTestImport.update({
+  id: '/test',
+  path: '/test',
+  getParentRoute: () => DefaultRoute,
+} as any);
+
+const DefaultConnectRoute = DefaultConnectImport.update({
+  id: '/connect',
+  path: '/connect',
+  getParentRoute: () => DefaultRoute,
+} as any);
+
+const DefaultAboutRoute = DefaultAboutImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => DefaultRoute,
+} as any);
+
+const DefaultSubscribeOutlookForWebRoute =
+  DefaultSubscribeOutlookForWebImport.update({
+    id: '/subscribe/outlook-for-web',
+    path: '/subscribe/outlook-for-web',
+    getParentRoute: () => DefaultRoute,
+  } as any);
+
+const DefaultSubscribeOutlookForDesktopRoute =
+  DefaultSubscribeOutlookForDesktopImport.update({
+    id: '/subscribe/outlook-for-desktop',
+    path: '/subscribe/outlook-for-desktop',
+    getParentRoute: () => DefaultRoute,
+  } as any);
+
+const DefaultSubscribeGoogleCalendarRoute =
+  DefaultSubscribeGoogleCalendarImport.update({
+    id: '/subscribe/google-calendar',
+    path: '/subscribe/google-calendar',
+    getParentRoute: () => DefaultRoute,
+  } as any);
+
+const DefaultSubscribeAppleCalendarMacosRoute =
+  DefaultSubscribeAppleCalendarMacosImport.update({
+    id: '/subscribe/apple-calendar-macos',
+    path: '/subscribe/apple-calendar-macos',
+    getParentRoute: () => DefaultRoute,
+  } as any);
+
+const DefaultSubscribeAppleCalendarRoute =
+  DefaultSubscribeAppleCalendarImport.update({
+    id: '/subscribe/apple-calendar',
+    path: '/subscribe/apple-calendar',
+    getParentRoute: () => DefaultRoute,
+  } as any);
+
+const DefaultCTodayRoute = DefaultCTodayImport.update({
   id: '/c/today',
   path: '/c/today',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => DefaultRoute,
 } as any);
 
-const CYearMonthDayRoute = CYearMonthDayImport.update({
+const DefaultCYearMonthDayRoute = DefaultCYearMonthDayImport.update({
   id: '/c/$year/$month/$day',
   path: '/c/$year/$month/$day',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => DefaultRoute,
 } as any);
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/';
+    '/_default': {
+      id: '/_default';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof DefaultImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/preview': {
+      id: '/preview';
+      path: '/preview';
+      fullPath: '/preview';
+      preLoaderRoute: typeof PreviewImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/subscribe': {
+      id: '/subscribe';
+      path: '/subscribe';
+      fullPath: '/subscribe';
+      preLoaderRoute: typeof SubscribeImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/_default/about': {
+      id: '/_default/about';
+      path: '/about';
+      fullPath: '/about';
+      preLoaderRoute: typeof DefaultAboutImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/connect': {
+      id: '/_default/connect';
+      path: '/connect';
+      fullPath: '/connect';
+      preLoaderRoute: typeof DefaultConnectImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/test': {
+      id: '/_default/test';
+      path: '/test';
+      fullPath: '/test';
+      preLoaderRoute: typeof DefaultTestImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/': {
+      id: '/_default/';
       path: '/';
       fullPath: '/';
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
+      preLoaderRoute: typeof DefaultIndexImport;
+      parentRoute: typeof DefaultImport;
     };
-    '/c/today': {
-      id: '/c/today';
+    '/_default/c/today': {
+      id: '/_default/c/today';
       path: '/c/today';
       fullPath: '/c/today';
-      preLoaderRoute: typeof CTodayImport;
-      parentRoute: typeof rootRoute;
+      preLoaderRoute: typeof DefaultCTodayImport;
+      parentRoute: typeof DefaultImport;
     };
-    '/c/$year/$month/$day': {
-      id: '/c/$year/$month/$day';
+    '/_default/subscribe/apple-calendar': {
+      id: '/_default/subscribe/apple-calendar';
+      path: '/subscribe/apple-calendar';
+      fullPath: '/subscribe/apple-calendar';
+      preLoaderRoute: typeof DefaultSubscribeAppleCalendarImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/subscribe/apple-calendar-macos': {
+      id: '/_default/subscribe/apple-calendar-macos';
+      path: '/subscribe/apple-calendar-macos';
+      fullPath: '/subscribe/apple-calendar-macos';
+      preLoaderRoute: typeof DefaultSubscribeAppleCalendarMacosImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/subscribe/google-calendar': {
+      id: '/_default/subscribe/google-calendar';
+      path: '/subscribe/google-calendar';
+      fullPath: '/subscribe/google-calendar';
+      preLoaderRoute: typeof DefaultSubscribeGoogleCalendarImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/subscribe/outlook-for-desktop': {
+      id: '/_default/subscribe/outlook-for-desktop';
+      path: '/subscribe/outlook-for-desktop';
+      fullPath: '/subscribe/outlook-for-desktop';
+      preLoaderRoute: typeof DefaultSubscribeOutlookForDesktopImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/subscribe/outlook-for-web': {
+      id: '/_default/subscribe/outlook-for-web';
+      path: '/subscribe/outlook-for-web';
+      fullPath: '/subscribe/outlook-for-web';
+      preLoaderRoute: typeof DefaultSubscribeOutlookForWebImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/c/$year/$month/$day': {
+      id: '/_default/c/$year/$month/$day';
       path: '/c/$year/$month/$day';
       fullPath: '/c/$year/$month/$day';
-      preLoaderRoute: typeof CYearMonthDayImport;
-      parentRoute: typeof rootRoute;
+      preLoaderRoute: typeof DefaultCYearMonthDayImport;
+      parentRoute: typeof DefaultImport;
     };
   }
 }
 
 // Create and export the route tree
 
+interface DefaultRouteChildren {
+  DefaultAboutRoute: typeof DefaultAboutRoute;
+  DefaultConnectRoute: typeof DefaultConnectRoute;
+  DefaultTestRoute: typeof DefaultTestRoute;
+  DefaultIndexRoute: typeof DefaultIndexRoute;
+  DefaultCTodayRoute: typeof DefaultCTodayRoute;
+  DefaultSubscribeAppleCalendarRoute: typeof DefaultSubscribeAppleCalendarRoute;
+  DefaultSubscribeAppleCalendarMacosRoute: typeof DefaultSubscribeAppleCalendarMacosRoute;
+  DefaultSubscribeGoogleCalendarRoute: typeof DefaultSubscribeGoogleCalendarRoute;
+  DefaultSubscribeOutlookForDesktopRoute: typeof DefaultSubscribeOutlookForDesktopRoute;
+  DefaultSubscribeOutlookForWebRoute: typeof DefaultSubscribeOutlookForWebRoute;
+  DefaultCYearMonthDayRoute: typeof DefaultCYearMonthDayRoute;
+}
+
+const DefaultRouteChildren: DefaultRouteChildren = {
+  DefaultAboutRoute: DefaultAboutRoute,
+  DefaultConnectRoute: DefaultConnectRoute,
+  DefaultTestRoute: DefaultTestRoute,
+  DefaultIndexRoute: DefaultIndexRoute,
+  DefaultCTodayRoute: DefaultCTodayRoute,
+  DefaultSubscribeAppleCalendarRoute: DefaultSubscribeAppleCalendarRoute,
+  DefaultSubscribeAppleCalendarMacosRoute:
+    DefaultSubscribeAppleCalendarMacosRoute,
+  DefaultSubscribeGoogleCalendarRoute: DefaultSubscribeGoogleCalendarRoute,
+  DefaultSubscribeOutlookForDesktopRoute:
+    DefaultSubscribeOutlookForDesktopRoute,
+  DefaultSubscribeOutlookForWebRoute: DefaultSubscribeOutlookForWebRoute,
+  DefaultCYearMonthDayRoute: DefaultCYearMonthDayRoute,
+};
+
+const DefaultRouteWithChildren =
+  DefaultRoute._addFileChildren(DefaultRouteChildren);
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute;
-  '/c/today': typeof CTodayRoute;
-  '/c/$year/$month/$day': typeof CYearMonthDayRoute;
+  '': typeof DefaultRouteWithChildren;
+  '/preview': typeof PreviewRoute;
+  '/subscribe': typeof SubscribeRoute;
+  '/about': typeof DefaultAboutRoute;
+  '/connect': typeof DefaultConnectRoute;
+  '/test': typeof DefaultTestRoute;
+  '/': typeof DefaultIndexRoute;
+  '/c/today': typeof DefaultCTodayRoute;
+  '/subscribe/apple-calendar': typeof DefaultSubscribeAppleCalendarRoute;
+  '/subscribe/apple-calendar-macos': typeof DefaultSubscribeAppleCalendarMacosRoute;
+  '/subscribe/google-calendar': typeof DefaultSubscribeGoogleCalendarRoute;
+  '/subscribe/outlook-for-desktop': typeof DefaultSubscribeOutlookForDesktopRoute;
+  '/subscribe/outlook-for-web': typeof DefaultSubscribeOutlookForWebRoute;
+  '/c/$year/$month/$day': typeof DefaultCYearMonthDayRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute;
-  '/c/today': typeof CTodayRoute;
-  '/c/$year/$month/$day': typeof CYearMonthDayRoute;
+  '/preview': typeof PreviewRoute;
+  '/subscribe': typeof SubscribeRoute;
+  '/about': typeof DefaultAboutRoute;
+  '/connect': typeof DefaultConnectRoute;
+  '/test': typeof DefaultTestRoute;
+  '/': typeof DefaultIndexRoute;
+  '/c/today': typeof DefaultCTodayRoute;
+  '/subscribe/apple-calendar': typeof DefaultSubscribeAppleCalendarRoute;
+  '/subscribe/apple-calendar-macos': typeof DefaultSubscribeAppleCalendarMacosRoute;
+  '/subscribe/google-calendar': typeof DefaultSubscribeGoogleCalendarRoute;
+  '/subscribe/outlook-for-desktop': typeof DefaultSubscribeOutlookForDesktopRoute;
+  '/subscribe/outlook-for-web': typeof DefaultSubscribeOutlookForWebRoute;
+  '/c/$year/$month/$day': typeof DefaultCYearMonthDayRoute;
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute;
-  '/': typeof IndexRoute;
-  '/c/today': typeof CTodayRoute;
-  '/c/$year/$month/$day': typeof CYearMonthDayRoute;
+  '/_default': typeof DefaultRouteWithChildren;
+  '/preview': typeof PreviewRoute;
+  '/subscribe': typeof SubscribeRoute;
+  '/_default/about': typeof DefaultAboutRoute;
+  '/_default/connect': typeof DefaultConnectRoute;
+  '/_default/test': typeof DefaultTestRoute;
+  '/_default/': typeof DefaultIndexRoute;
+  '/_default/c/today': typeof DefaultCTodayRoute;
+  '/_default/subscribe/apple-calendar': typeof DefaultSubscribeAppleCalendarRoute;
+  '/_default/subscribe/apple-calendar-macos': typeof DefaultSubscribeAppleCalendarMacosRoute;
+  '/_default/subscribe/google-calendar': typeof DefaultSubscribeGoogleCalendarRoute;
+  '/_default/subscribe/outlook-for-desktop': typeof DefaultSubscribeOutlookForDesktopRoute;
+  '/_default/subscribe/outlook-for-web': typeof DefaultSubscribeOutlookForWebRoute;
+  '/_default/c/$year/$month/$day': typeof DefaultCYearMonthDayRoute;
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '/c/today' | '/c/$year/$month/$day';
+  fullPaths:
+    | ''
+    | '/preview'
+    | '/subscribe'
+    | '/about'
+    | '/connect'
+    | '/test'
+    | '/'
+    | '/c/today'
+    | '/subscribe/apple-calendar'
+    | '/subscribe/apple-calendar-macos'
+    | '/subscribe/google-calendar'
+    | '/subscribe/outlook-for-desktop'
+    | '/subscribe/outlook-for-web'
+    | '/c/$year/$month/$day';
   fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '/c/today' | '/c/$year/$month/$day';
-  id: '__root__' | '/' | '/c/today' | '/c/$year/$month/$day';
+  to:
+    | '/preview'
+    | '/subscribe'
+    | '/about'
+    | '/connect'
+    | '/test'
+    | '/'
+    | '/c/today'
+    | '/subscribe/apple-calendar'
+    | '/subscribe/apple-calendar-macos'
+    | '/subscribe/google-calendar'
+    | '/subscribe/outlook-for-desktop'
+    | '/subscribe/outlook-for-web'
+    | '/c/$year/$month/$day';
+  id:
+    | '__root__'
+    | '/_default'
+    | '/preview'
+    | '/subscribe'
+    | '/_default/about'
+    | '/_default/connect'
+    | '/_default/test'
+    | '/_default/'
+    | '/_default/c/today'
+    | '/_default/subscribe/apple-calendar'
+    | '/_default/subscribe/apple-calendar-macos'
+    | '/_default/subscribe/google-calendar'
+    | '/_default/subscribe/outlook-for-desktop'
+    | '/_default/subscribe/outlook-for-web'
+    | '/_default/c/$year/$month/$day';
   fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  CTodayRoute: typeof CTodayRoute;
-  CYearMonthDayRoute: typeof CYearMonthDayRoute;
+  DefaultRoute: typeof DefaultRouteWithChildren;
+  PreviewRoute: typeof PreviewRoute;
+  SubscribeRoute: typeof SubscribeRoute;
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  CTodayRoute: CTodayRoute,
-  CYearMonthDayRoute: CYearMonthDayRoute,
+  DefaultRoute: DefaultRouteWithChildren,
+  PreviewRoute: PreviewRoute,
+  SubscribeRoute: SubscribeRoute,
 };
 
 export const routeTree = rootRoute
@@ -115,19 +380,76 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/",
-        "/c/today",
-        "/c/$year/$month/$day"
+        "/_default",
+        "/preview",
+        "/subscribe"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/_default": {
+      "filePath": "_default.tsx",
+      "children": [
+        "/_default/about",
+        "/_default/connect",
+        "/_default/test",
+        "/_default/",
+        "/_default/c/today",
+        "/_default/subscribe/apple-calendar",
+        "/_default/subscribe/apple-calendar-macos",
+        "/_default/subscribe/google-calendar",
+        "/_default/subscribe/outlook-for-desktop",
+        "/_default/subscribe/outlook-for-web",
+        "/_default/c/$year/$month/$day"
+      ]
     },
-    "/c/today": {
-      "filePath": "c/today.tsx"
+    "/preview": {
+      "filePath": "preview.tsx"
     },
-    "/c/$year/$month/$day": {
-      "filePath": "c/$year.$month.$day.tsx"
+    "/subscribe": {
+      "filePath": "subscribe.tsx"
+    },
+    "/_default/about": {
+      "filePath": "_default/about.tsx",
+      "parent": "/_default"
+    },
+    "/_default/connect": {
+      "filePath": "_default/connect.tsx",
+      "parent": "/_default"
+    },
+    "/_default/test": {
+      "filePath": "_default/test.tsx",
+      "parent": "/_default"
+    },
+    "/_default/": {
+      "filePath": "_default/index.tsx",
+      "parent": "/_default"
+    },
+    "/_default/c/today": {
+      "filePath": "_default/c/today.tsx",
+      "parent": "/_default"
+    },
+    "/_default/subscribe/apple-calendar": {
+      "filePath": "_default/subscribe/apple-calendar.tsx",
+      "parent": "/_default"
+    },
+    "/_default/subscribe/apple-calendar-macos": {
+      "filePath": "_default/subscribe/apple-calendar-macos.tsx",
+      "parent": "/_default"
+    },
+    "/_default/subscribe/google-calendar": {
+      "filePath": "_default/subscribe/google-calendar.tsx",
+      "parent": "/_default"
+    },
+    "/_default/subscribe/outlook-for-desktop": {
+      "filePath": "_default/subscribe/outlook-for-desktop.tsx",
+      "parent": "/_default"
+    },
+    "/_default/subscribe/outlook-for-web": {
+      "filePath": "_default/subscribe/outlook-for-web.tsx",
+      "parent": "/_default"
+    },
+    "/_default/c/$year/$month/$day": {
+      "filePath": "_default/c/$year.$month.$day.tsx",
+      "parent": "/_default"
     }
   }
 }

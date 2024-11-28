@@ -14,7 +14,7 @@ import {
   isSame,
 } from 'common-prayer-lib/src/date-time/temporal-utils';
 
-export const Route = createFileRoute('/c/today')({
+export const Route = createFileRoute('/_default/c/today')({
   component: RouteComponent,
 });
 
