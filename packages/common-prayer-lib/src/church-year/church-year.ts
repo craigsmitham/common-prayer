@@ -3,7 +3,6 @@ import {
   DaysOfEaster,
   getEasterDay,
   getEasterEvents,
-  SeasonOfEaster,
 } from 'common-prayer-lib/src/church-year/seasons/easter';
 import {
   isAfter,
@@ -14,27 +13,22 @@ import {
   DaysOfChristmas,
   getChristmasDay,
   getChristmasEvents,
-  SeasonOfChristmas,
 } from 'common-prayer-lib/src/church-year/seasons/christmas';
 import {
   DaysOfAdvent,
   getAdventEvents,
-  SeasonOfAdvent,
 } from 'common-prayer-lib/src/church-year/seasons/advent';
 import {
   DaysOfEpiphany,
   getEpiphanyEvents,
-  SeasonOfEpiphany,
 } from 'common-prayer-lib/src/church-year/seasons/epiphany';
 import {
   DaysOfTrinitySeason,
   getTrinitySeasonEvents,
-  TrinitySeason,
 } from 'common-prayer-lib/src/church-year/seasons/trinity-season';
 import {
   DaysOfLent,
   getLentEvents,
-  SeasonOfLent,
 } from 'common-prayer-lib/src/church-year/seasons/lent';
 
 const previewPeriods = [
@@ -70,13 +64,16 @@ export function isSeason(event: Event<any, any>): event is Period<any, any> {
   return isPeriod(event) && event.isSeason;
 }
 
-export type ChurchYearSeasons =
-  | SeasonOfAdvent
-  | SeasonOfChristmas
-  | SeasonOfEpiphany
-  | SeasonOfLent
-  | SeasonOfEaster
-  | TrinitySeason;
+export const CHURCH_YEAR_SEASONS = [
+  'Advent',
+  'Christmas',
+  'Epiphany',
+  'Lent',
+  'Easter',
+  'Trinity Season',
+] as const;
+
+export type ChurchYearSeasons = (typeof CHURCH_YEAR_SEASONS)[number];
 
 export type ChurchYearDays =
   | DaysOfAdvent

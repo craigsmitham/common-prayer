@@ -63,11 +63,6 @@ export function getEasterDay(
 
 export function getDateOfPentecost(isoYear: number) {
   const ed = getEasterDate(isoYear);
-  console.log(ed.toString());
-
-  const p = ed.add({ days: 49 });
-  console.log(p.dayOfWeek);
-
   return ed.add({ weeks: 7 });
 }
 

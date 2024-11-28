@@ -8,7 +8,6 @@ export default defineConfig({
   },
   tsr: {
     semicolons: true,
-
     quoteStyle: 'single',
   },
   vite: {

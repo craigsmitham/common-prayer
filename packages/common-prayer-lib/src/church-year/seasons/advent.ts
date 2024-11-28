@@ -1,5 +1,6 @@
 import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
 import {
+  CHURCH_YEAR_SEASONS,
   Day,
   Event,
   Period,
@@ -20,10 +21,9 @@ export function getFirstDateOfAdvent(isoYear: number) {
   });
 }
 
-export type SeasonOfAdvent = 'Advent';
-
+export type SeasonOfAdvent = (typeof CHURCH_YEAR_SEASONS)[0];
 export type AdventSeasonEvent = Event<DaysOfAdvent, SeasonOfAdvent>;
-export type AdventSeasonDay<TDay extends DaysOfAdvent> = Day<
+export type AdventSeasonDay<TDay extends DaysOfAdvent = DaysOfAdvent> = Day<
   TDay,
   SeasonOfAdvent
 >;
@@ -32,7 +32,7 @@ export function getAdventEvents(
   christmas: ChristmasSeasonDay<'Christmas Day'>,
 ): AdventSeasonEvent[] {
   const firstDateOfAdvent = getFirstDateOfAdvent(christmas.date.year);
-  const christmasEve: AdventSeasonDay<'Christmas Eve'> = {
+  const christmasEve: AdventSeasonDay = {
     name: 'Christmas Eve',
     season: 'Advent',
     type: 'Day of Special Devotion',
@@ -44,7 +44,7 @@ export function getAdventEvents(
     date: christmas.date.subtract({ days: 1 }),
     upcoming: { period: 'same-season' },
   };
-  const sundays: AdventSeasonDay<DaysOfAdvent>[] = [
+  const sundays: AdventSeasonDay[] = [
     {
       name: '1st Sunday of Advent',
       season: 'Advent',

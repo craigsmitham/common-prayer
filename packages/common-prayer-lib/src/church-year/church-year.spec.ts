@@ -41,9 +41,10 @@ describe('Church Year', () => {
     season: TSeason;
     days: DayExpectations<TDays>[];
   }) {
-    const s = events.find(
-      (s) => isSeason(s) && s.name === season,
-    ) as Period<any>;
+    const s = events.find((s) => isSeason(s) && s.name === season) as Period<
+      any,
+      any
+    >;
     expect(s, season).not.toBeUndefined();
     expect(s?.startDate.toString(), `season start`).toBe(start);
     expect(s?.endDate.toString(), 'season end').toBe(end);
@@ -61,7 +62,7 @@ describe('Church Year', () => {
     });
 
     days.forEach(([expectedDate, day]) => {
-      const d = events.find((e) => isDay(e) && e.name === day) as Day<any>;
+      const d = events.find((e) => isDay(e) && e.name === day) as Day<any, any>;
       expect(d, `Cannot find day '${day}'`).not.toBeUndefined();
       expect(d?.date.toString(), day).toBe(expectedDate);
     });
