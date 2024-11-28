@@ -87,7 +87,7 @@ export function getEasterEvents(
     season: 'Easter',
     type: 'x',
     shortName: null,
-    longName: null,
+    longName: 'Season of Easter',
     traditionalName: null,
     alternativeNames: [],
     date: sundayAfter(ascensionDay.date),

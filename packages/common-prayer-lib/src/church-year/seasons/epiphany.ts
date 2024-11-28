@@ -6,6 +6,7 @@ import {
 } from 'common-prayer-lib/src/church-year/church-year';
 import { getAshWednesdayDate } from 'common-prayer-lib/src/church-year/seasons/lent';
 import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
+import { ChristmasSeasonDay } from 'common-prayer-lib/src/church-year/seasons/christmas';
 
 export type DaysOfEpiphany =
   | 'Epiphany'
@@ -21,7 +22,7 @@ export type EpiphanySeasonDay<TDay extends DaysOfEpiphany> = Day<
 >;
 
 export function getEpiphanyEvents(
-  christmas: Day<'Christmas Day'>,
+  christmas: ChristmasSeasonDay<'Christmas Day'>,
 ): EpiphanySeasonEvent[] {
   const ashWednesday = getAshWednesdayDate(christmas.date.year + 1);
   const epiphany: EpiphanySeasonDay<'Epiphany'> = {
@@ -68,7 +69,7 @@ export function getEpiphanyEvents(
     season: 'Epiphany',
     type: 'x',
     shortName: null,
-    longName: null,
+    longName: 'Season of Epiphany',
     traditionalName: null,
     alternativeNames: [],
     startDate: epiphany.date,

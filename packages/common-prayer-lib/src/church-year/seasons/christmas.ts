@@ -31,6 +31,26 @@ export type ChristmasSeasonDay<TDay extends DaysOfChristmas> = Day<
   TDay,
   SeasonOfChristmas
 >;
+export function getChristmasDay(
+  easter: EasterSeasonDay<'Easter Sunday'>,
+): ChristmasSeasonDay<'Christmas Day'> {
+  const date = new Temporal.PlainDate(easter.date.year - 1, 12, 25);
+  return {
+    name: 'Christmas Day',
+    type: 'Principal Feast',
+    season: 'Christmas',
+    shortName: null,
+    longName: null,
+    traditionalName: null,
+    alternativeNames: [],
+    description: `Christmas day ${date.year}`,
+    upcoming: {
+      countdown: true,
+      period: 'next-season',
+    },
+    date: date,
+  };
+}
 
 export function getChristmasEvents(
   christmas: ChristmasSeasonDay<'Christmas Day'>,
@@ -57,8 +77,8 @@ export function getChristmasEvents(
     season: 'Christmas',
     isSeason: true,
     shortName: null,
-    longName: null,
-    traditionalName: null,
+    longName: 'Season of Christmas',
+    traditionalName: 'Christmastide',
     alternativeNames: [],
     calendarSummary: 'Christmastide',
     startDate: christmas.date,
@@ -66,25 +86,4 @@ export function getChristmasEvents(
     upcoming: false,
   };
   return [christmas, ...daysAfterChristmas, christmasSeason];
-}
-
-export function getChristmasDay(
-  easter: EasterSeasonDay<'Easter Sunday'>,
-): ChristmasSeasonDay<'Christmas Day'> {
-  const date = new Temporal.PlainDate(easter.date.year - 1, 12, 25);
-  return {
-    name: 'Christmas Day',
-    type: 'Principal Feast',
-    season: 'Christmas',
-    shortName: null,
-    longName: null,
-    traditionalName: null,
-    alternativeNames: [],
-    description: `Christmas day ${date.year}`,
-    upcoming: {
-      countdown: true,
-      period: 'next-season',
-    },
-    date: date,
-  };
 }

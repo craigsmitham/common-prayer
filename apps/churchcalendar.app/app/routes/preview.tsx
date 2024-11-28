@@ -67,7 +67,7 @@ function RouteComponent() {
   const dates = getDays(previewType);
 
   return (
-    <div className="h-screen w-screen grid grid-cols-3 gap-4">
+    <div className="h-screen w-screen grid grid-cols-3 gap-4 bg-gray-100">
       {dates.map(({ season, date }, i) => {
         if (date == null) {
           return (
@@ -77,8 +77,11 @@ function RouteComponent() {
           );
         }
 
-        const iframe = -(
-          <iframe src={`/c/${date.year}/${date.month}/${date.day}`}></iframe>
+        const iframe = (
+          <iframe
+            className={'w-full h-full'}
+            src={`/c/${date.year}/${date.month}/${date.day}`}
+          ></iframe>
         );
         return <div key={i}>{iframe}</div>;
       })}

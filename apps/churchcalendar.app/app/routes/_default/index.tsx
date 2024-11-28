@@ -1,12 +1,8 @@
 // app/routes/index.tsx
-import {
-  createFileRoute,
-  useLocation,
-  useRouter,
-} from '@tanstack/react-router';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Temporal } from 'temporal-polyfill';
-import * as React from 'react';
 import { DayViewComponent } from './c/today';
 
 export const Route = createFileRoute('/_default/')({

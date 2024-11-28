@@ -1,7 +1,6 @@
 // app/routes/__root.tsx
 import {
   createRootRoute,
-  Link,
   Outlet,
   ScrollRestoration,
 } from '@tanstack/react-router';

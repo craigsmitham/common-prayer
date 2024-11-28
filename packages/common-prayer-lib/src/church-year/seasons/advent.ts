@@ -99,7 +99,7 @@ export function getAdventEvents(
     isSeason: true,
     type: 'Season',
     shortName: null,
-    longName: null,
+    longName: 'Season of Advent',
     traditionalName: null,
     alternativeNames: [],
     calendarSummary: 'Advent Season',

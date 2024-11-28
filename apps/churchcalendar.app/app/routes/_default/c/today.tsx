@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { DayViewRouteComponent } from './$year.$month.$day';
 import { Temporal } from 'temporal-polyfill';
 import { formatDate } from 'date-fns';
 import {
@@ -8,11 +7,6 @@ import {
   findNextPeriod,
   getUpcomingEvents,
 } from 'common-prayer-lib/src/church-year/church-year';
-import {
-  isAfter,
-  isBefore,
-  isSame,
-} from 'common-prayer-lib/src/date-time/temporal-utils';
 
 export const Route = createFileRoute('/_default/c/today')({
   component: RouteComponent,
@@ -40,7 +34,7 @@ export function DayViewComponent({ date }: { date: Temporal.PlainDate }) {
 
   return (
     <div>
-      <h4>{season?.name}</h4>
+      <h4>{season?.longName}</h4>
       <h2>
         {dayOfMonthDisplay} of {monthDisplay}, {date.year}
       </h2>
