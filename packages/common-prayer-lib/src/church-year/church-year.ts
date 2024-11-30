@@ -60,7 +60,7 @@ export function isPeriod(event: Event<any, any>): event is Period<any, any> {
   return 'startDate' in event && 'endDate' in event && !isDay(event);
 }
 
-export function isSeason(event: Event<any, any>): event is Period<any, any> {
+export function isSeason(event: Event<any, any>): event is Season {
   return isPeriod(event) && event.isSeason;
 }
 
@@ -112,6 +112,10 @@ export type Day<TName extends string, TSeason extends ChurchYearSeasons> = {
   date: Temporal.PlainDate;
 } & EventDefinition<TName, TSeason>;
 
+export type Season = Period<ChurchYearSeasons, ChurchYearSeasons> & {
+  isSeason: true;
+};
+
 export type Period<TName extends string, TSeason extends ChurchYearSeasons> = {
   startDate: Temporal.PlainDate;
   endDate: Temporal.PlainDate;
@@ -131,6 +135,14 @@ function _getEventsForEasterIsoYear(easterIsoYear: number): ChurchYearEvent[] {
     ...getEasterEvents(easter),
     ...getTrinitySeasonEvents(easter),
   ];
+}
+export function getEventsForIsoYear(isoYear: number) {
+  return getEventsForEasterIsoYear(isoYear, { additionalYears: 1 }).filter(
+    (e) =>
+      (isDay(e) && e.date.year === isoYear) ||
+      (isPeriod(e) &&
+        (e.startDate.year === isoYear || e.endDate.year === isoYear)),
+  );
 }
 
 export function getEventsForEasterIsoYear(
@@ -238,6 +250,16 @@ export function getUpcomingEvents(date: Temporal.PlainDate) {
       return 0;
     });
   return previewedEvents;
+}
+
+export function getSeason(date: Temporal.PlainDate): Season {
+  const season = getEventsForIsoYear(date.year).find(
+    (e) => isSeason(e) && isWithin(date, e),
+  ) as Season | undefined;
+  if (season == null) {
+    throw new Error(`Could not find season for date ${date.toString()}`);
+  }
+  return season;
 }
 
 export function findDay<TDay extends string>(

@@ -1,9 +1,10 @@
 // app/routes/index.tsx
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Temporal } from 'temporal-polyfill';
-import { DayViewComponent } from './c/today';
+
+import { DayViewComponent } from '../../components/DayViewComponent';
 
 export const Route = createFileRoute('/_default/')({
   component: Home,
@@ -11,8 +12,6 @@ export const Route = createFileRoute('/_default/')({
 
 // @ts-ignore
 function Home() {
-  const router = useRouter();
-
   const [hostname, setHostname] = useState('');
 
   useEffect(() => {

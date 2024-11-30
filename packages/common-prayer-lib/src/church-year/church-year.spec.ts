@@ -138,7 +138,6 @@ describe('Church Year', () => {
       season: 'Easter',
       start: '2025-04-20',
       end: '2025-06-08',
-
       days: [
         ['2025-04-20', 'Easter Sunday'],
         ['2025-05-29', 'Ascension Day'],
