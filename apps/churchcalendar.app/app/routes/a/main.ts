@@ -3,7 +3,7 @@ import { createChurchCalendar } from 'common-prayer-lib/src/church-year/ical';
 
 type CalendarClients = 'google' | 'outlook' | 'outlook-for-web' | 'apple-ios';
 
-export const APIRoute = createAPIFileRoute('/api/ical')({
+export const APIRoute = createAPIFileRoute('/a/main')({
   GET: ({ request, params }) => {
     const rootUrl = new URL(request.url).origin;
 

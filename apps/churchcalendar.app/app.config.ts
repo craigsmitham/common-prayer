@@ -9,6 +9,7 @@ export default defineConfig({
   tsr: {
     semicolons: true,
     quoteStyle: 'single',
+    apiBase: '/a',
   },
   vite: {
     plugins: [tailwindcss()],

@@ -21,7 +21,7 @@ function Home() {
     }
   });
 
-  const icalUrl = hostname + '/api/ical';
+  const icalUrl = hostname + '/a/ical';
 
   return (
     <div>
