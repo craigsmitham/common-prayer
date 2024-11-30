@@ -23,10 +23,16 @@ export function DayViewComponent({ date }: { date: Temporal.PlainDate }) {
   const nextLink = <Link to={dayViewPath(nextDate)}>Next &raquo;</Link>;
   const prevLink = <Link to={dayViewPath(previousDate)}>&laquo; Previous</Link>;
   const upcomingEvents = getUpcomingEvents(date);
+  const seasonDisplay =
+    season.name === 'Trinity Season' ? (
+      <span>Trinity Season &middot; Ordinary Time</span>
+    ) : (
+      <span>Season of {season.name}</span>
+    );
 
   return (
     <div>
-      <h4>{season?.longName}</h4>
+      <h4>{seasonDisplay}</h4>
       <h2>
         {dayOfMonthDisplay} of {monthDisplay}, {date.year}
       </h2>

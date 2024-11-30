@@ -43,6 +43,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       </head>
       <body>
         {children}
+
         <ScrollRestoration />
         <Scripts />
       </body>

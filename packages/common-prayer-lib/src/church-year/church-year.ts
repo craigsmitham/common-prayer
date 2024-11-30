@@ -115,7 +115,6 @@ export type Day<TName extends string, TSeason extends ChurchYearSeasons> = {
 export type Season = Period<ChurchYearSeasons, ChurchYearSeasons> & {
   isSeason: true;
 };
-
 export type Period<TName extends string, TSeason extends ChurchYearSeasons> = {
   startDate: Temporal.PlainDate;
   endDate: Temporal.PlainDate;
@@ -261,7 +260,6 @@ export function getSeason(date: Temporal.PlainDate): Season {
   }
   return season;
 }
-
 export function findDay<TDay extends string>(
   day: ChurchYearDays,
   events: Event<any, any>[],
