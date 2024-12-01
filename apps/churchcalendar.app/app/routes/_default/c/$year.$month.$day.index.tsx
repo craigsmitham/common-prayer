@@ -3,20 +3,20 @@ import { createFileRoute } from '@tanstack/react-router';
 import { Temporal } from 'temporal-polyfill';
 import { DayViewComponent } from '../../../components/DayViewComponent';
 
-export const Route = createFileRoute('/_default/c/$year/$month/$day')({
+export const Route = createFileRoute('/_default/c/$year/$month/$day/')({
   loader: (params) => {
     return params;
   },
-  component: DayViewRouteComponent,
+  component: RouteComponent,
 });
 
-export function DayViewRouteComponent() {
+function RouteComponent() {
   const params = Route.useParams();
-  const date = new Temporal.PlainDate(
-    parseInt(params.year),
-    parseInt(params.month),
-    parseInt(params.day),
-  );
+  const date = {
+    year: parseInt(params.year),
+    month: parseInt(params.month),
+    day: parseInt(params.day),
+  };
 
   return <DayViewComponent date={date} />;
 }

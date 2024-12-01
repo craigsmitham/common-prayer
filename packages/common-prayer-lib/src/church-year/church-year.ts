@@ -139,8 +139,7 @@ export function getEventsForIsoYear(isoYear: number) {
   return getEventsForEasterIsoYear(isoYear, { additionalYears: 1 }).filter(
     (e) =>
       (isDay(e) && e.date.year === isoYear) ||
-      (isPeriod(e) &&
-        (e.startDate.year === isoYear || e.endDate.year === isoYear)),
+      (isPeriod(e) && e.startDate.year <= isoYear && e.endDate.year >= isoYear),
   );
 }
 
@@ -252,18 +251,10 @@ export function getUpcomingEvents(date: Temporal.PlainDate) {
 }
 
 export function getSeason(date: Temporal.PlainDate): Season {
-  const season = getEventsForIsoYear(date.year).find(
-    (e) => isSeason(e) && isWithin(date, e),
-  ) as Season | undefined;
+  const seasons = getEventsForIsoYear(date.year).filter(isSeason);
+  const season = seasons.find((s) => isWithin(date, s));
   if (season == null) {
     throw new Error(`Could not find season for date ${date.toString()}`);
   }
   return season;
-}
-export function findDay<TDay extends string>(
-  day: ChurchYearDays,
-  events: Event<any, any>[],
-): Day<TDay, ChurchYearSeasons> | undefined {
-  const d = events.find((e) => isDay(e) && e.name === day);
-  return d != null ? (d as Day<TDay, ChurchYearSeasons>) : undefined;
 }

@@ -24,7 +24,9 @@ import { Route as DefaultSubscribeGoogleCalendarImport } from './routes/_default
 import { Route as DefaultSubscribeAppleCalendarMacosImport } from './routes/_default/subscribe/apple-calendar-macos';
 import { Route as DefaultSubscribeAppleCalendarImport } from './routes/_default/subscribe/apple-calendar';
 import { Route as DefaultCTodayImport } from './routes/_default/c/today';
-import { Route as DefaultCYearMonthDayImport } from './routes/_default/c/$year.$month.$day';
+import { Route as DefaultCYearIndexImport } from './routes/_default/c/$year.index';
+import { Route as DefaultCYearMonthIndexImport } from './routes/_default/c/$year.$month.index';
+import { Route as DefaultCYearMonthDayIndexImport } from './routes/_default/c/$year.$month.$day.index';
 
 // Create/Update Routes
 
@@ -110,9 +112,21 @@ const DefaultCTodayRoute = DefaultCTodayImport.update({
   getParentRoute: () => DefaultRoute,
 } as any);
 
-const DefaultCYearMonthDayRoute = DefaultCYearMonthDayImport.update({
-  id: '/c/$year/$month/$day',
-  path: '/c/$year/$month/$day',
+const DefaultCYearIndexRoute = DefaultCYearIndexImport.update({
+  id: '/c/$year/',
+  path: '/c/$year/',
+  getParentRoute: () => DefaultRoute,
+} as any);
+
+const DefaultCYearMonthIndexRoute = DefaultCYearMonthIndexImport.update({
+  id: '/c/$year/$month/',
+  path: '/c/$year/$month/',
+  getParentRoute: () => DefaultRoute,
+} as any);
+
+const DefaultCYearMonthDayIndexRoute = DefaultCYearMonthDayIndexImport.update({
+  id: '/c/$year/$month/$day/',
+  path: '/c/$year/$month/$day/',
   getParentRoute: () => DefaultRoute,
 } as any);
 
@@ -211,11 +225,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DefaultSubscribeOutlookForWebImport;
       parentRoute: typeof DefaultImport;
     };
-    '/_default/c/$year/$month/$day': {
-      id: '/_default/c/$year/$month/$day';
+    '/_default/c/$year/': {
+      id: '/_default/c/$year/';
+      path: '/c/$year';
+      fullPath: '/c/$year';
+      preLoaderRoute: typeof DefaultCYearIndexImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/c/$year/$month/': {
+      id: '/_default/c/$year/$month/';
+      path: '/c/$year/$month';
+      fullPath: '/c/$year/$month';
+      preLoaderRoute: typeof DefaultCYearMonthIndexImport;
+      parentRoute: typeof DefaultImport;
+    };
+    '/_default/c/$year/$month/$day/': {
+      id: '/_default/c/$year/$month/$day/';
       path: '/c/$year/$month/$day';
       fullPath: '/c/$year/$month/$day';
-      preLoaderRoute: typeof DefaultCYearMonthDayImport;
+      preLoaderRoute: typeof DefaultCYearMonthDayIndexImport;
       parentRoute: typeof DefaultImport;
     };
   }
@@ -234,7 +262,9 @@ interface DefaultRouteChildren {
   DefaultSubscribeGoogleCalendarRoute: typeof DefaultSubscribeGoogleCalendarRoute;
   DefaultSubscribeOutlookForDesktopRoute: typeof DefaultSubscribeOutlookForDesktopRoute;
   DefaultSubscribeOutlookForWebRoute: typeof DefaultSubscribeOutlookForWebRoute;
-  DefaultCYearMonthDayRoute: typeof DefaultCYearMonthDayRoute;
+  DefaultCYearIndexRoute: typeof DefaultCYearIndexRoute;
+  DefaultCYearMonthIndexRoute: typeof DefaultCYearMonthIndexRoute;
+  DefaultCYearMonthDayIndexRoute: typeof DefaultCYearMonthDayIndexRoute;
 }
 
 const DefaultRouteChildren: DefaultRouteChildren = {
@@ -250,7 +280,9 @@ const DefaultRouteChildren: DefaultRouteChildren = {
   DefaultSubscribeOutlookForDesktopRoute:
     DefaultSubscribeOutlookForDesktopRoute,
   DefaultSubscribeOutlookForWebRoute: DefaultSubscribeOutlookForWebRoute,
-  DefaultCYearMonthDayRoute: DefaultCYearMonthDayRoute,
+  DefaultCYearIndexRoute: DefaultCYearIndexRoute,
+  DefaultCYearMonthIndexRoute: DefaultCYearMonthIndexRoute,
+  DefaultCYearMonthDayIndexRoute: DefaultCYearMonthDayIndexRoute,
 };
 
 const DefaultRouteWithChildren =
@@ -270,7 +302,9 @@ export interface FileRoutesByFullPath {
   '/subscribe/google-calendar': typeof DefaultSubscribeGoogleCalendarRoute;
   '/subscribe/outlook-for-desktop': typeof DefaultSubscribeOutlookForDesktopRoute;
   '/subscribe/outlook-for-web': typeof DefaultSubscribeOutlookForWebRoute;
-  '/c/$year/$month/$day': typeof DefaultCYearMonthDayRoute;
+  '/c/$year': typeof DefaultCYearIndexRoute;
+  '/c/$year/$month': typeof DefaultCYearMonthIndexRoute;
+  '/c/$year/$month/$day': typeof DefaultCYearMonthDayIndexRoute;
 }
 
 export interface FileRoutesByTo {
@@ -286,7 +320,9 @@ export interface FileRoutesByTo {
   '/subscribe/google-calendar': typeof DefaultSubscribeGoogleCalendarRoute;
   '/subscribe/outlook-for-desktop': typeof DefaultSubscribeOutlookForDesktopRoute;
   '/subscribe/outlook-for-web': typeof DefaultSubscribeOutlookForWebRoute;
-  '/c/$year/$month/$day': typeof DefaultCYearMonthDayRoute;
+  '/c/$year': typeof DefaultCYearIndexRoute;
+  '/c/$year/$month': typeof DefaultCYearMonthIndexRoute;
+  '/c/$year/$month/$day': typeof DefaultCYearMonthDayIndexRoute;
 }
 
 export interface FileRoutesById {
@@ -304,7 +340,9 @@ export interface FileRoutesById {
   '/_default/subscribe/google-calendar': typeof DefaultSubscribeGoogleCalendarRoute;
   '/_default/subscribe/outlook-for-desktop': typeof DefaultSubscribeOutlookForDesktopRoute;
   '/_default/subscribe/outlook-for-web': typeof DefaultSubscribeOutlookForWebRoute;
-  '/_default/c/$year/$month/$day': typeof DefaultCYearMonthDayRoute;
+  '/_default/c/$year/': typeof DefaultCYearIndexRoute;
+  '/_default/c/$year/$month/': typeof DefaultCYearMonthIndexRoute;
+  '/_default/c/$year/$month/$day/': typeof DefaultCYearMonthDayIndexRoute;
 }
 
 export interface FileRouteTypes {
@@ -323,6 +361,8 @@ export interface FileRouteTypes {
     | '/subscribe/google-calendar'
     | '/subscribe/outlook-for-desktop'
     | '/subscribe/outlook-for-web'
+    | '/c/$year'
+    | '/c/$year/$month'
     | '/c/$year/$month/$day';
   fileRoutesByTo: FileRoutesByTo;
   to:
@@ -338,6 +378,8 @@ export interface FileRouteTypes {
     | '/subscribe/google-calendar'
     | '/subscribe/outlook-for-desktop'
     | '/subscribe/outlook-for-web'
+    | '/c/$year'
+    | '/c/$year/$month'
     | '/c/$year/$month/$day';
   id:
     | '__root__'
@@ -354,7 +396,9 @@ export interface FileRouteTypes {
     | '/_default/subscribe/google-calendar'
     | '/_default/subscribe/outlook-for-desktop'
     | '/_default/subscribe/outlook-for-web'
-    | '/_default/c/$year/$month/$day';
+    | '/_default/c/$year/'
+    | '/_default/c/$year/$month/'
+    | '/_default/c/$year/$month/$day/';
   fileRoutesById: FileRoutesById;
 }
 
@@ -398,7 +442,9 @@ export const routeTree = rootRoute
         "/_default/subscribe/google-calendar",
         "/_default/subscribe/outlook-for-desktop",
         "/_default/subscribe/outlook-for-web",
-        "/_default/c/$year/$month/$day"
+        "/_default/c/$year/",
+        "/_default/c/$year/$month/",
+        "/_default/c/$year/$month/$day/"
       ]
     },
     "/preview": {
@@ -447,8 +493,16 @@ export const routeTree = rootRoute
       "filePath": "_default/subscribe/outlook-for-web.tsx",
       "parent": "/_default"
     },
-    "/_default/c/$year/$month/$day": {
-      "filePath": "_default/c/$year.$month.$day.tsx",
+    "/_default/c/$year/": {
+      "filePath": "_default/c/$year.index.tsx",
+      "parent": "/_default"
+    },
+    "/_default/c/$year/$month/": {
+      "filePath": "_default/c/$year.$month.index.tsx",
+      "parent": "/_default"
+    },
+    "/_default/c/$year/$month/$day/": {
+      "filePath": "_default/c/$year.$month.$day.index.tsx",
       "parent": "/_default"
     }
   }

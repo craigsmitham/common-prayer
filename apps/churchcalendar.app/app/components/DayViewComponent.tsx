@@ -8,13 +8,19 @@ import {
 import { Link } from '@tanstack/react-router';
 import * as React from 'react';
 
-export function DayViewComponent({ date }: { date: Temporal.PlainDate }) {
+export function DayViewComponent({
+  date,
+}: {
+  date: { year: number; month: number; day: number };
+}) {
+  /*
   const dayViewPath = (d: Temporal.PlainDate) =>
     `/c/${d.year}/${d.month}/${d.day}`;
   const today = Temporal.Now.plainDateISO();
   const previousDate = date.subtract({ days: 1 });
   const nextDate = date.add({ days: 1 });
   const jsDate = new Date(date.year, date.month - 1, date.day);
+  const dayOfWeekDisplay = formatDate(jsDate, 'EEEE');
   const dayOfMonthDisplay = formatDate(jsDate, 'do');
   const monthDisplay = formatDate(jsDate, 'LLLL');
   const day = findNextDay(date);
@@ -28,16 +34,25 @@ export function DayViewComponent({ date }: { date: Temporal.PlainDate }) {
       <span>Trinity Season &middot; Ordinary Time</span>
     ) : (
       <span>Season of {season.name}</span>
-    );
+    );*/
+
+  return <div>Hello world</div>;
+  /*
 
   return (
     <div>
-      <h4>{seasonDisplay}</h4>
-      <h2>
-        {dayOfMonthDisplay} of {monthDisplay}, {date.year}
-      </h2>
-      {prevLink} | {todayLink} | {nextLink}
+      <div className={'season text-center'}>{seasonDisplay}</div>
+      <div className={'day-of-week text-center text-3xl'}>
+        {dayOfWeekDisplay}
+      </div>
+      <div className={'day-of-month text-center text-xl'}>{date.day}</div>
+      <div className={'flex justify-center items-center gap-x-4'}>
+        <div className={'month'}>{monthDisplay}</div>
+        <div className={'year'}>{date.year}</div>
+      </div>
+      <hr />
       <h3>{day?.name}</h3>
+      <hr />
       <h3>Upcoming</h3>
       <ul>
         {upcomingEvents.map(({ event, upcomingDate }) => {
@@ -59,4 +74,6 @@ export function DayViewComponent({ date }: { date: Temporal.PlainDate }) {
       </ul>
     </div>
   );
+
+   */
 }
