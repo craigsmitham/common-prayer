@@ -3,16 +3,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build",
+    "vite-build": "vite build",
+    "build-vercel-workaround": "vite build && node vercel/prepare.js",
     "build-vercel": "react-router build && node vercel/prepare.js",
-    "dev": "react-router dev",
-    "start": "react-router-serve ./build/server/index.js",
+    "build": "react-router build && node vercel/prepare.js",
+    "dev": "cross-env NODE_ENV=development node ./dev-server.js",
+    "dev-gf": "react-router dev",
+    "start-rr": "react-router-serve ./build/server/index.js",
+    "start": "node ./build/server/index.js",
     "typecheck": "react-router typegen && tsc --build --noEmit"
   },
   "dependencies": {
     "@react-router/node": "^7.0.1",
     "@react-router/serve": "^7.0.1",
     "date-fns": "^4.1.0",
+    "express": "^4.21.1",
     "isbot": "^5.1.17",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -20,14 +25,15 @@
     "temporal-polyfill": "^0.2.5"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "@react-router/dev": "^7.0.1",
+    "@tailwindcss/vite": "^4.0.0-beta.4",
     "@types/node": "^20",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.49",
     "tailwindcss": "^4.0.0-beta.4",
-    "@tailwindcss/vite": "^4.0.0-beta.4",
     "typescript": "^5.6.3",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.2"
