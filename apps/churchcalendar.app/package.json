@@ -3,11 +3,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "react-router build && node vercel/prepare.js",
+    "build": "react-router build",
+    "build-vercel": "react-router build && node vercel/prepare.js",
     "dev": "react-router dev",
     "start": "node ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc --build --noEmit",
-    "build2": "react-router build && node vercel/prepare.js"
+    "typecheck": "react-router typegen && tsc --build --noEmit"
   },
   "dependencies": {
     "@react-router/node": "^7.0.2",
