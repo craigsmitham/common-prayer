@@ -1,10 +1,16 @@
 import * as fsp from 'node:fs/promises';
 
-await fsp.rm('.vercel', { recursive: true }).catch(() => {});
-await fsp.mkdir('.vercel/output/static', { recursive: true });
+const vercelDir = '../../.vercel';
+const outDir = vercelDir + '/output';
+const staticDir = vercelDir + '/static';
+const functionsDir = vercelDir + '/functions';
 
-await fsp.cp('vercel/output/', '.vercel/output', { recursive: true });
-await fsp.cp('build/client/', '.vercel/output/static', { recursive: true });
-await fsp.cp('build/server/', '.vercel/output/functions/index.func', {
+await fsp.rm(outDir, { recursive: true }).catch(() => {});
+
+await fsp.mkdir(`${outDir}/static`, { recursive: true });
+
+await fsp.cp('vercel/output/', outDir, { recursive: true });
+await fsp.cp('build/client/', staticDir, { recursive: true });
+await fsp.cp('build/server/', `${outDir}/functions/index.func`, {
   recursive: true,
 });
