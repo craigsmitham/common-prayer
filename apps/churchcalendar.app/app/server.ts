@@ -10,5 +10,8 @@ const server = await createHonoServer({
   },
 });
 
-console.log('exporting server inside vercel handler');
-export default handle(server);
+console.log('creating vercel handler for hono server');
+const vercelServer = handle(server);
+
+console.log('exporting vercel server');
+export default vercelServer;
