@@ -11,12 +11,12 @@ const server = await createHonoServer({
 
 const hdl =
   (app: Hono<any, any, any>) =>
-  (req: Request): Response | Promise<Response> => {
+  async (req: Request): Promise<Response> => {
     try {
       const newUrl = new URL('https://' + process.env.VERCEL_URL + req.url);
       const newReq = new Request(newUrl, req);
       console.log('about to handle request', newReq.url);
-      const response = app.fetch(newReq);
+      const response = await app.fetch(newReq);
       console.log('successfully handled request', newReq.url);
       return response;
     } catch (err) {
