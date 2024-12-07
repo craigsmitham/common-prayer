@@ -14,4 +14,8 @@ const app: Hono = await createHonoServer({
   },
 });
 
-export default handle(app);
+const app2 = new Hono();
+
+app2.get('/', (c) => c.text('hello world basic'));
+
+export default handle(app2);
