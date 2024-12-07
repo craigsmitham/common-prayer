@@ -2,7 +2,7 @@ import * as fsp from 'node:fs/promises';
 
 const vercelDir = '../../.vercel';
 const outDir = vercelDir + '/output';
-const staticDir = vercelDir + '/static';
+const staticDir = outDir + '/static';
 const functionsDir = vercelDir + '/functions';
 
 await fsp.rm(outDir, { recursive: true }).catch(() => {});
