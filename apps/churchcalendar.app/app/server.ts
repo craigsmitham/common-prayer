@@ -1,7 +1,6 @@
 import { createHonoServer } from 'react-router-hono-server/node';
 import { Hono } from 'hono';
 
-console.log('creating hono server');
 const server = await createHonoServer({
   configure: (server) => {
     server.get('/api/test', (c) => {
@@ -10,15 +9,22 @@ const server = await createHonoServer({
   },
 });
 
-export const handle =
+const hdl =
   (app: Hono<any, any, any>) =>
   (req: Request): Response | Promise<Response> => {
-    console.log('request URL', req.url);
-    return app.fetch(req);
+    try {
+      const newUrl = new URL('https://' + process.env.VERCEL_URL + req.url);
+      const newReq = new Request(newUrl, req);
+      console.log('about to handle request', newReq.url);
+      const response = app.fetch(newReq);
+      console.log('successfully handled request', newReq.url);
+      return response;
+    } catch (err) {
+      console.error('error handling', err);
+      throw err;
+    }
   };
 
-console.log('creating vercel handler for hono server');
-const vercelServer = handle(server);
+const vercelServer = hdl(server);
 
-console.log('exporting vercel server', process.env);
 export default vercelServer;
