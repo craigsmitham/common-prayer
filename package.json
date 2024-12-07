@@ -17,6 +17,7 @@
     "pretty-quick": "^4.0.0"
   },
   "dependencies": {
+    "churchcalendar.app-rr": "*",
     "cpy-cli": "^5.0.0"
   }
 }
