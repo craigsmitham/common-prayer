@@ -10,6 +10,6 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const today = Temporal.Now.plainDateISO().add({ days: 1 });
+  const today = Temporal.Now.plainDateISO();
   return <DayViewComponent date={today} />;
 }
