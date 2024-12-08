@@ -4,12 +4,12 @@ import { DayViewComponent } from '~/components/DayViewComponent';
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: 'New React Router App' },
-    { name: 'description', content: 'Welcome to React Router!' },
+    { title: 'ChurchCalendar.app' },
+    { name: 'description', content: 'Welcome to ChurchCalendar.app' },
   ];
 }
 
 export default function Home() {
-  const today = Temporal.Now.plainDateISO();
+  const today = Temporal.Now.plainDateISO().add({ days: 1 });
   return <DayViewComponent date={today} />;
 }

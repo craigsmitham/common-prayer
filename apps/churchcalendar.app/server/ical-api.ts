@@ -5,7 +5,10 @@ import * as process from 'node:process';
 function getHostUrl(req: Request) {
   const envPort = Number.parseInt(process.env.PORT ?? '3000');
   const port = envPort != null && envPort !== 80 ? `:` + envPort : '';
-  return req.protocol + '://' + req.hostname + port;
+  const vercelUrl = process.env.VERCEL_URL;
+  return (
+    req.protocol + '://' + (vercelUrl != null ? vercelUrl : req.hostname + port)
+  );
 }
 
 function getPathUrl(req: Request) {
@@ -14,11 +17,6 @@ function getPathUrl(req: Request) {
 
 export const icalApi = Router();
 icalApi.get('/church-year.ics', (req, res) => {
-  console.log({
-    pathUrl: getPathUrl(req),
-    hostUrl: getHostUrl(req),
-  });
-
   const calendar = createChurchCalendar({
     calendarAppUrl: getHostUrl(req),
     calendarUrl: getPathUrl(req),

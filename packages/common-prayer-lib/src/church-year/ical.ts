@@ -12,7 +12,7 @@ export function createChurchCalendar({
   calendarUrl: string;
   calendarAppUrl: string;
 }) {
-  const calendar = ical({ name: 'churchcalendar.app' });
+  const calendar = ical({ name: 'churchcalendar.app', url: calendarUrl });
   calendar.method(ICalCalendarMethod.REQUEST);
 
   const events = getEventsForEasterIsoYear(new Date().getFullYear(), {
@@ -32,7 +32,7 @@ ${calendarAppUrl}`,
         html: `${day.description}<hr />
 <a href="${calendarAppUrl}">${calendarAppUrl}</a>`,
       },
-      url: 'https://www.churchcalendar.app',
+      // url: 'https://www.churchcalendar.app',
     });
   });
 
