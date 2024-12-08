@@ -1,6 +1,7 @@
 import { createRequestHandler } from '@react-router/express';
 import express from 'express';
 import 'react-router';
+import { icalApi } from './ical-api';
 
 declare module 'react-router' {
   export interface AppLoadContext {
@@ -9,6 +10,7 @@ declare module 'react-router' {
 }
 
 const app = express();
+app.use('/ical', icalApi);
 
 app.use(
   createRequestHandler({
