@@ -14,7 +14,9 @@ export default defineConfig(({ isSsrBuild, command }) => {
       noExternal: command === 'build' ? true : undefined,
     },
     plugins: [
-      reactRouterHonoServer(),
+      reactRouterHonoServer({
+        runtime: 'node',
+      }),
       reactRouter(),
       tsconfigPaths(),
       tailwindcss(),
