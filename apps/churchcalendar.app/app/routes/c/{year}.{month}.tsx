@@ -12,7 +12,7 @@ export default function YearMonthViewPageComponent(
   const month = parseInt(params.params.month);
   const events = getEventsForIsoYear(year)
     .filter((e) => isDay(e))
-    .filter((e) => e.date.month === parseInt(params.params.month));
+    .filter((e) => e.date.month === month);
   console.log(events);
   console.log(params);
 

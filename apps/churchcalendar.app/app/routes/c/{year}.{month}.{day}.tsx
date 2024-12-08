@@ -1,22 +1,12 @@
-import type { Route } from './+types/{year}';
-import {
-  getEventsForIsoYear,
-  isDay,
-} from 'common-prayer-lib/src/church-year/church-year';
+import type { Route } from './+types/{year}.{month}.{day}';
+import { Temporal } from 'temporal-polyfill';
+import { DayViewComponent } from '~/components/DayViewComponent';
 
 export default function Home(params: Route.ComponentProps) {
   // TODO: better error handling/404ing
   const year = parseInt(params.params.year);
-  const events = getEventsForIsoYear(year).filter((e) => isDay(e));
-
-  return (
-    <ul>
-      {events.map((event) => (
-        <li key={event.name}>
-          {event.date.month} {event.date.day} {event.name}
-        </li>
-      ))}
-      <li></li>
-    </ul>
-  );
+  const month = parseInt(params.params.month);
+  const day = parseInt(params.params.day);
+  const date = new Temporal.PlainDate(year, month, day);
+  return <DayViewComponent date={date} />;
 }
