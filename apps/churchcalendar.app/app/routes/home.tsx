@@ -1,5 +1,6 @@
 import type { Route } from './+types/home';
-import { Welcome } from '../welcome/welcome';
+import { Temporal } from 'temporal-polyfill';
+import { DayViewComponent } from '~/components/DayViewComponent';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -8,10 +9,7 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-export function loader({ context }: Route.LoaderArgs) {
-  return { message: context.VALUE_FROM_VERCEL };
-}
-
-export default function Home({ loaderData }: Route.ComponentProps) {
-  return <Welcome message={loaderData.message} />;
+export default function Home() {
+  const today = Temporal.Now.plainDateISO();
+  return <DayViewComponent date={today} />;
 }
