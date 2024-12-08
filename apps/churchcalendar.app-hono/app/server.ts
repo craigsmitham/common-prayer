@@ -1,13 +1,6 @@
 import { createHonoServer } from 'react-router-hono-server/node';
-import { Hono } from 'hono';
-import { handle } from 'hono/vercel';
 
-process.env.NODE_ENV = 'production';
-console.log(process.env.NODE_ENV);
-const server = await createHonoServer({
-  customNodeServer: {
-    serverOptions: {},
-  },
+export default await createHonoServer({
   configure: (server) => {
     server.get('/api/test', (c) => {
       return c.text('hello world');
@@ -15,9 +8,7 @@ const server = await createHonoServer({
   },
 });
 
-const hono = new Hono();
-hono.get('/api/hello', (c) => c.text('well, hello!'));
-
+/*
 const hdl =
   (app: Hono<any, any, any>) =>
   async (req: Request): Promise<Response> => {
@@ -37,3 +28,4 @@ const hdl =
 const vercelServer = handle(hono);
 
 export default vercelServer;
+*/
