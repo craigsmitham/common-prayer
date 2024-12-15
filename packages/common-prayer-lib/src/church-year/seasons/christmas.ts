@@ -2,7 +2,7 @@ import { Temporal } from 'temporal-polyfill';
 import {
   Day,
   Event,
-  Period,
+  Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { EasterSeasonDay } from 'common-prayer-lib/src/church-year/seasons/easter';
 
@@ -71,8 +71,9 @@ export function getChristmasEvents(
       upcoming: false,
     };
   });
-  const christmasSeason: Period<SeasonOfChristmas, SeasonOfChristmas> = {
+  const christmasSeason: Season<SeasonOfChristmas> = {
     name: 'Christmas',
+    slug: 'christmas-season',
     type: 'Season',
     season: 'Christmas',
     isSeason: true,

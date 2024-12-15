@@ -1,7 +1,7 @@
 import {
   Day,
   Event,
-  Period,
+  Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { getFirstDateOfAdvent } from 'common-prayer-lib/src/church-year/seasons/advent';
 import {
@@ -31,8 +31,9 @@ export function getTrinitySeasonEvents(
     upcoming: { period: 'same-season' },
   };
 
-  const trinitySeason: Period<TrinitySeason, TrinitySeason> = {
+  const trinitySeason: Season<TrinitySeason> = {
     name: 'Trinity Season',
+    slug: 'trinity-season',
     season: 'Trinity Season',
     type: 'Season',
     shortName: null,

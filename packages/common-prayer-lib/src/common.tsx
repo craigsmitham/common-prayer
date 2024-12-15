@@ -25,4 +25,4 @@ export const TestSelect = () => (
   </Select>
 );
 
-export const projectName = '(c) 2024 Common Prayer Project';
+export const projectName = '(y) 2024 Common Prayer Project';

@@ -8,7 +8,15 @@ import {
 import * as React from 'react';
 import { Link } from 'react-router';
 
-export function DayViewComponent({ date }: { date: Temporal.PlainDate }) {
+export function getDayOfMonthDetailPath({
+  year,
+  month,
+  day,
+}: Temporal.PlainDate) {
+  return `/y/${year}/m/${month}/${day}`;
+}
+
+export function DayOfMonthDetail({ date }: { date: Temporal.PlainDate }) {
   const dayViewPath = (d: Temporal.PlainDate) =>
     `/c/${d.year}/${d.month}/${d.day}`;
   const today = Temporal.Now.plainDateISO();
@@ -22,7 +30,7 @@ export function DayViewComponent({ date }: { date: Temporal.PlainDate }) {
   const monthDisplay = formatDate(jsDate, 'LLLL');
   const day = findNextDay(date);
   const season = getSeason(date);
-  const todayLink = <Link to={'/c/today'}>Today</Link>;
+  const todayLink = <Link to={'/y/today'}>Today</Link>;
   const nextLink = <Link to={dayViewPath(nextDate)}>Next &raquo;</Link>;
   const prevLink = <Link to={dayViewPath(previousDate)}>&laquo; Previous</Link>;
   const upcomingEvents = getUpcomingEvents(date);

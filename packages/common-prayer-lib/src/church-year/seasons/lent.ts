@@ -1,7 +1,7 @@
 import {
   Day,
   Event,
-  Period,
+  Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import {
   EasterSeasonDay,
@@ -103,8 +103,9 @@ export function getLentEvents(
       period: 'same-season',
     },
   };
-  const seasonOfLent: Period<SeasonOfLent, SeasonOfLent> = {
+  const seasonOfLent: Season<SeasonOfLent> = {
     name: 'Lent',
+    slug: 'lent',
     season: 'Lent',
     type: 'x',
     shortName: null,

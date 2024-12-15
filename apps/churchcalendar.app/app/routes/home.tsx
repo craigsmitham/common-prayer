@@ -1,6 +1,6 @@
 import type { Route } from './+types/home';
 import { Temporal } from 'temporal-polyfill';
-import { DayViewComponent } from '~/components/DayViewComponent';
+import { DayOfMonthDetail } from '~/components/DayOfMonthDetail';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -11,5 +11,5 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const today = Temporal.Now.plainDateISO();
-  return <DayViewComponent date={today} />;
+  return <DayOfMonthDetail date={today} />;
 }

@@ -2,7 +2,7 @@ import { Temporal } from 'temporal-polyfill';
 import {
   Day,
   Event,
-  Period,
+  Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { getAshWednesdayDate } from 'common-prayer-lib/src/church-year/seasons/lent';
 import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
@@ -64,8 +64,9 @@ export function getEpiphanyEvents(
       period: 'same-season',
     },
   };
-  const epiphanySeason: Period<SeasonOfEpiphany, SeasonOfEpiphany> = {
+  const epiphanySeason: Season<SeasonOfEpiphany> = {
     name: 'Epiphany',
+    slug: 'epiphany-season',
     season: 'Epiphany',
     type: 'x',
     shortName: null,

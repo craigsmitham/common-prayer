@@ -106,15 +106,18 @@ type EventDefinition<
 
 export type Event<TName extends string, TSeason extends ChurchYearSeasons> =
   | Day<TName, TSeason>
-  | Period<TName | TSeason, TSeason>;
+  | Period<TName | TSeason, TSeason>
+  | Season<ChurchYearSeasons>;
 
 export type Day<TName extends string, TSeason extends ChurchYearSeasons> = {
   date: Temporal.PlainDate;
 } & EventDefinition<TName, TSeason>;
 
-export type Season = Period<ChurchYearSeasons, ChurchYearSeasons> & {
-  isSeason: true;
-};
+export type Season<TName extends ChurchYearSeasons = ChurchYearSeasons> =
+  Period<TName, ChurchYearSeasons> & {
+    isSeason: true;
+    slug: string;
+  };
 export type Period<TName extends string, TSeason extends ChurchYearSeasons> = {
   startDate: Temporal.PlainDate;
   endDate: Temporal.PlainDate;
