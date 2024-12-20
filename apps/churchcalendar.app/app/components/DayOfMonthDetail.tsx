@@ -18,7 +18,7 @@ export function getDayOfMonthDetailPath({
 
 export function DayOfMonthDetail({ date }: { date: Temporal.PlainDate }) {
   const dayViewPath = (d: Temporal.PlainDate) =>
-    `/c/${d.year}/${d.month}/${d.day}`;
+    `/${d.year}/${d.month}/${d.day}`;
   const today = Temporal.Now.plainDateISO();
 
   const previousDate = date.subtract({ days: 1 });
