@@ -138,6 +138,7 @@ function _getEventsForEasterIsoYear(easterIsoYear: number): ChurchYearEvent[] {
     ...getTrinitySeasonEvents(easter),
   ];
 }
+
 export function getEventsForIsoYear(isoYear: number) {
   return getEventsForEasterIsoYear(isoYear, { additionalYears: 1 }).filter(
     (e) =>

@@ -4,14 +4,17 @@ import { Link } from 'react-router';
 
 export default function YearByMonthsPage({ params }: Route.ComponentProps) {
   const months = getMonths();
-  const year = params.year;
+  const isoYear = parseInt(params.isoYear);
   return (
     <div>
-      <h1>{year} by months</h1>
+      <h1>
+        <Link to={`/${isoYear - 1}`}>&laquo;</Link>&nbsp;{isoYear}&nbsp;
+        <Link to={`/${isoYear + 1}`}>&raquo;</Link>
+      </h1>
       {months.map((month) => (
         <div>
           <h3>
-            <Link to={`/${year}/${month.month}`}>{month.name}</Link>
+            <Link to={`/${isoYear}/${month.month}`}>{month.name}</Link>
           </h3>
         </div>
       ))}

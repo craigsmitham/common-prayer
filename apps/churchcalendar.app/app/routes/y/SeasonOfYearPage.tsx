@@ -1,4 +1,4 @@
-import type { Route } from '../../../../.react-router/types/app/routes/y';
+import type { Route } from './+types/SeasonOfYearPage';
 
 export default function SeasonOfYearPage(props: Route.ComponentProps) {
   return <div>SOY detail</div>;

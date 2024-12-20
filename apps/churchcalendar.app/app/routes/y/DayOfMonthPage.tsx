@@ -3,9 +3,9 @@ import { Temporal } from 'temporal-polyfill';
 import { DayOfMonthDetail } from '~/components/DayOfMonthDetail';
 
 export default function DayOfMonthPage(props: Route.ComponentProps) {
-  const year = parseInt(props.params.year);
-  const month = parseInt(props.params.month);
-  const day = parseInt(props.params.day);
-  const date = new Temporal.PlainDate(year, month, day);
+  const isoYear = parseInt(props.params.isoYear);
+  const isoMonth = parseInt(props.params.isoMonth);
+  const isoDay = parseInt(props.params.isoDay);
+  const date = new Temporal.PlainDate(isoYear, isoMonth, isoDay);
   return <DayOfMonthDetail date={date} />;
 }

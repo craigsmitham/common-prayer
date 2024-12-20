@@ -9,22 +9,40 @@ import { getDayOfMonthDetailPath } from '~/components/DayOfMonthDetail';
 import { Link } from 'react-router';
 
 export default function MonthOfYearPage(props: Route.ComponentProps) {
-  const year = parseInt(props.params.year);
-  const month = parseInt(props.params.month);
-  const firstOfMonth = new Temporal.PlainDate(year, month, 1);
-  const days = getEventsForIsoYear(year)
+  const isoYear = parseInt(props.params.isoYear);
+  const isoMonth = parseInt(props.params.isoMonth);
+  const month = new Temporal.PlainYearMonth(isoYear, isoMonth);
+  const prevMonth = month.subtract({ months: 1 });
+  const nextMonth = month.add({ months: 1 });
+  const firstOfMonth = new Temporal.PlainDate(isoYear, isoMonth, 1);
+  const observedDays = getEventsForIsoYear(isoYear)
     .filter((e) => isDay(e))
-    .filter((d) => d.date.year === year && d.date.month === month);
-  const monthDisplay = firstOfMonth.toLocaleString('en-US', {});
-  const test = getMonthName(month);
+    .filter((d) => d.date.year === isoYear && d.date.month === isoMonth);
+
+  // TODO: group observed days by day, render in groups
+
   return (
     <div>
-      <h1>{getMonthName(month)}</h1>
-      <h2>{year}</h2>
+      <h1>{getMonthName(isoMonth)}</h1>
+      <h2>
+        <Link
+          to={`/${prevMonth.year}/${prevMonth.month}`}
+          title={getMonthName(prevMonth.month)}
+        >
+          &laquo;
+        </Link>
+        &nbsp;<Link to={`/${isoYear}`}>{isoYear}</Link>&nbsp;
+        <Link
+          to={`/${nextMonth.year}/${nextMonth.month}`}
+          title={getMonthName(nextMonth.month)}
+        >
+          &raquo;
+        </Link>
+      </h2>
       <ul>
-        {days.map((day, index) => (
+        {observedDays.map((day, index) => (
           <li key={index}>
-            <Link to={getDayOfMonthDetailPath(day.date)}></Link>: {day.name}
+            <Link to={getDayOfMonthDetailPath(day.date)}>{day.name}</Link>
           </li>
         ))}
       </ul>

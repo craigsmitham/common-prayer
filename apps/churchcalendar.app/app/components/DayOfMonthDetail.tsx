@@ -13,7 +13,7 @@ export function getDayOfMonthDetailPath({
   month,
   day,
 }: Temporal.PlainDate) {
-  return `/y/${year}/m/${month}/${day}`;
+  return `/${year}/${month}/${day}`;
 }
 
 export function DayOfMonthDetail({ date }: { date: Temporal.PlainDate }) {
@@ -43,14 +43,20 @@ export function DayOfMonthDetail({ date }: { date: Temporal.PlainDate }) {
 
   return (
     <div>
-      <div className={'season text-center'}>{seasonDisplay}</div>
+      <div className={'season text-center'}>
+        <Link to={`/${date.year}/seasons/${season.slug}`}>{seasonDisplay}</Link>
+      </div>
       <div className={'day-of-week text-center text-4xl'}>
         {dayOfWeekDisplay}
       </div>
       <div className={'day-of-month text-center text-9xl'}>{date.day}</div>
       <div className={'flex justify-center items-center gap-x-4 text-4xl'}>
-        <div className={'month'}>{monthDisplay}</div>
-        <div className={'year'}>{date.year}</div>
+        <div className={'month'}>
+          <Link to={`/${date.year}/${date.month}`}>{monthDisplay}</Link>
+        </div>
+        <div className={'year'}>
+          <Link to={`/${date.year}`}>{date.year}</Link>
+        </div>
       </div>
       <hr />
       <h3>{day?.name}</h3>
