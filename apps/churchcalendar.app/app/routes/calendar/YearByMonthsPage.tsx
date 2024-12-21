@@ -62,20 +62,27 @@ export default function YearByMonthsPage({ params }: Route.ComponentProps) {
           </h3>
           {datesByMonth.map(({ month, daysByDate }) => (
             <div key={month.toString()} className={'mb-2'}>
-              <h4 className={'text-xl font-semibold'}>{getMonthName(month)}</h4>
+              <h4 className={'text-xl font-semibold'}>
+                <Link to={`/${month.year}/${month.month}`}>
+                  {getMonthName(month)}
+                </Link>
+              </h4>
               {daysByDate.map(({ date, days }) => (
                 <div
                   key={date.toString()}
                   className={'flex border-t py-1 w-full mt-2'}
                 >
-                  <div className={'w-18 flex'}>
+                  <Link
+                    to={`/${date.year}/${date.month}/${date.day}`}
+                    className={'w-18 flex'}
+                  >
                     <div className={'text-center font-semibold w-6'}>
                       {date.day}
                     </div>
                     <div className={'pl-1'}>
                       {getWeekdayName(date.dayOfWeek, 'short')}
                     </div>
-                  </div>
+                  </Link>
                   <div className={'flex-1'}>
                     {days.map((day) => (
                       <div key={day.name}>{day.name}</div>
