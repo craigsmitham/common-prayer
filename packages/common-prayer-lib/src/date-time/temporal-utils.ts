@@ -51,3 +51,22 @@ export function getMonthsInYear(isoYear: number): Temporal.PlainYearMonth[] {
     (_, i) => new Temporal.PlainYearMonth(isoYear, i + 1),
   );
 }
+
+export function periodOverlapsMonth(
+  {
+    startDate,
+    endDate,
+  }: { startDate: Temporal.PlainDate; endDate: Temporal.PlainDate },
+  yearMonth: Temporal.PlainYearMonth,
+) {
+  // Convert the yearMonth to start and end dates
+  const monthStart = yearMonth.toPlainDate({ day: 1 });
+  const monthEnd = yearMonth.toPlainDate({ day: yearMonth.daysInMonth });
+
+  // Check if the periods overlap:
+  // Period starts before or during the month AND ends during or after the month
+  return (
+    Temporal.PlainDate.compare(startDate, monthEnd) <= 0 &&
+    Temporal.PlainDate.compare(endDate, monthStart) >= 0
+  );
+}

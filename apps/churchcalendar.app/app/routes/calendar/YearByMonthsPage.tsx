@@ -10,10 +10,8 @@ import {
   getDatesInMonth,
   isWithin,
 } from 'common-prayer-lib/src/date-time/temporal-utils';
-import {
-  getMonthName,
-  getWeekdayName,
-} from 'common-prayer-lib/src/date-time/months';
+import { getMonthName } from 'common-prayer-lib/src/date-time/months';
+import { DateList } from '~/components/DateList';
 
 export default function YearByMonthsPage({ params }: Route.ComponentProps) {
   const isoYear = parseInt(params.isoYear);
@@ -35,15 +33,9 @@ export default function YearByMonthsPage({ params }: Route.ComponentProps) {
         })
         .filter(({ month }) => month.year === isoYear);
 
-      //.filter((d) => d.daysByDate.length > 0);
-
       const seasonContinued = season.startDate.year < isoYear;
       return { season, seasonContinued, datesByMonth };
     });
-
-  // Group by month
-  // Group by season
-  // Group by day
 
   return (
     <div>
@@ -69,29 +61,7 @@ export default function YearByMonthsPage({ params }: Route.ComponentProps) {
                   {getMonthName(month)}
                 </Link>
               </h4>
-              {daysByDate.map(({ date, days }) => (
-                <div
-                  key={date.toString()}
-                  className={'flex border-t py-1 w-full mt-2'}
-                >
-                  <Link
-                    to={`/${date.year}/${date.month}/${date.day}`}
-                    className={'w-18 flex'}
-                  >
-                    <div className={'text-center font-semibold w-6'}>
-                      {date.day}
-                    </div>
-                    <div className={'pl-1'}>
-                      {getWeekdayName(date.dayOfWeek, 'short')}
-                    </div>
-                  </Link>
-                  <div className={'flex-1'}>
-                    {days.map((day) => (
-                      <div key={day.name}>{day.name}</div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              <DateList daysByDate={daysByDate} />
             </div>
           ))}
         </div>
