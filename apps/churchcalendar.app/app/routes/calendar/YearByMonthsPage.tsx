@@ -68,11 +68,13 @@ export default function YearByMonthsPage({ params }: Route.ComponentProps) {
                   key={date.toString()}
                   className={'flex border-t py-1 w-full mt-2'}
                 >
-                  <div className={'w-20 flex'}>
+                  <div className={'w-18 flex'}>
                     <div className={'text-center font-semibold w-6'}>
                       {date.day}
                     </div>
-                    <div>{getWeekdayName(date.dayOfWeek, 'short')}</div>
+                    <div className={'pl-1'}>
+                      {getWeekdayName(date.dayOfWeek, 'short')}
+                    </div>
                   </div>
                   <div className={'flex-1'}>
                     {days.map((day) => (
