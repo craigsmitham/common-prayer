@@ -47,10 +47,12 @@ export default function YearByMonthsPage({ params }: Route.ComponentProps) {
 
   return (
     <div>
-      <div className={'flex gap-3 text-5xl'}>
+      <div className={'flex gap-3 text-5xl '}>
+        <div className={'flex-1'}></div>
         <Link to={`/${isoYear - 1}`}>&laquo;</Link>
         <h1>{isoYear}</h1>
         <Link to={`/${isoYear + 1}`}>&raquo;</Link>
+        <div className={'flex-1'}></div>
       </div>
       {monthsBySeason.map(({ season, seasonContinued, datesByMonth }) => (
         <div
