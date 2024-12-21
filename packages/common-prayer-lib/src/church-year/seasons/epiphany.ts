@@ -26,7 +26,7 @@ export function getEpiphanyEvents(
 ): EpiphanySeasonEvent[] {
   const ashWednesday = getAshWednesdayDate(christmas.date.year + 1);
   const epiphany: EpiphanySeasonDay<'Epiphany'> = {
-    monthName: 'Epiphany',
+    name: 'Epiphany',
     season: 'Epiphany',
     type: 'Principal Feast',
     shortName: null,
@@ -39,7 +39,7 @@ export function getEpiphanyEvents(
     },
   };
   const transfigurationSunday: EpiphanySeasonDay<'Transfiguration Sunday'> = {
-    monthName: 'Transfiguration Sunday',
+    name: 'Transfiguration Sunday',
     season: 'Epiphany',
     type: 'x',
     date: sundayBefore(ashWednesday),
@@ -52,7 +52,7 @@ export function getEpiphanyEvents(
     },
   };
   const shroveTuesday: EpiphanySeasonDay<'Shrove Tuesday'> = {
-    monthName: 'Shrove Tuesday',
+    name: 'Shrove Tuesday',
     season: 'Epiphany',
     type: 'x',
     shortName: null,
@@ -65,7 +65,7 @@ export function getEpiphanyEvents(
     },
   };
   const epiphanySeason: Season<SeasonOfEpiphany> = {
-    monthName: 'Epiphany',
+    name: 'Epiphany',
     slug: 'epiphany-season',
     season: 'Epiphany',
     type: 'x',

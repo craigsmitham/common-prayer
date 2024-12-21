@@ -126,10 +126,20 @@ export type Period<TName extends string, TSeason extends ChurchYearSeasons> = {
 
 type ChurchYearEvent = Event<ChurchYearDays, ChurchYearSeasons>;
 
+const memoizedEvents = new Map<number, ChurchYearEvent[] | 'calculating'>();
+
 function _getEventsForEasterIsoYear(easterIsoYear: number): ChurchYearEvent[] {
+  let events = memoizedEvents.get(easterIsoYear);
+  if (events === 'calculating') {
+    throw new Error('already calculating events for easter ISO year');
+  }
+  if (events != null) {
+    return events;
+  }
+  memoizedEvents.set(easterIsoYear, 'calculating');
   const easter = getEasterDay(easterIsoYear);
   const christmas = getChristmasDay(easter);
-  return [
+  events = [
     ...getAdventEvents(christmas),
     ...getChristmasEvents(christmas),
     ...getEpiphanyEvents(christmas),
@@ -137,6 +147,8 @@ function _getEventsForEasterIsoYear(easterIsoYear: number): ChurchYearEvent[] {
     ...getEasterEvents(easter),
     ...getTrinitySeasonEvents(easter),
   ];
+  memoizedEvents.set(easterIsoYear, events);
+  return events;
 }
 
 export function getEventsForIsoYear(isoYear: number) {

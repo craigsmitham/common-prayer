@@ -45,7 +45,7 @@ export function getEasterDay(
 ): EasterSeasonDay<'Easter Sunday'> {
   const date = getEasterDate(isoYear);
   return {
-    monthName: 'Easter Sunday',
+    name: 'Easter Sunday',
     season: 'Easter',
     type: 'Principal Feast',
     shortName: null,
@@ -70,7 +70,7 @@ export function getEasterEvents(
   easter: EasterSeasonDay<'Easter Sunday'>,
 ): EasterSeasonEvent[] {
   const ascensionDay: EasterSeasonDay<'Ascension Day'> = {
-    monthName: 'Ascension Day',
+    name: 'Ascension Day',
     season: 'Easter',
     type: 'Principal Feast',
     shortName: null,
@@ -83,7 +83,7 @@ export function getEasterEvents(
     },
   };
   const ascensionSunday: EasterSeasonDay<'Sunday after Ascension Day'> = {
-    monthName: 'Sunday after Ascension Day',
+    name: 'Sunday after Ascension Day',
     season: 'Easter',
     type: 'x',
     shortName: null,
@@ -96,7 +96,7 @@ export function getEasterEvents(
     },
   };
   const feastOfPentecost: EasterSeasonDay<'Feast of Pentecost'> = {
-    monthName: 'Feast of Pentecost',
+    name: 'Feast of Pentecost',
     season: 'Easter',
     type: 'Principal Feast',
     shortName: null,
@@ -110,7 +110,7 @@ export function getEasterEvents(
   };
 
   const easterSeason: Season<SeasonOfEaster> = {
-    monthName: 'Easter',
+    name: 'Easter',
     slug: 'easter-season',
     season: 'Easter',
     type: 'Season',

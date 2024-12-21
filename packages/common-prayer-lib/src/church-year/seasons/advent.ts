@@ -33,7 +33,7 @@ export function getAdventEvents(
 ): AdventSeasonEvent[] {
   const firstDateOfAdvent = getFirstDateOfAdvent(christmas.date.year);
   const christmasEve: AdventSeasonDay = {
-    monthName: 'Christmas Eve',
+    name: 'Christmas Eve',
     season: 'Advent',
     type: 'Day of Special Devotion',
     shortName: null,
@@ -46,7 +46,7 @@ export function getAdventEvents(
   };
   const sundays: AdventSeasonDay[] = [
     {
-      monthName: '1st Sunday of Advent',
+      name: '1st Sunday of Advent',
       season: 'Advent',
       type: 'Sunday',
       shortName: null,
@@ -58,7 +58,7 @@ export function getAdventEvents(
       upcoming: { period: 'next-30-days' },
     },
     {
-      monthName: '2nd Sunday of Advent',
+      name: '2nd Sunday of Advent',
       season: 'Advent',
       type: 'Sunday',
       shortName: null,
@@ -70,7 +70,7 @@ export function getAdventEvents(
       upcoming: { period: 'same-season' },
     },
     {
-      monthName: '3rd Sunday of Advent',
+      name: '3rd Sunday of Advent',
       season: 'Advent',
       type: 'Sunday',
       shortName: null,
@@ -82,7 +82,7 @@ export function getAdventEvents(
       upcoming: { period: 'same-season' },
     },
     {
-      monthName: '4th Sunday of Advent',
+      name: '4th Sunday of Advent',
       season: 'Advent',
       type: 'Sunday',
       shortName: null,
@@ -95,7 +95,7 @@ export function getAdventEvents(
     },
   ];
   const adventSeason: Season<SeasonOfAdvent> = {
-    monthName: 'Advent',
+    name: 'Advent',
     slug: 'advent-season',
     isSeason: true,
     type: 'Season',

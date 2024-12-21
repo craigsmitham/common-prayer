@@ -8,10 +8,10 @@ import {
 export default [
   index('routes/home.tsx'),
   ...prefix(':isoYear', [
-    route('', 'routes/y/YearByMonthsPage.tsx'),
-    route('seasons', 'routes/y/YearBySeasonsPage.tsx'),
-    route('seasons/:season', 'routes/y/SeasonOfYearPage.tsx'),
-    route(':isoMonth', 'routes/y/MonthOfYearPage.tsx'),
-    route(':isoMonth/:isoDay', 'routes/y/DayOfMonthPage.tsx'),
+    route('', 'routes/calendar/YearByMonthsPage.tsx'),
+    route('seasons', 'routes/calendar/YearBySeasonsPage.tsx'),
+    route('seasons/:season', 'routes/calendar/SeasonOfYearPage.tsx'),
+    route(':isoMonth', 'routes/calendar/MonthOfYearPage.tsx'),
+    route(':isoMonth/:isoDay', 'routes/calendar/DayOfMonthPage.tsx'),
   ]),
 ] satisfies RouteConfig;
