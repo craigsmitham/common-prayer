@@ -1,5 +1,6 @@
 import type { Route } from './+types/home';
 import { Temporal } from 'temporal-polyfill';
+import { Link } from 'react-router';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -30,6 +31,15 @@ export default function Home() {
           <a className={'text-blue-700'} href={'https://x.com/churchcalendar_'}>
             https://x.com/churchcalendar_
           </a>
+        </li>
+      </ul>
+      <h3 className={'pt-3 text-xl'}>Explore</h3>
+      <ul>
+        <li>
+          Year by month:&nbsp;
+          <Link className={'text-blue-700'} to={'/2025'}>
+            www.churchcalendar.app/2025
+          </Link>
         </li>
       </ul>
     </div>
