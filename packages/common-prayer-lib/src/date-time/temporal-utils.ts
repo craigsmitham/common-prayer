@@ -45,3 +45,9 @@ export function getDatesInMonth({
     (_, i) => new Temporal.PlainDate(year, month, i + 1),
   );
 }
+
+export function getMonthsInYear(isoYear: number): Temporal.PlainYearMonth[] {
+  return [...new Array(12)].map(
+    (_, i) => new Temporal.PlainYearMonth(isoYear, i + 1),
+  );
+}

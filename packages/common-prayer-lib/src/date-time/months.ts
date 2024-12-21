@@ -5,12 +5,14 @@ type MonthNameOptions = {
   locale?: Intl.LocalesArgument;
 };
 export function getMonthName(
-  isoMonth: number,
+  isoMonth: number | { month: number },
   options?: MonthNameOptions,
 ): string {
+  let _isoMonth: number =
+    typeof isoMonth === 'number' ? isoMonth : isoMonth.month;
   return new Intl.DateTimeFormat(options?.locale ?? 'en-US', {
     month: options?.format ?? 'long',
-  }).format(new Date(0, isoMonth - 1));
+  }).format(new Date(0, _isoMonth - 1));
 }
 const days = [
   'Sunday',

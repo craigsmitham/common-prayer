@@ -280,3 +280,15 @@ export function getSeasonForDate(date: Temporal.PlainDate): Season {
   }
   return season;
 }
+
+export function getMonthsInSeason(season: Season): Temporal.PlainYearMonth[] {
+  const startMonth = season.startDate.toPlainYearMonth();
+  const endMonth = season.endDate.toPlainYearMonth();
+  const months: Temporal.PlainYearMonth[] = [];
+  let month = startMonth;
+  while (Temporal.PlainYearMonth.compare(month, endMonth) <= 0) {
+    months.push(month);
+    month = month.add({ months: 1 });
+  }
+  return months;
+}
