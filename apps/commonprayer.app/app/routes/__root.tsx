@@ -1,8 +1,8 @@
 // app/routes/__root.tsx
 import {
+  createRootRoute,
   Outlet,
   ScrollRestoration,
-  createRootRoute,
 } from '@tanstack/react-router';
 import { Meta, Scripts } from '@tanstack/start';
 import type { ReactNode } from 'react';
@@ -14,7 +14,7 @@ export const Route = createRootRoute({
         charSet: 'utf-8',
       },
       {
-        name: 'viewport',
+        monthName: 'viewport',
         content: 'width=device-width, initial-scale=1',
       },
       {

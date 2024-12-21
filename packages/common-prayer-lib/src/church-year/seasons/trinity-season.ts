@@ -20,7 +20,7 @@ export function getTrinitySeasonEvents(
 ): TrinitySeasonEvent[] {
   const pentecost = getDateOfPentecost(easter.date.year);
   const trinitySunday: TrinitySeasonDay<'Trinity Sunday'> = {
-    name: 'Trinity Sunday',
+    monthName: 'Trinity Sunday',
     season: 'Trinity Season',
     type: 'Principal Feast',
     shortName: null,
@@ -32,7 +32,7 @@ export function getTrinitySeasonEvents(
   };
 
   const trinitySeason: Season<TrinitySeason> = {
-    name: 'Trinity Season',
+    monthName: 'Trinity Season',
     slug: 'trinity-season',
     season: 'Trinity Season',
     type: 'Season',

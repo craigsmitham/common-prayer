@@ -143,7 +143,8 @@ export function getEventsForIsoYear(isoYear: number) {
   return getEventsForEasterIsoYear(isoYear, { additionalYears: 1 }).filter(
     (e) =>
       (isDay(e) && e.date.year === isoYear) ||
-      (isPeriod(e) && e.startDate.year <= isoYear && e.endDate.year >= isoYear),
+      (isPeriod(e) &&
+        (e.startDate.year === isoYear || e.endDate.year === isoYear)),
   );
 }
 
@@ -253,8 +254,13 @@ export function getUpcomingEvents(date: Temporal.PlainDate) {
     });
   return previewedEvents;
 }
+export function getObservedDays(date: Temporal.PlainDate): Day<any, any>[] {
+  return getEventsForIsoYear(date.year)
+    .filter(isDay)
+    .filter((d) => isSame(d.date, date));
+}
 
-export function getSeason(date: Temporal.PlainDate): Season {
+export function getSeasonForDate(date: Temporal.PlainDate): Season {
   const seasons = getEventsForIsoYear(date.year).filter(isSeason);
   const season = seasons.find((s) => isWithin(date, s));
   if (season == null) {

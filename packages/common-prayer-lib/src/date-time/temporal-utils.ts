@@ -35,3 +35,13 @@ export function isWithin(
 export function toDate(date: Temporal.PlainDate) {
   return new Date(date.year, date.month - 1, date.day);
 }
+
+export function getDatesInMonth({
+  year,
+  month,
+  daysInMonth,
+}: Temporal.PlainYearMonth): Temporal.PlainDate[] {
+  return [...new Array(daysInMonth)].map(
+    (_, i) => new Temporal.PlainDate(year, month, i + 1),
+  );
+}

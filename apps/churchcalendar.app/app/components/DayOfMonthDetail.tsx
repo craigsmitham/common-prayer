@@ -2,7 +2,7 @@ import { Temporal } from 'temporal-polyfill';
 import { formatDate } from 'date-fns';
 import {
   findNextDay,
-  getSeason,
+  getSeasonForDate,
   getUpcomingEvents,
 } from 'common-prayer-lib/src/church-year/church-year';
 import * as React from 'react';
@@ -29,7 +29,7 @@ export function DayOfMonthDetail({ date }: { date: Temporal.PlainDate }) {
 
   const monthDisplay = formatDate(jsDate, 'LLLL');
   const day = findNextDay(date);
-  const season = getSeason(date);
+  const season = getSeasonForDate(date);
   const todayLink = <Link to={'/y/today'}>Today</Link>;
   const nextLink = <Link to={dayViewPath(nextDate)}>Next &raquo;</Link>;
   const prevLink = <Link to={dayViewPath(previousDate)}>&laquo; Previous</Link>;

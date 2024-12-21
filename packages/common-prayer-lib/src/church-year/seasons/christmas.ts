@@ -59,7 +59,7 @@ export function getChristmasEvents(
     ChristmasSeasonDay<DaysOfChristmas>
   >((name, i) => {
     return {
-      name,
+      name: 'Christmas Day',
       season: 'Christmas',
       type: 'Day of Special Devotion',
       shortName: null,

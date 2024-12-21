@@ -37,7 +37,7 @@ export function getLentEvents(
   easter: EasterSeasonDay<'Easter Sunday'>,
 ): LentEvent[] {
   const ashWednesday: LentDay<'Ash Wednesday'> = {
-    name: 'Ash Wednesday',
+    monthName: 'Ash Wednesday',
     season: 'Lent',
     type: 'x',
     shortName: null,
@@ -51,7 +51,7 @@ export function getLentEvents(
   };
 
   const palmSunday: LentDay<'Palm Sunday'> = {
-    name: 'Palm Sunday',
+    monthName: 'Palm Sunday',
     season: 'Lent',
     type: 'Day of Special Devotion',
     shortName: null,
@@ -65,7 +65,7 @@ export function getLentEvents(
   };
 
   const maundyThursday: LentDay<'Maundy Thursday'> = {
-    name: 'Maundy Thursday',
+    monthName: 'Maundy Thursday',
     season: 'Lent',
     type: 'x',
     shortName: null,
@@ -78,7 +78,7 @@ export function getLentEvents(
     },
   };
   const goodFriday: LentDay<'Good Friday'> = {
-    name: 'Good Friday',
+    monthName: 'Good Friday',
     season: 'Lent',
     type: '',
     shortName: null,
@@ -91,7 +91,7 @@ export function getLentEvents(
     },
   };
   const holySaturday: LentDay<'Holy Saturday'> = {
-    name: 'Holy Saturday',
+    monthName: 'Holy Saturday',
     season: 'Lent',
     type: 'x',
     shortName: null,
@@ -104,7 +104,7 @@ export function getLentEvents(
     },
   };
   const seasonOfLent: Season<SeasonOfLent> = {
-    name: 'Lent',
+    monthName: 'Lent',
     slug: 'lent',
     season: 'Lent',
     type: 'x',

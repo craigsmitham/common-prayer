@@ -4,9 +4,9 @@ import {
   isDay,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { Temporal } from 'temporal-polyfill';
-import { getMonthName } from 'common-prayer-lib/src/date-time/date-display';
 import { getDayOfMonthDetailPath } from '~/components/DayOfMonthDetail';
 import { Link } from 'react-router';
+import { getMonthName } from 'common-prayer-lib/src/date-time/months';
 
 export default function MonthOfYearPage(props: Route.ComponentProps) {
   const isoYear = parseInt(props.params.isoYear);
