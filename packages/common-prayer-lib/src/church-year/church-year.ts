@@ -31,14 +31,14 @@ import {
   getLentEvents,
 } from 'common-prayer-lib/src/church-year/seasons/lent';
 
-const previewPeriods = [
+const PREVIEW_PERIODS = [
   'next-season',
   'same-season',
   'next-30-days',
   'next-7-days',
 ] as const;
 
-export type PreviewPeriod = (typeof previewPeriods)[number];
+export type PreviewPeriod = (typeof PREVIEW_PERIODS)[number];
 
 export type EventType =
   | 'Sunday'
@@ -187,84 +187,59 @@ export function findNextPeriod(
     .find((e) => isWithin(date, e));
 }
 
-export function getUpcomingEvents(date: Temporal.PlainDate) {
-  const allEvents = getEventsForEasterIsoYear(date.year, {
+export function getUpcomingDaysByDate(date: Temporal.PlainDate) {
+  const days = getEventsForEasterIsoYear(date.year, {
     additionalYears: 1,
+  })
+    .filter(isDay)
+    .filter((d) => isAfter(d.date, date));
+  const previewedEvents = PREVIEW_PERIODS.flatMap((period) => {
+    const events = days.filter(
+      (e) => e.upcoming !== false && e.upcoming.period == period,
+    );
+
+    const currentSeason = getCurrentSeason(date);
+    switch (period) {
+      case 'next-30-days':
+        return events.filter(({ date: upcomingDate }) =>
+          isWithin(date, {
+            startDate: upcomingDate.subtract({ days: 31 }),
+            endDate: upcomingDate.subtract({ days: 1 }),
+          }),
+        );
+      case 'next-7-days':
+        return events.filter(({ date: upcomingDate }) =>
+          isWithin(upcomingDate, {
+            startDate: date.subtract({ days: 8 }),
+            endDate: date.subtract({ days: 1 }),
+          }),
+        );
+      case 'next-season': {
+        const nextSeason = getNextSeason(date);
+        return events.filter(({ date: upcomingDate }) =>
+          isWithin(upcomingDate, nextSeason),
+        );
+      }
+      case 'same-season': {
+        return events.filter(({ date: upcomingDate }) =>
+          isWithin(upcomingDate, currentSeason),
+        );
+      }
+      default:
+        throw new Error(`Unsupported preview period: ${period}`);
+    }
+  }).sort((a, b) => {
+    return Temporal.PlainDate.compare(a.date, b.date);
   });
-  const previewedEvents = previewPeriods
-    .flatMap((period) => {
-      const events = allEvents
-        .filter((e) => e.upcoming !== false && e.upcoming.period == period)
-        .map((e) => ({
-          event: e,
-          upcomingDate: isDay(e) ? e.date : e.startDate,
-        }))
-        .filter(({ upcomingDate }) => !isSame(upcomingDate, date));
-      switch (period) {
-        case 'next-30-days':
-          return events.filter(({ upcomingDate }) =>
-            isWithin(date, {
-              startDate: upcomingDate.subtract({ days: 31 }),
-              endDate: upcomingDate.subtract({ days: 1 }),
-            }),
-          );
-        case 'next-7-days':
-          return events.filter(({ upcomingDate }) =>
-            isWithin(upcomingDate, {
-              startDate: date.subtract({ days: 8 }),
-              endDate: date.subtract({ days: 1 }),
-            }),
-          );
-        case 'next-season': {
-          const currentSeason = allEvents.find(
-            (e) => isSeason(e) && isWithin(date, e),
-          );
-          if (currentSeason == null || !isSeason(currentSeason)) {
-            throw new Error('could not find current season');
-          }
-          const nextSeason = allEvents.find(
-            (e) =>
-              isSeason(e) &&
-              isSame(e.startDate, currentSeason.endDate.add({ days: 1 })),
-          );
-          if (nextSeason == null || !isSeason(nextSeason)) {
-            throw new Error('Could not find next season');
-          }
-          return events.filter(({ upcomingDate }) =>
-            isWithin(upcomingDate, nextSeason),
-          );
-        }
-        case 'same-season': {
-          const currentSeason = allEvents.find(
-            (e) => isSeason(e) && isWithin(date, e),
-          );
-          if (currentSeason == null || !isSeason(currentSeason)) {
-            throw new Error('could not find current season');
-          }
-          return events.filter(
-            ({ upcomingDate }) =>
-              isWithin(upcomingDate, currentSeason) &&
-              isAfter(upcomingDate, date),
-          );
-        }
-        default:
-          throw new Error(`Unsupported preview period: ${period}`);
-      }
-    })
+  const byDate = Object.groupBy(previewedEvents, (d) => d.date.toString());
+  return Object.entries(byDate)
+    .map(([dateString, days]) => ({
+      date: Temporal.PlainDate.from(dateString),
+      days: days ?? [],
+    }))
     .sort((a, b) => {
-      const dateCompare = Temporal.PlainDate.compare(
-        a.upcomingDate,
-        b.upcomingDate,
-      );
-      if (dateCompare !== 0) {
-        return dateCompare;
-      }
-      if (isSeason(a.event) && isDay(b.event)) {
-        return -1;
-      }
-      return 0;
+      return Temporal.PlainDate.compare(a.date, b.date);
     });
-  return previewedEvents;
 }
 export function getObservedDays(date: Temporal.PlainDate): Day<any, any>[] {
   return getEventsForIsoYear(date.year)
@@ -272,7 +247,21 @@ export function getObservedDays(date: Temporal.PlainDate): Day<any, any>[] {
     .filter((d) => isSame(d.date, date));
 }
 
-export function getSeasonForDate(date: Temporal.PlainDate): Season {
+export function getNextSeason(date: Temporal.PlainDate) {
+  const currentSeason = getCurrentSeason(date);
+  const seasons = getEventsForEasterIsoYear(date.year, {
+    additionalYears: 1,
+  }).filter(isSeason);
+  const nextSeason = seasons.find((s) =>
+    isSame(currentSeason.endDate.add({ days: 1 }), s.startDate),
+  );
+  if (nextSeason == null) {
+    throw new Error(`Could not find next season for date ${date.toString()}`);
+  }
+  return nextSeason;
+}
+
+export function getCurrentSeason(date: Temporal.PlainDate): Season {
   const seasons = getEventsForIsoYear(date.year).filter(isSeason);
   const season = seasons.find((s) => isWithin(date, s));
   if (season == null) {

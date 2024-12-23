@@ -23,6 +23,13 @@ test('sundayBefore', () => {
   );
 });
 
+test('plaindate equality', () => {
+  const foo = new Temporal.PlainDate(2024, 12, 2);
+  const bar = new Temporal.PlainDate(2024, 12, 2);
+
+  expect(Temporal.PlainDate.compare(foo, bar)).toBe(0);
+});
+
 test('sundayAfter', () => {
   const monday = new Temporal.PlainDate(2024, 12, 2);
   const sundayAfterMonday = new Temporal.PlainDate(2024, 12, 8);

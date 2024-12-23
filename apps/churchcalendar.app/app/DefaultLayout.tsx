@@ -34,7 +34,7 @@ export default function DefaultLayout({
           <div className={'flex-1'}></div>
         </div>
         <nav
-          className={`bg-white/95 fixed w-full h-full top-0 z-40  ${showMenu ? '' : 'hidden'}`}
+          className={`bg-white/98 fixed w-full h-full top-0 z-40  ${showMenu ? '' : 'hidden'}`}
           onClick={(e) => {
             if (
               e.nativeEvent instanceof PointerEvent &&

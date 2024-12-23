@@ -90,6 +90,7 @@ describe('Church Year', () => {
       end: '2025-01-05',
       days: [
         ['2024-12-25', 'Christmas Day'],
+        ['2024-12-25', '1st Day of Christmas'],
         ['2024-12-26', '2nd Day of Christmas'],
         ['2024-12-27', '3rd Day of Christmas'],
         ['2024-12-28', '4th Day of Christmas'],

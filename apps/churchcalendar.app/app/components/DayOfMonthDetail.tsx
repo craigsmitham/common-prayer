@@ -2,8 +2,8 @@ import { Temporal } from 'temporal-polyfill';
 import { formatDate } from 'date-fns';
 import {
   findNextDay,
-  getSeasonForDate,
-  getUpcomingEvents,
+  getCurrentSeason,
+  getUpcomingDaysByDate,
 } from 'common-prayer-lib/src/church-year/church-year';
 import * as React from 'react';
 import { Link } from 'react-router';
@@ -29,11 +29,8 @@ export function DayOfMonthDetail({ date }: { date: Temporal.PlainDate }) {
 
   const monthDisplay = formatDate(jsDate, 'LLLL');
   const day = findNextDay(date);
-  const season = getSeasonForDate(date);
-  const todayLink = <Link to={'/y/today'}>Today</Link>;
-  const nextLink = <Link to={dayViewPath(nextDate)}>Next &raquo;</Link>;
-  const prevLink = <Link to={dayViewPath(previousDate)}>&laquo; Previous</Link>;
-  const upcomingEvents = getUpcomingEvents(date);
+  const season = getCurrentSeason(date);
+  const upcomingEvents = getUpcomingDaysByDate(date);
   const seasonDisplay =
     season.name === 'Trinity Season' ? (
       <span>Trinity Season &middot; Ordinary Time</span>
@@ -62,24 +59,6 @@ export function DayOfMonthDetail({ date }: { date: Temporal.PlainDate }) {
       <h3>{day?.name}</h3>
       <hr />
       <h3>Upcoming</h3>
-      <ul>
-        {upcomingEvents.map(({ event, upcomingDate }) => {
-          return (
-            <li key={event.name}>
-              {event.name}:{' '}
-              <Link to={dayViewPath(upcomingDate)}>
-                {upcomingDate.toString()}
-              </Link>
-              {event.upcoming !== false && event.upcoming.countdown && (
-                <span>
-                  &nbsp; ({date.until(upcomingDate).days}{' '}
-                  {date.until(upcomingDate).days === 1 ? 'day' : 'days'})
-                </span>
-              )}
-            </li>
-          );
-        })}
-      </ul>
     </div>
   );
 }

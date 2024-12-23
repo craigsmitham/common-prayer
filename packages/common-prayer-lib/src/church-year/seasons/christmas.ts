@@ -7,9 +7,9 @@ import {
 import { EasterSeasonDay } from 'common-prayer-lib/src/church-year/seasons/easter';
 
 const daysOfChristmas = [
+  '1st Day of Christmas',
   '2nd Day of Christmas',
   '3rd Day of Christmas',
-
   '4th Day of Christmas',
   '5th Day of Christmas',
   '6th Day of Christmas',
@@ -67,7 +67,7 @@ export function getChristmasEvents(
       traditionalName: null,
       alternativeNames: [],
       description: name,
-      date: christmas.date.add({ days: i + 1 }),
+      date: christmas.date.add({ days: i }),
       upcoming: false,
     };
   });
