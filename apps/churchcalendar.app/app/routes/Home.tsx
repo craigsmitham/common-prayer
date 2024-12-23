@@ -6,7 +6,10 @@ import {
   getMonthName,
   getWeekdayName,
 } from 'common-prayer-lib/src/date-time/months';
-import { getUpcomingDaysByDate } from 'common-prayer-lib/src/church-year/church-year';
+import {
+  getCurrentSeason,
+  getUpcomingDaysByDate,
+} from 'common-prayer-lib/src/church-year/church-year';
 import { DateList } from '~/components/DateList';
 
 export function meta({}: Route.MetaArgs) {
@@ -18,8 +21,18 @@ export function meta({}: Route.MetaArgs) {
 
 function Today({ today }: { today: Temporal.PlainDate }) {
   const upcomingEvents = getUpcomingDaysByDate(today);
+  const season = getCurrentSeason(today);
+  const seasonDisplay =
+    season.name === 'Trinity Season' ? (
+      <span>Trinity Season &middot; Ordinary Time</span>
+    ) : (
+      <span>Season of {season.name}</span>
+    );
   return (
     <>
+      <div className={'italic text-center flex h-12 items-center mb-2'}>
+        <span className={'flex-1'}>{seasonDisplay}</span>
+      </div>
       <div
         className={
           'flex flex-col text-justify [text-align-last:center] text-3xl'
@@ -46,8 +59,8 @@ function Today({ today }: { today: Temporal.PlainDate }) {
           </Link>
         </div>
       </div>
-      <div>
-        <h3>Upcoming</h3>
+      <div className={'my-4'}>
+        <h3 className={'font-bold'}>Upcoming</h3>
         <DateList daysByDate={upcomingEvents} />
       </div>
     </>

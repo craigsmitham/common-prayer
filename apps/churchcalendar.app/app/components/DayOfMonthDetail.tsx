@@ -3,7 +3,6 @@ import { formatDate } from 'date-fns';
 import {
   findNextDay,
   getCurrentSeason,
-  getUpcomingDaysByDate,
 } from 'common-prayer-lib/src/church-year/church-year';
 import * as React from 'react';
 import { Link } from 'react-router';
@@ -30,7 +29,6 @@ export function DayOfMonthDetail({ date }: { date: Temporal.PlainDate }) {
   const monthDisplay = formatDate(jsDate, 'LLLL');
   const day = findNextDay(date);
   const season = getCurrentSeason(date);
-  const upcomingEvents = getUpcomingDaysByDate(date);
   const seasonDisplay =
     season.name === 'Trinity Season' ? (
       <span>Trinity Season &middot; Ordinary Time</span>

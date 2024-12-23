@@ -23,13 +23,30 @@ export default function DefaultLayout({
 
   return (
     <>
-      <header>
-        <div className={'flex'}>
-          <div className={'flex-1'}>
-            <span onClick={() => setShowMenu(true)}>Show menu</span>
+      <header className={'h-12 '}>
+        <div className={'flex '}>
+          <div className={'flex-1 flex items-center'}>
+            <span onClick={() => setShowMenu(true)}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            </span>
           </div>
-          <h1 className={'z-50 text-gray-700 p-3'}>
-            <Link to={'/'}>ChurchCalendar.app</Link>
+          <h1 className={'z-50 text-gray-700 h-12 flex items-center'}>
+            <Link className={'  '} to={'/'}>
+              ChurchCalendar.app
+            </Link>
           </h1>
           <div className={'flex-1'}></div>
         </div>
@@ -45,7 +62,22 @@ export default function DefaultLayout({
             }
           }}
         >
-          <span onClick={() => setShowMenu(false)}>X</span>
+          <span onClick={() => setShowMenu(false)}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18 18 6M6 6l12 12"
+              />
+            </svg>
+          </span>
           <ul className={`text-center flex flex-col gap-10 p-5 text-5xl`}>
             <li>
               <Link to={'/'}>Today</Link>
@@ -85,7 +117,7 @@ export default function DefaultLayout({
           )}
         </nav>
       </header>
-      <main className={'p-4'}>
+      <main className={'px-4 pb-4'}>
         {children}
         <Outlet />
 
