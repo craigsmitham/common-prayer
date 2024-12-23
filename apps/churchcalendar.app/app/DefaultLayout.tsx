@@ -85,7 +85,7 @@ export default function DefaultLayout({
           )}
         </nav>
       </header>
-      <main className={'px-5'}>
+      <main className={'p-4'}>
         {children}
         <Outlet />
 

@@ -49,7 +49,7 @@ export default function YearPage({ params }: Route.ComponentProps) {
       {monthsBySeason.map(({ season, seasonContinued, datesByMonth }) => (
         <div
           key={season.startDate.toString()}
-          className={'border-1 border-gray-500 m-4 py-2 px-4'}
+          className={'border-1 border-gray-500 mb-4 p-4'}
         >
           <h3 className={'text-center font-semibold'}>
             {season.name} {seasonContinued ? <span>(cont.)</span> : null}
