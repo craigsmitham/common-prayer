@@ -16,16 +16,17 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router": "*",
+    "tailwind-variants": "^0.3.0",
     "temporal-polyfill": "^0.2.5"
   },
   "devDependencies": {
     "@react-router/dev": "*",
+    "@tailwindcss/vite": "^4.0.0-beta.6",
     "@types/express": "^5.0.0",
     "@types/node": "^20",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "cross-env": "^7.0.3",
-    "@tailwindcss/vite": "^4.0.0-beta.6",
     "typescript": "^5.6.3",
     "vite": "^5.4.11",
     "vite-tsconfig-paths": "^5.1.2"

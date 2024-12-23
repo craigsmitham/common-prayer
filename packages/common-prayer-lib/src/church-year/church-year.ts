@@ -116,7 +116,13 @@ export type Day<TName extends string, TSeason extends ChurchYearSeasons> = {
 export type Season<TName extends ChurchYearSeasons = ChurchYearSeasons> =
   Period<TName, ChurchYearSeasons> & {
     isSeason: true;
-    slug: string;
+    slug:
+      | 'advent'
+      | 'christmas'
+      | 'epiphany'
+      | 'lent'
+      | 'easter'
+      | 'trinity-season';
   };
 export type Period<TName extends string, TSeason extends ChurchYearSeasons> = {
   startDate: Temporal.PlainDate;

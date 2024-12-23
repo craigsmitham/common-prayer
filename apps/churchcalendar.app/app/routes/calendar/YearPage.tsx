@@ -12,10 +12,38 @@ import {
 } from 'common-prayer-lib/src/date-time/temporal-utils';
 import { getMonthName } from 'common-prayer-lib/src/date-time/months';
 import { DateList } from '~/components/DateList';
+import { tv } from 'tailwind-variants';
+
+const seasonTv = tv({
+  slots: {
+    seasonBg: 'bg-red-500',
+  },
+  variants: {
+    season: {
+      advent: {
+        seasonBg: 'bg-red-50',
+      },
+      christmas: {
+        seasonBg: 'bg-red-50',
+      },
+      epiphany: {
+        seasonBg: 'bg-red-50',
+      },
+      lent: {
+        seasonBg: 'bg-purple-500',
+      },
+      easter: {
+        seasonBg: 'bg-red-50',
+      },
+      'trinity-season': {
+        seasonBg: 'bg-red-50',
+      },
+    },
+  },
+});
 
 export default function YearPage({ params }: Route.ComponentProps) {
   const isoYear = parseInt(params.isoYear);
-
   const monthsBySeason = getEventsForIsoYear(isoYear)
     .filter(isSeason)
     .map((season) => {
@@ -46,26 +74,31 @@ export default function YearPage({ params }: Route.ComponentProps) {
         <Link to={`/${isoYear + 1}`}>&raquo;</Link>
         <div className={'flex-1'}></div>
       </div>
-      {monthsBySeason.map(({ season, seasonContinued, datesByMonth }) => (
-        <div
-          key={season.startDate.toString()}
-          className={'border-1 border-gray-500 mb-4 p-4'}
-        >
-          <h3 className={'text-center font-semibold'}>
-            {season.name} {seasonContinued ? <span>(cont.)</span> : null}
-          </h3>
-          {datesByMonth.map(({ month, daysByDate }) => (
-            <div key={month.toString()} className={'mb-2'}>
-              <h4 className={'text-xl font-semibold'}>
-                <Link to={`/${month.year}/${month.month}`}>
-                  {getMonthName(month)}
-                </Link>
-              </h4>
-              <DateList daysByDate={daysByDate} />
-            </div>
-          ))}
-        </div>
-      ))}
+      {monthsBySeason.map(({ season, seasonContinued, datesByMonth }) => {
+        // const { container } = seasonTv({ season: season.slug });
+        return (
+          <div
+            key={season.startDate.toString()}
+            className={'border-1 border-gray-500 mb-4 p-4'}
+          >
+            <h3 className={'text-center font-semibold'}>
+              {season.name} {seasonContinued ? <span>(cont.)</span> : null}
+            </h3>
+            {datesByMonth.map(({ month, daysByDate }) => {
+              return (
+                <div key={month.toString()} className={`mb-2 `}>
+                  <h4 className={'text-xl font-semibold'}>
+                    <Link to={`/${month.year}/${month.month}`}>
+                      {getMonthName(month)}
+                    </Link>
+                  </h4>
+                  <DateList daysByDate={daysByDate} />
+                </div>
+              );
+            })}
+          </div>
+        );
+      })}
     </div>
   );
 }
