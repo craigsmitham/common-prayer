@@ -1,4 +1,4 @@
-import type { Route } from './+types/MonthOfYearPage';
+import type { Route } from './+types/MonthPage';
 import {
   getEventsForIsoYear,
   getObservedDays,
@@ -14,7 +14,7 @@ import {
 } from 'common-prayer-lib/src/date-time/temporal-utils';
 import { DateList } from '~/components/DateList';
 
-export default function MonthOfYearPage(props: Route.ComponentProps) {
+export default function MonthPage(props: Route.ComponentProps) {
   const isoYear = parseInt(props.params.isoYear);
   const isoMonth = parseInt(props.params.isoMonth);
   const month = new Temporal.PlainYearMonth(isoYear, isoMonth);
@@ -58,7 +58,7 @@ export default function MonthOfYearPage(props: Route.ComponentProps) {
         </Link>
       </h2>
       {datesBySeason.map(({ season, daysByDate }) => (
-        <div>
+        <div key={season.name}>
           <div>{season.name}</div>
           <DateList daysByDate={daysByDate} />
         </div>

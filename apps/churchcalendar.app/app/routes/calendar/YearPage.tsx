@@ -1,4 +1,4 @@
-import type { Route } from './+types/YearByMonthsPage';
+import type { Route } from './+types/YearPage';
 import { Link } from 'react-router';
 import {
   getEventsForIsoYear,
@@ -13,7 +13,7 @@ import {
 import { getMonthName } from 'common-prayer-lib/src/date-time/months';
 import { DateList } from '~/components/DateList';
 
-export default function YearByMonthsPage({ params }: Route.ComponentProps) {
+export default function YearPage({ params }: Route.ComponentProps) {
   const isoYear = parseInt(params.isoYear);
 
   const monthsBySeason = getEventsForIsoYear(isoYear)

@@ -1,8 +1,8 @@
-import type { Route } from './+types/DayOfMonthPage';
+import type { Route } from './+types/DayPage';
 import { Temporal } from 'temporal-polyfill';
 import { DayOfMonthDetail } from '~/components/DayOfMonthDetail';
 
-export default function DayOfMonthPage(props: Route.ComponentProps) {
+export default function DayPage(props: Route.ComponentProps) {
   const isoYear = parseInt(props.params.isoYear);
   const isoMonth = parseInt(props.params.isoMonth);
   const isoDay = parseInt(props.params.isoDay);
