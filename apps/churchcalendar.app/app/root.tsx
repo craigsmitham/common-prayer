@@ -5,38 +5,65 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
+  useLocation,
 } from 'react-router';
 
 import type { Route } from './+types/root';
 import stylesheet from './app.css?url';
-import { Temporal } from 'temporal-polyfill';
+import { useEffect } from 'react';
+import * as gtag from './utils/gtag.client';
 
 export const links: Route.LinksFunction = () => [
-  { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
-  {
-    rel: 'preconnect',
-    href: 'https://fonts.gstatic.com',
-    crossOrigin: 'anonymous',
-  },
-  {
-    rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap',
-  },
   { rel: 'stylesheet', href: stylesheet },
+  { rel: 'stylesheet', href: 'https://use.typekit.net/xqg3qwn.css' },
 ];
 
+export const loader = async () => {
+  return { gaTrackingId: process.env.GA_TRACKING_ID };
+};
+
 export function Layout({ children }: { children: React.ReactNode }) {
-  const { year: currentIsoYear } = Temporal.Now.plainDateISO();
+  const { gaTrackingId } = useLoaderData<typeof loader>();
+  const location = useLocation();
+  useEffect(() => {
+    if (gaTrackingId?.length) {
+      gtag.pageview(location.pathname, gaTrackingId);
+    }
+  }, [location, gaTrackingId]);
+
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
-        <link rel="stylesheet" href="https://use.typekit.net/xqg3qwn.css" />
         <Links />
       </head>
       <body>
+        {process.env.NODE_ENV === 'development' || !gaTrackingId ? null : (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+            />
+            <script
+              async
+              id="gtag-init"
+              dangerouslySetInnerHTML={{
+                __html: `
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+
+                gtag('config', '${gaTrackingId}', {
+                  page_path: window.location.pathname,
+                });
+              `,
+              }}
+            />
+          </>
+        )}
         {children}
         <ScrollRestoration />
         <Scripts />
