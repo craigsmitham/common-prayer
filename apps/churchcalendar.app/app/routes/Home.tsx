@@ -23,32 +23,21 @@ const FitText = ({ children }: { children: React.ReactNode }) => {
 
     const container = containerRef.current;
     const text = textRef.current;
+    /*
     console.log({
       containerRef,
       textRef,
       container,
       text,
-    });
+    });*/
     let fontSize = 1;
     text.style.fontSize = fontSize + 'px';
-
-    console.log({
-      text: {
-        text,
-        offsetWidth: text.offsetWidth,
-        offsetHeight: text.offsetHeight,
-      },
-      container: {
-        container,
-        offsetWidth: container.offsetWidth,
-        offsetHeight: container.offsetHeight,
-      },
-    });
 
     while (text.offsetWidth < container.offsetWidth) {
       fontSize++;
       text.style.fontSize = fontSize + 'px';
     }
+    /*
     console.log({
       text: {
         text,
@@ -60,7 +49,7 @@ const FitText = ({ children }: { children: React.ReactNode }) => {
         offsetWidth: container.offsetWidth,
         offsetHeight: container.offsetHeight,
       },
-    });
+    });*/
     text.style.fontSize = fontSize - 1 + 'px';
   };
 
