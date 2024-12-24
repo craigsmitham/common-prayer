@@ -96,7 +96,7 @@ export function getAdventEvents(
   ];
   const adventSeason: Season<SeasonOfAdvent> = {
     name: 'Advent',
-    slug: 'advent-season',
+    slug: 'advent',
     isSeason: true,
     type: 'Season',
     shortName: null,

@@ -66,7 +66,7 @@ export function getEpiphanyEvents(
   };
   const epiphanySeason: Season<SeasonOfEpiphany> = {
     name: 'Epiphany',
-    slug: 'epiphany-season',
+    slug: 'epiphany',
     season: 'Epiphany',
     type: 'x',
     shortName: null,

@@ -73,7 +73,7 @@ export function getChristmasEvents(
   });
   const christmasSeason: Season<SeasonOfChristmas> = {
     name: 'Christmas',
-    slug: 'christmas-season',
+    slug: 'christmas',
     type: 'Season',
     season: 'Christmas',
     isSeason: true,

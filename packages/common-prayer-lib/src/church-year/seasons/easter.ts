@@ -111,7 +111,7 @@ export function getEasterEvents(
 
   const easterSeason: Season<SeasonOfEaster> = {
     name: 'Easter',
-    slug: 'easter-season',
+    slug: 'easter',
     season: 'Easter',
     type: 'Season',
     shortName: null,

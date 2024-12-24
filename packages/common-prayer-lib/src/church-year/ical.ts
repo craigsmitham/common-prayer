@@ -12,7 +12,7 @@ export function createChurchCalendar({
   calendarUrl: string;
   calendarAppUrl: string;
 }) {
-  const calendar = ical({ monthName: 'churchcalendar.app', url: calendarUrl });
+  const calendar = ical({ name: 'churchcalendar.app', url: calendarUrl });
   calendar.method(ICalCalendarMethod.REQUEST);
 
   const events = getEventsForEasterIsoYear(new Date().getFullYear(), {
@@ -28,9 +28,11 @@ export function createChurchCalendar({
       description: {
         plain: `${day.description}
 --------------
-${calendarAppUrl}`,
+View day for ${day.date.toString()}: ${calendarAppUrl}/${day.date.year}/${day.date.month}/${day.date.day}
+View today's date: ${calendarAppUrl}
+`,
         html: `${day.description}<hr />
-<a href="${calendarAppUrl}">${calendarAppUrl}</a>`,
+        Today:<a href="${calendarAppUrl}">${calendarAppUrl}</a>`,
       },
       // url: 'https://www.churchcalendar.app',
     });
