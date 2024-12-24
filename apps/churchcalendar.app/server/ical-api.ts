@@ -16,10 +16,15 @@ function getPathUrl(req: Request) {
 }
 
 export const icalApi = Router();
-icalApi.get('/church-year.ics', (req, res) => {
+icalApi.get('/ChurchCalendar.app.ics', (req, res) => {
   const calendar = createChurchCalendar({
     calendarAppUrl: getHostUrl(req),
     calendarUrl: getPathUrl(req),
   });
-  res.write(calendar.toString());
+  res.setHeader('Content-Type', 'text/calendar');
+  res.setHeader(
+    'Content-Disposition',
+    'attachment; filename="church-year-calendar.ics"',
+  );
+  res.send(calendar.toString());
 });
