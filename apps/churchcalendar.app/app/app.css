@@ -1,8 +1,6 @@
 @import 'tailwindcss';
 
-
-
 @theme {
-    --font-serif: p22-mackinac-pro, serif;
-    --font-sans: p22-mackinac-pro, sans-serif;
+  --font-serif: p22-mackinac-pro, serif;
+  --font-sans: p22-mackinac-pro, sans-serif;
 }
