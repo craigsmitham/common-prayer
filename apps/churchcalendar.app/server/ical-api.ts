@@ -24,7 +24,7 @@ icalApi.get('/ChurchCalendar.app.ics', (req, res) => {
   res.setHeader('Content-Type', 'text/calendar');
   res.setHeader(
     'Content-Disposition',
-    'attachment; filename="church-year-calendar.ics"',
+    'attachment; filename="ChurchCalendar.app.ics"',
   );
   res.send(calendar.toString());
 });
