@@ -2,6 +2,7 @@ import { reactRouter } from '@react-router/dev/vite';
 import { defineConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import tailwindcss from '@tailwindcss/vite';
+import checker from 'vite-plugin-checker';
 
 export default defineConfig(({ isSsrBuild, command }) => ({
   build: {
@@ -15,5 +16,10 @@ export default defineConfig(({ isSsrBuild, command }) => ({
   ssr: {
     noExternal: command === 'build' ? true : undefined,
   },
-  plugins: [reactRouter(), tsconfigPaths(), tailwindcss()],
+  plugins: [
+    reactRouter(),
+    tsconfigPaths(),
+    tailwindcss(),
+    checker({ typescript: true }),
+  ],
 }));

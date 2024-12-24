@@ -1,12 +1,12 @@
 import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
 import {
   CHURCH_YEAR_SEASONS,
-  Day,
-  Event,
-  Season,
+  type Day,
+  type Event,
+  type Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { Temporal } from 'temporal-polyfill';
-import { ChristmasSeasonDay } from 'common-prayer-lib/src/church-year/seasons/christmas';
+import { type ChristmasSeasonDay } from 'common-prayer-lib/src/church-year/seasons/christmas';
 
 export type DaysOfAdvent =
   | '1st Sunday of Advent'
@@ -94,10 +94,12 @@ export function getAdventEvents(
       upcoming: { period: 'same-season' },
     },
   ];
+
   const adventSeason: Season<SeasonOfAdvent> = {
     name: 'Advent',
     slug: 'advent',
     isSeason: true,
+    color: 'purple',
     type: 'Season',
     shortName: null,
     longName: 'Season of Advent',

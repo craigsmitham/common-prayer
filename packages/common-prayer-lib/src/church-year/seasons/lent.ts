@@ -1,10 +1,10 @@
-import {
+import type {
   Day,
   Event,
   Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import {
-  EasterSeasonDay,
+  type EasterSeasonDay,
   getEasterDate,
 } from 'common-prayer-lib/src/church-year/seasons/easter';
 import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
@@ -107,6 +107,7 @@ export function getLentEvents(
     name: 'Lent',
     slug: 'lent',
     season: 'Lent',
+    color: 'purple',
     type: 'x',
     shortName: null,
     longName: 'Season of Lent',

@@ -1,8 +1,31 @@
 import { Temporal } from 'temporal-polyfill';
-import { Link, Outlet, useLocation } from 'react-router';
+import { Link, Outlet, useLocation, useSearchParams } from 'react-router';
 import { getMonthsInYear } from 'common-prayer-lib/src/date-time/temporal-utils';
 import React, { useEffect, useState } from 'react';
 import { getMonthName } from 'common-prayer-lib/src/date-time/months';
+import { tv } from 'tailwind-variants';
+
+const colorVariants = tv({
+  slots: {
+    colorContainer: '',
+  },
+  variants: {
+    color: {
+      // Ordinary time, Epiphany
+      green: {},
+      // Holy week, pentecost, feast days of martyred saints
+      red: {},
+      // Christmas, Easter, Feat of the Epiphany, All  Saints
+      white: {},
+      // Third sunday of advent, fourth sunday of lent (tailwind: rose)
+      rose: {},
+      // Advent/Lent (tailwind: purple)
+      purple: {},
+      // Ash Wednesday, Good Friday, etc (tailwind: stone)
+      black: {},
+    },
+  },
+});
 
 export default function DefaultLayout({
   children,
@@ -13,6 +36,21 @@ export default function DefaultLayout({
   const months = getMonthsInYear(currentIsoYear);
   const [showMenu, setShowMenu] = useState(false);
   const location = useLocation();
+
+  const [today, setToday] = useState<Temporal.PlainDate | null>(null);
+  let [searchParams] = useSearchParams();
+
+  const todayParam = searchParams.get('today');
+
+  useEffect(() => {
+    if (today == null) {
+      setToday(
+        todayParam != null
+          ? Temporal.PlainDate.from(todayParam)
+          : Temporal.Now.plainDateISO(),
+      );
+    }
+  });
 
   useEffect(() => {
     if (showMenu) {
@@ -104,7 +142,7 @@ export default function DefaultLayout({
               <Link to={`/about`}>About</Link>
             </li>
           </ul>
-          {true ?? (
+          {
             <ul className={'flex'}>
               <li>
                 <Link to={`https://x.com/churchcalendar_`}>X</Link>
@@ -115,7 +153,7 @@ export default function DefaultLayout({
                 </Link>
               </li>
             </ul>
-          )}
+          }
         </nav>
       </header>
       <main className={'px-4 pb-4'}>

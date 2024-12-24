@@ -1,13 +1,11 @@
-import {
+import type {
   Day,
   Event,
   Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { getFirstDateOfAdvent } from 'common-prayer-lib/src/church-year/seasons/advent';
-import {
-  EasterSeasonDay,
-  getDateOfPentecost,
-} from 'common-prayer-lib/src/church-year/seasons/easter';
+import type { EasterSeasonDay } from 'common-prayer-lib/src/church-year/seasons/easter';
+import { getDateOfPentecost } from 'common-prayer-lib/src/church-year/seasons/easter';
 import { sundayAfter } from 'common-prayer-lib/src/date-time/temporal-utils';
 
 export type DaysOfTrinitySeason = 'Trinity Sunday';
@@ -35,6 +33,7 @@ export function getTrinitySeasonEvents(
     name: 'Trinity Season',
     slug: 'trinity-season',
     season: 'Trinity Season',
+    color: 'green',
     type: 'Season',
     shortName: null,
     longName: null,

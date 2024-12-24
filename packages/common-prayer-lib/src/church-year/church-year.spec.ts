@@ -1,20 +1,20 @@
 import { describe, expect } from 'vitest';
 import {
-  ChurchYearDays,
-  ChurchYearSeasons,
-  Day,
+  type ChurchYearDays,
+  type ChurchYearSeasons,
+  type Day,
   getEventsForEasterIsoYear,
   isDay,
   isSeason,
-  Period,
+  type Period,
 } from 'common-prayer-lib/src/church-year/church-year';
-import { DaysOfAdvent } from 'common-prayer-lib/src/church-year/seasons/advent';
-import { DaysOfChristmas } from 'common-prayer-lib/src/church-year/seasons/christmas';
-import { DaysOfEpiphany } from 'common-prayer-lib/src/church-year/seasons/epiphany';
+import type { DaysOfAdvent } from 'common-prayer-lib/src/church-year/seasons/advent';
+import type { DaysOfChristmas } from 'common-prayer-lib/src/church-year/seasons/christmas';
+import type { DaysOfEpiphany } from 'common-prayer-lib/src/church-year/seasons/epiphany';
 import { isWithin } from 'common-prayer-lib/src/date-time/temporal-utils';
-import { DaysOfLent } from 'common-prayer-lib/src/church-year/seasons/lent';
-import { DaysOfEaster } from 'common-prayer-lib/src/church-year/seasons/easter';
-import {
+import type { DaysOfLent } from 'common-prayer-lib/src/church-year/seasons/lent';
+import type { DaysOfEaster } from 'common-prayer-lib/src/church-year/seasons/easter';
+import type {
   DaysOfTrinitySeason,
   TrinitySeason,
 } from 'common-prayer-lib/src/church-year/seasons/trinity-season';

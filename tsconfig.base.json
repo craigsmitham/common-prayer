@@ -5,6 +5,7 @@
     "module": "ESNext",
     "target": "ESNext",
     "skipLibCheck": true,
+    "verbatimModuleSyntax": true,
     "strict": true,
     "paths": {
       "common-prayer-lib/src/*": ["./packages/common-prayer-lib/src/*"]
