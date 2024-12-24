@@ -25,15 +25,20 @@ export default function DefaultLayout({
     <>
       <header className={'h-12 '}>
         <div className={'flex '}>
-          <div className={'flex-1 flex items-center'}>
-            <span onClick={() => setShowMenu(true)}>
+          <div className={'flex-1  '}>
+            <span
+              className={
+                'w-12 h-12 flex items-center justify-center cursor-pointer'
+              }
+              onClick={() => setShowMenu(true)}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="size-6"
+                className="size-8"
               >
                 <path
                   strokeLinecap="round"
@@ -52,24 +57,20 @@ export default function DefaultLayout({
         </div>
         <nav
           className={`bg-white/98 fixed w-full h-full top-0 z-40  ${showMenu ? '' : 'hidden'}`}
-          onClick={(e) => {
-            if (
-              e.nativeEvent instanceof PointerEvent &&
-              (e.nativeEvent.target as HTMLElement)?.tagName.toLowerCase() ===
-                'a'
-            ) {
-              // setShowMenu(false);
-            }
-          }}
         >
-          <span onClick={() => setShowMenu(false)}>
+          <div
+            className={
+              'w-12 h-12 flex justify-center items-center cursor-pointer'
+            }
+            onClick={() => setShowMenu(false)}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               strokeWidth={1.5}
               stroke="currentColor"
-              className="size-6"
+              className="size-8"
             >
               <path
                 strokeLinecap="round"
@@ -77,7 +78,7 @@ export default function DefaultLayout({
                 d="M6 18 18 6M6 6l12 12"
               />
             </svg>
-          </span>
+          </div>
           <ul className={`text-center flex flex-col gap-10 p-5 text-5xl`}>
             <li>
               <Link to={'/'}>Today</Link>
