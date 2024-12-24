@@ -1,5 +1,5 @@
 import { Temporal } from 'temporal-polyfill';
-import type {
+import {
   Day,
   Event,
   Season,
@@ -112,7 +112,6 @@ export function getEasterEvents(
   const easterSeason: Season<SeasonOfEaster> = {
     name: 'Easter',
     slug: 'easter',
-    color: 'white',
     season: 'Easter',
     type: 'Season',
     shortName: null,

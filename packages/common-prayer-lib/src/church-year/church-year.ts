@@ -1,6 +1,6 @@
 import { Temporal } from 'temporal-polyfill';
 import {
-  type DaysOfEaster,
+  DaysOfEaster,
   getEasterDay,
   getEasterEvents,
 } from 'common-prayer-lib/src/church-year/seasons/easter';
@@ -10,24 +10,24 @@ import {
   isWithin,
 } from 'common-prayer-lib/src/date-time/temporal-utils';
 import {
-  type DaysOfChristmas,
+  DaysOfChristmas,
   getChristmasDay,
   getChristmasEvents,
 } from 'common-prayer-lib/src/church-year/seasons/christmas';
 import {
-  type DaysOfAdvent,
+  DaysOfAdvent,
   getAdventEvents,
 } from 'common-prayer-lib/src/church-year/seasons/advent';
 import {
-  type DaysOfEpiphany,
+  DaysOfEpiphany,
   getEpiphanyEvents,
 } from 'common-prayer-lib/src/church-year/seasons/epiphany';
 import {
-  type DaysOfTrinitySeason,
+  DaysOfTrinitySeason,
   getTrinitySeasonEvents,
 } from 'common-prayer-lib/src/church-year/seasons/trinity-season';
 import {
-  type DaysOfLent,
+  DaysOfLent,
   getLentEvents,
 } from 'common-prayer-lib/src/church-year/seasons/lent';
 
@@ -39,20 +39,6 @@ const PREVIEW_PERIODS = [
 ] as const;
 
 export type PreviewPeriod = (typeof PREVIEW_PERIODS)[number];
-
-export type LiturgicalColors =
-  | 'green'
-  | 'red'
-  | 'white'
-  | 'rose'
-  | 'purple'
-  | 'black';
-
-export function getColorForDate(date: Temporal.PlainDate) {
-  const primaryObservance = getPrimaryObservance(date);
-  if (primaryObservance?.color!) {
-  }
-}
 
 export type EventType =
   | 'Sunday'
@@ -103,7 +89,6 @@ type EventDefinition<
 > = {
   name: TName;
   season: TSeason;
-  color?: LiturgicalColors;
   type?: EventType | 'x' | '';
   shortName: string | null;
   longName: string | null;
@@ -138,7 +123,6 @@ export type Season<TName extends ChurchYearSeasons = ChurchYearSeasons> =
       | 'lent'
       | 'easter'
       | 'trinity-season';
-    color: LiturgicalColors;
   };
 export type Period<TName extends string, TSeason extends ChurchYearSeasons> = {
   startDate: Temporal.PlainDate;
@@ -267,13 +251,6 @@ export function getObservedDays(date: Temporal.PlainDate): Day<any, any>[] {
   return getEventsForIsoYear(date.year)
     .filter(isDay)
     .filter((d) => isSame(d.date, date));
-}
-
-export function getPrimaryObservance(
-  date: Temporal.PlainDate,
-): Day<any, any> | undefined {
-  const observances = getObservedDays(date);
-  return observances[0];
 }
 
 export function getNextSeason(date: Temporal.PlainDate) {

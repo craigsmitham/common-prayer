@@ -7,14 +7,12 @@ import {
   getWeekdayName,
 } from 'common-prayer-lib/src/date-time/months';
 import {
-  type Day,
   getCurrentSeason,
   getObservedDays,
   getUpcomingDaysByDate,
   type Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { DateList } from '~/components/DateList';
-import { isSame } from 'common-prayer-lib/src/date-time/temporal-utils';
 
 const FitText = ({ children }: { children: React.ReactNode }) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -95,23 +93,21 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-const CurrentSeason = ({ today }: { today: Temporal.PlainDate }) => {
-  const currentSeason = getCurrentSeason(today);
-  if (isSame(currentSeason.startDate, today)) {
-    return <span>The season of {currentSeason.name} begins.</span>;
-  }
-  return <span>We are in the season of {currentSeason.name}.</span>;
-};
-
 function Today({ today }: { today: Temporal.PlainDate }) {
   const upcomingEvents = getUpcomingDaysByDate(today);
   const season = getCurrentSeason(today);
   const observedDays = getObservedDays(today);
-  const primaryObservance: Day<any, any> | undefined = observedDays[0];
-  const alsoObservedToday = observedDays.slice(1);
-
+  const seasonDisplay =
+    season.name === 'Trinity Season' ? (
+      <span>Trinity Season &middot; Ordinary Time</span>
+    ) : (
+      <span>{getSeasonDisplayName(season)}</span>
+    );
   return (
     <>
+      <div className={'italic text-center flex h-12 items-center mb-2'}>
+        <span className={'flex-1'}>{seasonDisplay}</span>
+      </div>
       <div
         className={
           'flex flex-col text-justify [text-align-last:center] text-3xl'
@@ -141,28 +137,21 @@ function Today({ today }: { today: Temporal.PlainDate }) {
             </Link>
           </FitText>
         </div>
-        {primaryObservance ? (
-          <div>
-            <FitText>{primaryObservance.name}</FitText>
+      </div>
+      {observedDays.map((d, i) => {
+        return (
+          <div key={d.name}>
+            {i === 0 ? (
+              <div className={'font-bold'}>
+                <FitText>{d.name}</FitText>
+              </div>
+            ) : (
+              <div>{d.name}</div>
+            )}
           </div>
-        ) : null}
-      </div>
-      <div>
-        <CurrentSeason today={today} />
-      </div>
-      <ul>
-        {alsoObservedToday.map((d, i) => {
-          return (
-            <div key={d.name}>
-              {i === 0 ? (
-                <div className={'font-bold'}></div>
-              ) : (
-                <div>{d.name}</div>
-              )}
-            </div>
-          );
-        })}
-      </ul>
+        );
+      })}
+
       <div className={'my-4'}>
         <h3 className={'font-bold'}>Upcoming</h3>
         <DateList daysByDate={upcomingEvents} />
@@ -176,7 +165,6 @@ export default function Home() {
   let [searchParams] = useSearchParams();
 
   const todayParam = searchParams.get('today');
-
   useEffect(() => {
     if (today == null) {
       setToday(

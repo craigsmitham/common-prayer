@@ -1,10 +1,10 @@
 import { Temporal } from 'temporal-polyfill';
 import {
-  type Day,
-  type Event,
-  type Season,
+  Day,
+  Event,
+  Season,
 } from 'common-prayer-lib/src/church-year/church-year';
-import type { EasterSeasonDay } from 'common-prayer-lib/src/church-year/seasons/easter';
+import { EasterSeasonDay } from 'common-prayer-lib/src/church-year/seasons/easter';
 
 const daysOfChristmas = [
   '1st Day of Christmas',
@@ -75,7 +75,6 @@ export function getChristmasEvents(
     name: 'Christmas',
     slug: 'christmas',
     type: 'Season',
-    color: 'white',
     season: 'Christmas',
     isSeason: true,
     shortName: null,

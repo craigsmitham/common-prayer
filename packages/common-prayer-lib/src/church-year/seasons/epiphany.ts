@@ -1,12 +1,12 @@
 import { Temporal } from 'temporal-polyfill';
-import type {
+import {
   Day,
   Event,
   Season,
 } from 'common-prayer-lib/src/church-year/church-year';
 import { getAshWednesdayDate } from 'common-prayer-lib/src/church-year/seasons/lent';
 import { sundayBefore } from 'common-prayer-lib/src/date-time/temporal-utils';
-import type { ChristmasSeasonDay } from 'common-prayer-lib/src/church-year/seasons/christmas';
+import { ChristmasSeasonDay } from 'common-prayer-lib/src/church-year/seasons/christmas';
 
 export type DaysOfEpiphany =
   | 'Epiphany'
@@ -68,7 +68,6 @@ export function getEpiphanyEvents(
     name: 'Epiphany',
     slug: 'epiphany',
     season: 'Epiphany',
-    color: 'green',
     type: 'x',
     shortName: null,
     longName: 'Season of Epiphany',
