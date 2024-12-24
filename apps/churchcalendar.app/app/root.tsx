@@ -37,22 +37,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
         <Links />
-      </head>
-      <body>
-        <div>
-          {process.env.NODE_ENV === 'development' || !gaTrackingId ? null : (
-            <>
-              <script
-                async
-                src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
-              />
-              <script
-                async
-                id="gtag-init"
-                dangerouslySetInnerHTML={{
-                  __html: `
+        <Meta />
+        {process.env.NODE_ENV === 'development' || !gaTrackingId ? null : (
+          <>
+            <script
+              async
+              src={`https://www.googletagmanager.com/gtag/js?id=${gaTrackingId}`}
+            />
+            <script
+              async
+              id="gtag-init"
+              dangerouslySetInnerHTML={{
+                __html: `
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
@@ -61,14 +58,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   page_path: window.location.pathname,
                 });
               `,
-                }}
-              />
-            </>
-          )}
-          {children}
-          <ScrollRestoration />
-          <Scripts />
-        </div>
+              }}
+            />
+          </>
+        )}
+      </head>
+      <body>
+        {children}
+        <ScrollRestoration />
+        <Scripts />
       </body>
     </html>
   );
