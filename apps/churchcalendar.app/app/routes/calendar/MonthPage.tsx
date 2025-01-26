@@ -14,6 +14,14 @@ import {
 } from 'common-prayer-lib/src/date-time/temporal-utils';
 import { DateList } from '~/components/DateList';
 
+export function loader(args: Route.LoaderArgs) {}
+
+export async function clientLoader(args: Route.ClientLoaderArgs) {
+  const test = await args.serverLoader();
+}
+
+export function action(args: Route.ActionArgs) {}
+
 export default function MonthPage(props: Route.ComponentProps) {
   const isoYear = parseInt(props.params.isoYear);
   const isoMonth = parseInt(props.params.isoMonth);
